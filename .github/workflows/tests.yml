@@ -19,7 +19,7 @@ jobs:
         run: composer install -n --prefer-dist
 
       - name: Run Unit tests
-        run: /.vendor/bin/phpunit
+        run: ./vendor/bin/phpunit
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
