@@ -1,0 +1,6 @@
+## Definitions
+
+### Log
+::: tip Definition:
+
+:::

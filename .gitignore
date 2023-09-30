@@ -1,0 +1,13 @@
+.idea
+.php_cs
+.php_cs.cache
+.phpunit.result.cache
+build
+coverage
+phpunit.xml
+psalm.xml
+vendor
+
+psalm-report.txt
+node_modules
+.phpunit.cache

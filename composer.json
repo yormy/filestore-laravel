@@ -1,0 +1,81 @@
+{
+    "name": "yormy/filestore-laravel",
+    "description": "",
+    "keywords": [
+        "laravel",
+        "promocode",
+        "stripe",
+        "invitations"
+    ],
+    "homepage": "https://yormy.github.io/filestore-laravel/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yormy",
+            "email": "dev@yormy.com",
+            "homepage": "https://yormy.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1|^8.2",
+        "ext-imagick": "*",
+        "intervention/image": "^2.7",
+        "jenssegers/agent": "^2.6",
+        "laravel/framework": "^9|^10",
+        "league/flysystem-aws-s3-v3": "^3.16",
+        "pion/laravel-chunk-upload": "^1.5",
+        "spatie/pdf-to-image": "^2.2",
+        "yormy/core-tools-laravel": "^1.0"
+    },
+    "require-dev": {
+        "yormy/dev-tools-laravel": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yormy\\FilestoreLaravel\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yormy\\FilestoreLaravel\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "cs-fixer" : "phpcbf",
+        "md": "vendor/bin/phpmd . html cleancode --reportfile report.html",
+        "phpcs": "phpcs --standard=PSR2 -s --exclude=Generic.Files.LineLength --standard=./phpcs.xml --report-file=phpcs-report.txt",
+        "phpstan": "vendor/bin/phpstan analyze src --error-format=raw --level=4",
+        "psalm": "vendor/bin/psalm --no-diff --no-cache --report-show-info=false --report=psalm-report.txt",
+        "psalm-debug": "vendor/bin/psalm --no-cache --debug --debug-by-line",
+        "pint": "vendor/bin/pint",
+        "---------- IDE-HELPERS ---------- ": "",
+        "ide-helpers": "php vendor/bin/testbench clear-compiled && php vendor/bin/testbench ide-helper:generate && php vendor/bin/testbench --write ide-helper:models && php vendor/bin/testbench ide-helper:meta",
+
+        "---------- TEST_MAILS ---------- ": "",
+        "send-test": "vendor/bin/phpunit --group RealSend",
+
+        "---------- TESTS ---------- ": "",
+        "test:all": "vendor/bin/paratest",
+        "t": "vendor/bin/phpunit --testdox",
+        "test:unit": "vendor/bin/phpunit --colors=always --testdox --testsuite Unit",
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "local-php-security-checker-installer && local-php-security-checker"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yormy\\FilestoreLaravel\\FilestoreServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
