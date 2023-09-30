@@ -12,7 +12,7 @@ use Yormy\FilestoreLaravel\Tests\Setup\Routes\FilestoreLaravelUploadRoutes;
 
 abstract class TestCase extends BaseTestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
