@@ -35,8 +35,8 @@
 <!--    <env name="DB_DATABASE" value="mexion_testbench"/>-->
     <env name="DB_HOST" value="mysql"/>
     <env name="DB_POST" value="3306"/>
-    <env name="DB_USERNAME" value="root"/>
-    <env name="DB_PASSWORD" value="somelongpassword332211"/>
+<!--    <env name="DB_USERNAME" value="root"/>-->
+<!--    <env name="DB_PASSWORD" value="somelongpassword332211"/>-->
     <!--                <env name="DB_USERNAME" value="root"/>-->
     <!--                <env name="DB_PASSWORD" value="secret"/>-->
   </php>
