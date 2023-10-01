@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
 
-    private $useMinio=false;
+    private $useMinio = false;
 
     protected function setUp(): void
     {
@@ -28,7 +28,6 @@ abstract class TestCase extends BaseTestCase
 
         $this->setUpConfig();
 
-
         $this->setupRoutes();
 
     }
@@ -41,7 +40,7 @@ abstract class TestCase extends BaseTestCase
     protected function copyMigrations()
     {
         $migrations = [
-            '2020_09_12_000300_users.php'
+            '2020_09_12_000300_users.php',
         ];
 
         foreach ($migrations as $migration) {

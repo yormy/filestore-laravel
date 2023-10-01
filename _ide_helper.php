@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 10.18.0.
+ * Generated for Laravel 10.25.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2860,6 +2860,7 @@
          *
          * @param string $path
          * @return bool 
+         * @throws \ErrorException
          * @static 
          */ 
         public static function isExpired($path)
@@ -3651,6 +3652,18 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
                         return $instance->recordPendingBatch($pendingBatch);
+        }
+                    /**
+         * Specify if commands should be serialized and restored when being batched.
+         *
+         * @param bool $serializeAndRestore
+         * @return \Illuminate\Support\Testing\Fakes\BusFake 
+         * @static 
+         */ 
+        public static function serializeAndRestore($serializeAndRestore = true)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        return $instance->serializeAndRestore($serializeAndRestore);
         }
          
     }
@@ -5026,6 +5039,89 @@
             /**
      * 
      *
+     * @method static void useDefaultQueryGrammar()
+     * @method static void useDefaultSchemaGrammar()
+     * @method static void useDefaultPostProcessor()
+     * @method static \Illuminate\Database\Schema\Builder getSchemaBuilder()
+     * @method static \Illuminate\Database\Query\Builder table(\Closure|\Illuminate\Database\Query\Builder|\Illuminate\Contracts\Database\Query\Expression|string $table, string|null $as = null)
+     * @method static \Illuminate\Database\Query\Builder query()
+     * @method static mixed selectOne(string $query, array $bindings = [], bool $useReadPdo = true)
+     * @method static mixed scalar(string $query, array $bindings = [], bool $useReadPdo = true)
+     * @method static array selectFromWriteConnection(string $query, array $bindings = [])
+     * @method static array select(string $query, array $bindings = [], bool $useReadPdo = true)
+     * @method static array selectResultSets(string $query, array $bindings = [], bool $useReadPdo = true)
+     * @method static \Generator cursor(string $query, array $bindings = [], bool $useReadPdo = true)
+     * @method static bool insert(string $query, array $bindings = [])
+     * @method static int update(string $query, array $bindings = [])
+     * @method static int delete(string $query, array $bindings = [])
+     * @method static bool statement(string $query, array $bindings = [])
+     * @method static int affectingStatement(string $query, array $bindings = [])
+     * @method static bool unprepared(string $query)
+     * @method static array pretend(\Closure $callback)
+     * @method static void bindValues(\PDOStatement $statement, array $bindings)
+     * @method static array prepareBindings(array $bindings)
+     * @method static void logQuery(string $query, array $bindings, float|null $time = null)
+     * @method static void whenQueryingForLongerThan(\DateTimeInterface|\Carbon\CarbonInterval|float|int $threshold, callable $handler)
+     * @method static void allowQueryDurationHandlersToRunAgain()
+     * @method static float totalQueryDuration()
+     * @method static void resetTotalQueryDuration()
+     * @method static void reconnectIfMissingConnection()
+     * @method static \Illuminate\Database\Connection beforeExecuting(\Closure $callback)
+     * @method static void listen(\Closure $callback)
+     * @method static \Illuminate\Contracts\Database\Query\Expression raw(mixed $value)
+     * @method static string escape(string|float|int|bool|null $value, bool $binary = false)
+     * @method static bool hasModifiedRecords()
+     * @method static void recordsHaveBeenModified(bool $value = true)
+     * @method static \Illuminate\Database\Connection setRecordModificationState(bool $value)
+     * @method static void forgetRecordModificationState()
+     * @method static \Illuminate\Database\Connection useWriteConnectionWhenReading(bool $value = true)
+     * @method static bool isDoctrineAvailable()
+     * @method static bool usingNativeSchemaOperations()
+     * @method static \Doctrine\DBAL\Schema\Column getDoctrineColumn(string $table, string $column)
+     * @method static \Doctrine\DBAL\Schema\AbstractSchemaManager getDoctrineSchemaManager()
+     * @method static \Doctrine\DBAL\Connection getDoctrineConnection()
+     * @method static \PDO getPdo()
+     * @method static \PDO|\Closure|null getRawPdo()
+     * @method static \PDO getReadPdo()
+     * @method static \PDO|\Closure|null getRawReadPdo()
+     * @method static \Illuminate\Database\Connection setPdo(\PDO|\Closure|null $pdo)
+     * @method static \Illuminate\Database\Connection setReadPdo(\PDO|\Closure|null $pdo)
+     * @method static string|null getName()
+     * @method static string|null getNameWithReadWriteType()
+     * @method static mixed getConfig(string|null $option = null)
+     * @method static string getDriverName()
+     * @method static \Illuminate\Database\Query\Grammars\Grammar getQueryGrammar()
+     * @method static \Illuminate\Database\Connection setQueryGrammar(\Illuminate\Database\Query\Grammars\Grammar $grammar)
+     * @method static \Illuminate\Database\Schema\Grammars\Grammar getSchemaGrammar()
+     * @method static \Illuminate\Database\Connection setSchemaGrammar(\Illuminate\Database\Schema\Grammars\Grammar $grammar)
+     * @method static \Illuminate\Database\Query\Processors\Processor getPostProcessor()
+     * @method static \Illuminate\Database\Connection setPostProcessor(\Illuminate\Database\Query\Processors\Processor $processor)
+     * @method static \Illuminate\Contracts\Events\Dispatcher getEventDispatcher()
+     * @method static \Illuminate\Database\Connection setEventDispatcher(\Illuminate\Contracts\Events\Dispatcher $events)
+     * @method static void unsetEventDispatcher()
+     * @method static \Illuminate\Database\Connection setTransactionManager(\Illuminate\Database\DatabaseTransactionsManager $manager)
+     * @method static void unsetTransactionManager()
+     * @method static bool pretending()
+     * @method static array getQueryLog()
+     * @method static array getRawQueryLog()
+     * @method static void flushQueryLog()
+     * @method static void enableQueryLog()
+     * @method static void disableQueryLog()
+     * @method static bool logging()
+     * @method static string getDatabaseName()
+     * @method static \Illuminate\Database\Connection setDatabaseName(string $database)
+     * @method static \Illuminate\Database\Connection setReadWriteType(string|null $readWriteType)
+     * @method static string getTablePrefix()
+     * @method static \Illuminate\Database\Connection setTablePrefix(string $prefix)
+     * @method static \Illuminate\Database\Grammar withTablePrefix(\Illuminate\Database\Grammar $grammar)
+     * @method static void resolverFor(string $driver, \Closure $callback)
+     * @method static mixed getResolver(string $driver)
+     * @method static mixed transaction(\Closure $callback, int $attempts = 1)
+     * @method static void beginTransaction()
+     * @method static void commit()
+     * @method static void rollBack(int|null $toLevel = null)
+     * @method static int transactionLevel()
+     * @method static void afterCommit(callable $callback)
      * @see \Illuminate\Database\DatabaseManager
      */ 
         class DB {
@@ -5270,1004 +5366,6 @@
         {
                         /** @var \Illuminate\Database\DatabaseManager $instance */
                         return $instance->macroCall($method, $parameters);
-        }
-                    /**
-         * Get a schema builder instance for the connection.
-         *
-         * @return \Illuminate\Database\Schema\SQLiteBuilder 
-         * @static 
-         */ 
-        public static function getSchemaBuilder()
-        {
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getSchemaBuilder();
-        }
-                    /**
-         * Get the schema state for the connection.
-         *
-         * @param \Illuminate\Filesystem\Filesystem|null $files
-         * @param callable|null $processFactory
-         * @throws \RuntimeException
-         * @static 
-         */ 
-        public static function getSchemaState($files = null, $processFactory = null)
-        {
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getSchemaState($files, $processFactory);
-        }
-                    /**
-         * Set the query grammar to the default implementation.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function useDefaultQueryGrammar()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->useDefaultQueryGrammar();
-        }
-                    /**
-         * Set the schema grammar to the default implementation.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function useDefaultSchemaGrammar()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->useDefaultSchemaGrammar();
-        }
-                    /**
-         * Set the query post processor to the default implementation.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function useDefaultPostProcessor()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->useDefaultPostProcessor();
-        }
-                    /**
-         * Begin a fluent query against a database table.
-         *
-         * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Contracts\Database\Query\Expression|string $table
-         * @param string|null $as
-         * @return \Illuminate\Database\Query\Builder 
-         * @static 
-         */ 
-        public static function table($table, $as = null)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->table($table, $as);
-        }
-                    /**
-         * Get a new query builder instance.
-         *
-         * @return \Illuminate\Database\Query\Builder 
-         * @static 
-         */ 
-        public static function query()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->query();
-        }
-                    /**
-         * Run a select statement and return a single result.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @param bool $useReadPdo
-         * @return mixed 
-         * @static 
-         */ 
-        public static function selectOne($query, $bindings = [], $useReadPdo = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->selectOne($query, $bindings, $useReadPdo);
-        }
-                    /**
-         * Run a select statement and return the first column of the first row.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @param bool $useReadPdo
-         * @return mixed 
-         * @throws \Illuminate\Database\MultipleColumnsSelectedException
-         * @static 
-         */ 
-        public static function scalar($query, $bindings = [], $useReadPdo = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->scalar($query, $bindings, $useReadPdo);
-        }
-                    /**
-         * Run a select statement against the database.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @return array 
-         * @static 
-         */ 
-        public static function selectFromWriteConnection($query, $bindings = [])
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->selectFromWriteConnection($query, $bindings);
-        }
-                    /**
-         * Run a select statement against the database.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @param bool $useReadPdo
-         * @return array 
-         * @static 
-         */ 
-        public static function select($query, $bindings = [], $useReadPdo = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->select($query, $bindings, $useReadPdo);
-        }
-                    /**
-         * Run a select statement against the database and returns all of the result sets.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @param bool $useReadPdo
-         * @return array 
-         * @static 
-         */ 
-        public static function selectResultSets($query, $bindings = [], $useReadPdo = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->selectResultSets($query, $bindings, $useReadPdo);
-        }
-                    /**
-         * Run a select statement against the database and returns a generator.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @param bool $useReadPdo
-         * @return \Generator 
-         * @static 
-         */ 
-        public static function cursor($query, $bindings = [], $useReadPdo = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->cursor($query, $bindings, $useReadPdo);
-        }
-                    /**
-         * Run an insert statement against the database.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @return bool 
-         * @static 
-         */ 
-        public static function insert($query, $bindings = [])
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->insert($query, $bindings);
-        }
-                    /**
-         * Run an update statement against the database.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @return int 
-         * @static 
-         */ 
-        public static function update($query, $bindings = [])
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->update($query, $bindings);
-        }
-                    /**
-         * Run a delete statement against the database.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @return int 
-         * @static 
-         */ 
-        public static function delete($query, $bindings = [])
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->delete($query, $bindings);
-        }
-                    /**
-         * Execute an SQL statement and return the boolean result.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @return bool 
-         * @static 
-         */ 
-        public static function statement($query, $bindings = [])
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->statement($query, $bindings);
-        }
-                    /**
-         * Run an SQL statement and get the number of rows affected.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @return int 
-         * @static 
-         */ 
-        public static function affectingStatement($query, $bindings = [])
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->affectingStatement($query, $bindings);
-        }
-                    /**
-         * Run a raw, unprepared query against the PDO connection.
-         *
-         * @param string $query
-         * @return bool 
-         * @static 
-         */ 
-        public static function unprepared($query)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->unprepared($query);
-        }
-                    /**
-         * Execute the given callback in "dry run" mode.
-         *
-         * @param \Closure $callback
-         * @return array 
-         * @static 
-         */ 
-        public static function pretend($callback)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->pretend($callback);
-        }
-                    /**
-         * Bind values to their parameters in the given statement.
-         *
-         * @param \PDOStatement $statement
-         * @param array $bindings
-         * @return void 
-         * @static 
-         */ 
-        public static function bindValues($statement, $bindings)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->bindValues($statement, $bindings);
-        }
-                    /**
-         * Prepare the query bindings for execution.
-         *
-         * @param array $bindings
-         * @return array 
-         * @static 
-         */ 
-        public static function prepareBindings($bindings)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->prepareBindings($bindings);
-        }
-                    /**
-         * Log a query in the connection's query log.
-         *
-         * @param string $query
-         * @param array $bindings
-         * @param float|null $time
-         * @return void 
-         * @static 
-         */ 
-        public static function logQuery($query, $bindings, $time = null)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->logQuery($query, $bindings, $time);
-        }
-                    /**
-         * Register a callback to be invoked when the connection queries for longer than a given amount of time.
-         *
-         * @param \DateTimeInterface|\Carbon\CarbonInterval|float|int $threshold
-         * @param callable $handler
-         * @return void 
-         * @static 
-         */ 
-        public static function whenQueryingForLongerThan($threshold, $handler)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->whenQueryingForLongerThan($threshold, $handler);
-        }
-                    /**
-         * Allow all the query duration handlers to run again, even if they have already run.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function allowQueryDurationHandlersToRunAgain()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->allowQueryDurationHandlersToRunAgain();
-        }
-                    /**
-         * Get the duration of all run queries in milliseconds.
-         *
-         * @return float 
-         * @static 
-         */ 
-        public static function totalQueryDuration()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->totalQueryDuration();
-        }
-                    /**
-         * Reset the duration of all run queries.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function resetTotalQueryDuration()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->resetTotalQueryDuration();
-        }
-                    /**
-         * Reconnect to the database if a PDO connection is missing.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function reconnectIfMissingConnection()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->reconnectIfMissingConnection();
-        }
-                    /**
-         * Register a hook to be run just before a database query is executed.
-         *
-         * @param \Closure $callback
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function beforeExecuting($callback)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->beforeExecuting($callback);
-        }
-                    /**
-         * Register a database query listener with the connection.
-         *
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function listen($callback)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->listen($callback);
-        }
-                    /**
-         * Get a new raw query expression.
-         *
-         * @param mixed $value
-         * @return \Illuminate\Contracts\Database\Query\Expression 
-         * @static 
-         */ 
-        public static function raw($value)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->raw($value);
-        }
-                    /**
-         * Escape a value for safe SQL embedding.
-         *
-         * @param string|float|int|bool|null $value
-         * @param bool $binary
-         * @return string 
-         * @static 
-         */ 
-        public static function escape($value, $binary = false)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->escape($value, $binary);
-        }
-                    /**
-         * Determine if the database connection has modified any database records.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasModifiedRecords()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->hasModifiedRecords();
-        }
-                    /**
-         * Indicate if any records have been modified.
-         *
-         * @param bool $value
-         * @return void 
-         * @static 
-         */ 
-        public static function recordsHaveBeenModified($value = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->recordsHaveBeenModified($value);
-        }
-                    /**
-         * Set the record modification state.
-         *
-         * @param bool $value
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setRecordModificationState($value)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setRecordModificationState($value);
-        }
-                    /**
-         * Reset the record modification state.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function forgetRecordModificationState()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->forgetRecordModificationState();
-        }
-                    /**
-         * Indicate that the connection should use the write PDO connection for reads.
-         *
-         * @param bool $value
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function useWriteConnectionWhenReading($value = true)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->useWriteConnectionWhenReading($value);
-        }
-                    /**
-         * Is Doctrine available?
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function isDoctrineAvailable()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->isDoctrineAvailable();
-        }
-                    /**
-         * Indicates whether native alter operations will be used when dropping, renaming, or modifying columns, even if Doctrine DBAL is installed.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function usingNativeSchemaOperations()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->usingNativeSchemaOperations();
-        }
-                    /**
-         * Get a Doctrine Schema Column instance.
-         *
-         * @param string $table
-         * @param string $column
-         * @return \Doctrine\DBAL\Schema\Column 
-         * @static 
-         */ 
-        public static function getDoctrineColumn($table, $column)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getDoctrineColumn($table, $column);
-        }
-                    /**
-         * Get the Doctrine DBAL schema manager for the connection.
-         *
-         * @return \Doctrine\DBAL\Schema\AbstractSchemaManager 
-         * @static 
-         */ 
-        public static function getDoctrineSchemaManager()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getDoctrineSchemaManager();
-        }
-                    /**
-         * Get the Doctrine DBAL database connection instance.
-         *
-         * @return \Doctrine\DBAL\Connection 
-         * @static 
-         */ 
-        public static function getDoctrineConnection()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getDoctrineConnection();
-        }
-                    /**
-         * Get the current PDO connection.
-         *
-         * @return \PDO 
-         * @static 
-         */ 
-        public static function getPdo()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getPdo();
-        }
-                    /**
-         * Get the current PDO connection parameter without executing any reconnect logic.
-         *
-         * @return \PDO|\Closure|null 
-         * @static 
-         */ 
-        public static function getRawPdo()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getRawPdo();
-        }
-                    /**
-         * Get the current PDO connection used for reading.
-         *
-         * @return \PDO 
-         * @static 
-         */ 
-        public static function getReadPdo()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getReadPdo();
-        }
-                    /**
-         * Get the current read PDO connection parameter without executing any reconnect logic.
-         *
-         * @return \PDO|\Closure|null 
-         * @static 
-         */ 
-        public static function getRawReadPdo()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getRawReadPdo();
-        }
-                    /**
-         * Set the PDO connection.
-         *
-         * @param \PDO|\Closure|null $pdo
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setPdo($pdo)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setPdo($pdo);
-        }
-                    /**
-         * Set the PDO connection used for reading.
-         *
-         * @param \PDO|\Closure|null $pdo
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setReadPdo($pdo)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setReadPdo($pdo);
-        }
-                    /**
-         * Get the database connection name.
-         *
-         * @return string|null 
-         * @static 
-         */ 
-        public static function getName()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getName();
-        }
-                    /**
-         * Get the database connection full name.
-         *
-         * @return string|null 
-         * @static 
-         */ 
-        public static function getNameWithReadWriteType()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getNameWithReadWriteType();
-        }
-                    /**
-         * Get an option from the configuration options.
-         *
-         * @param string|null $option
-         * @return mixed 
-         * @static 
-         */ 
-        public static function getConfig($option = null)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getConfig($option);
-        }
-                    /**
-         * Get the PDO driver name.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getDriverName()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getDriverName();
-        }
-                    /**
-         * Get the query grammar used by the connection.
-         *
-         * @return \Illuminate\Database\Query\Grammars\Grammar 
-         * @static 
-         */ 
-        public static function getQueryGrammar()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getQueryGrammar();
-        }
-                    /**
-         * Set the query grammar used by the connection.
-         *
-         * @param \Illuminate\Database\Query\Grammars\Grammar $grammar
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setQueryGrammar($grammar)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setQueryGrammar($grammar);
-        }
-                    /**
-         * Get the schema grammar used by the connection.
-         *
-         * @return \Illuminate\Database\Schema\Grammars\Grammar 
-         * @static 
-         */ 
-        public static function getSchemaGrammar()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getSchemaGrammar();
-        }
-                    /**
-         * Set the schema grammar used by the connection.
-         *
-         * @param \Illuminate\Database\Schema\Grammars\Grammar $grammar
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setSchemaGrammar($grammar)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setSchemaGrammar($grammar);
-        }
-                    /**
-         * Get the query post processor used by the connection.
-         *
-         * @return \Illuminate\Database\Query\Processors\Processor 
-         * @static 
-         */ 
-        public static function getPostProcessor()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getPostProcessor();
-        }
-                    /**
-         * Set the query post processor used by the connection.
-         *
-         * @param \Illuminate\Database\Query\Processors\Processor $processor
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setPostProcessor($processor)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setPostProcessor($processor);
-        }
-                    /**
-         * Get the event dispatcher used by the connection.
-         *
-         * @return \Illuminate\Contracts\Events\Dispatcher 
-         * @static 
-         */ 
-        public static function getEventDispatcher()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getEventDispatcher();
-        }
-                    /**
-         * Set the event dispatcher instance on the connection.
-         *
-         * @param \Illuminate\Contracts\Events\Dispatcher $events
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setEventDispatcher($events)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setEventDispatcher($events);
-        }
-                    /**
-         * Unset the event dispatcher for this connection.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function unsetEventDispatcher()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->unsetEventDispatcher();
-        }
-                    /**
-         * Set the transaction manager instance on the connection.
-         *
-         * @param \Illuminate\Database\DatabaseTransactionsManager $manager
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setTransactionManager($manager)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setTransactionManager($manager);
-        }
-                    /**
-         * Unset the transaction manager for this connection.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function unsetTransactionManager()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->unsetTransactionManager();
-        }
-                    /**
-         * Determine if the connection is in a "dry run".
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function pretending()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->pretending();
-        }
-                    /**
-         * Get the connection query log.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getQueryLog()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getQueryLog();
-        }
-                    /**
-         * Get the connection query log with embedded bindings.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getRawQueryLog()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getRawQueryLog();
-        }
-                    /**
-         * Clear the query log.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function flushQueryLog()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->flushQueryLog();
-        }
-                    /**
-         * Enable the query log on the connection.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function enableQueryLog()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->enableQueryLog();
-        }
-                    /**
-         * Disable the query log on the connection.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function disableQueryLog()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->disableQueryLog();
-        }
-                    /**
-         * Determine whether we're logging queries.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function logging()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->logging();
-        }
-                    /**
-         * Get the name of the connected database.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getDatabaseName()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getDatabaseName();
-        }
-                    /**
-         * Set the name of the connected database.
-         *
-         * @param string $database
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setDatabaseName($database)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setDatabaseName($database);
-        }
-                    /**
-         * Set the read / write type of the connection.
-         *
-         * @param string|null $readWriteType
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setReadWriteType($readWriteType)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setReadWriteType($readWriteType);
-        }
-                    /**
-         * Get the table prefix for the connection.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getTablePrefix()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->getTablePrefix();
-        }
-                    /**
-         * Set the table prefix in use by the connection.
-         *
-         * @param string $prefix
-         * @return \Illuminate\Database\SQLiteConnection 
-         * @static 
-         */ 
-        public static function setTablePrefix($prefix)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->setTablePrefix($prefix);
-        }
-                    /**
-         * Set the table prefix and return the grammar.
-         *
-         * @param \Illuminate\Database\Grammar $grammar
-         * @return \Illuminate\Database\Grammar 
-         * @static 
-         */ 
-        public static function withTablePrefix($grammar)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->withTablePrefix($grammar);
-        }
-                    /**
-         * Register a connection resolver.
-         *
-         * @param string $driver
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function resolverFor($driver, $callback)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        \Illuminate\Database\SQLiteConnection::resolverFor($driver, $callback);
-        }
-                    /**
-         * Get the connection resolver for the given driver.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function getResolver($driver)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        return \Illuminate\Database\SQLiteConnection::getResolver($driver);
-        }
-                    /**
-         * Execute a Closure within a transaction.
-         *
-         * @param \Closure $callback
-         * @param int $attempts
-         * @return mixed 
-         * @throws \Throwable
-         * @static 
-         */ 
-        public static function transaction($callback, $attempts = 1)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->transaction($callback, $attempts);
-        }
-                    /**
-         * Start a new database transaction.
-         *
-         * @return void 
-         * @throws \Throwable
-         * @static 
-         */ 
-        public static function beginTransaction()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->beginTransaction();
-        }
-                    /**
-         * Commit the active database transaction.
-         *
-         * @return void 
-         * @throws \Throwable
-         * @static 
-         */ 
-        public static function commit()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->commit();
-        }
-                    /**
-         * Rollback the active database transaction.
-         *
-         * @param int|null $toLevel
-         * @return void 
-         * @throws \Throwable
-         * @static 
-         */ 
-        public static function rollBack($toLevel = null)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->rollBack($toLevel);
-        }
-                    /**
-         * Get the number of active transactions.
-         *
-         * @return int 
-         * @static 
-         */ 
-        public static function transactionLevel()
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        return $instance->transactionLevel();
-        }
-                    /**
-         * Execute the callback after a transaction commits.
-         *
-         * @param callable $callback
-         * @return void 
-         * @throws \RuntimeException
-         * @static 
-         */ 
-        public static function afterCommit($callback)
-        {            //Method inherited from \Illuminate\Database\Connection         
-                        /** @var \Illuminate\Database\SQLiteConnection $instance */
-                        $instance->afterCommit($callback);
         }
          
     }
@@ -10399,6 +9497,18 @@
                         return $instance->pushedJobs();
         }
                     /**
+         * Specify if jobs should be serialized and restored when being "pushed" to the queue.
+         *
+         * @param bool $serializeAndRestore
+         * @return \Illuminate\Support\Testing\Fakes\QueueFake 
+         * @static 
+         */ 
+        public static function serializeAndRestore($serializeAndRestore = true)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
+                        return $instance->serializeAndRestore($serializeAndRestore);
+        }
+                    /**
          * Get the connection name for the queue.
          *
          * @return string 
@@ -11246,7 +10356,7 @@
          *
          * @param string|null $key
          * @param mixed $default
-         * @return \Symfony\Component\HttpFoundation\ParameterBag|mixed 
+         * @return \Symfony\Component\HttpFoundation\InputBag|mixed 
          * @static 
          */ 
         public static function json($key = null, $default = null)
@@ -11408,7 +10518,7 @@
                     /**
          * Set the JSON payload for the request.
          *
-         * @param \Symfony\Component\HttpFoundation\ParameterBag $json
+         * @param \Symfony\Component\HttpFoundation\InputBag $json
          * @return \Illuminate\Http\Request 
          * @static 
          */ 
@@ -13335,7 +12445,7 @@
                     /**
          * Create a new redirect response to a controller action.
          *
-         * @param string $action
+         * @param array|string $action
          * @param mixed $parameters
          * @param int $status
          * @param array $headers
@@ -14428,395 +13538,6 @@
             /**
      * 
      *
-     * @see \Illuminate\Database\Schema\Builder
-     */ 
-        class Schema {
-                    /**
-         * Create a database in the schema.
-         *
-         * @param string $name
-         * @return bool 
-         * @static 
-         */ 
-        public static function createDatabase($name)
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->createDatabase($name);
-        }
-                    /**
-         * Drop a database from the schema if the database exists.
-         *
-         * @param string $name
-         * @return bool 
-         * @static 
-         */ 
-        public static function dropDatabaseIfExists($name)
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->dropDatabaseIfExists($name);
-        }
-                    /**
-         * Drop all tables from the database.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function dropAllTables()
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->dropAllTables();
-        }
-                    /**
-         * Drop all views from the database.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function dropAllViews()
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->dropAllViews();
-        }
-                    /**
-         * Get all of the table names for the database.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getAllTables()
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->getAllTables();
-        }
-                    /**
-         * Get all of the view names for the database.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getAllViews()
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->getAllViews();
-        }
-                    /**
-         * Empty the database file.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function refreshDatabaseFile()
-        {
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->refreshDatabaseFile();
-        }
-                    /**
-         * Set the default string length for migrations.
-         *
-         * @param int $length
-         * @return void 
-         * @static 
-         */ 
-        public static function defaultStringLength($length)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\SQLiteBuilder::defaultStringLength($length);
-        }
-                    /**
-         * Set the default morph key type for migrations.
-         *
-         * @param string $type
-         * @return void 
-         * @throws \InvalidArgumentException
-         * @static 
-         */ 
-        public static function defaultMorphKeyType($type)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\SQLiteBuilder::defaultMorphKeyType($type);
-        }
-                    /**
-         * Set the default morph key type for migrations to UUIDs.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function morphUsingUuids()
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\SQLiteBuilder::morphUsingUuids();
-        }
-                    /**
-         * Set the default morph key type for migrations to ULIDs.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function morphUsingUlids()
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\SQLiteBuilder::morphUsingUlids();
-        }
-                    /**
-         * Attempt to use native schema operations for dropping, renaming, and modifying columns, even if Doctrine DBAL is installed.
-         *
-         * @param bool $value
-         * @return void 
-         * @static 
-         */ 
-        public static function useNativeSchemaOperationsIfPossible($value = true)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        \Illuminate\Database\Schema\SQLiteBuilder::useNativeSchemaOperationsIfPossible($value);
-        }
-                    /**
-         * Determine if the given table exists.
-         *
-         * @param string $table
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasTable($table)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->hasTable($table);
-        }
-                    /**
-         * Determine if the given table has a given column.
-         *
-         * @param string $table
-         * @param string $column
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasColumn($table, $column)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->hasColumn($table, $column);
-        }
-                    /**
-         * Determine if the given table has given columns.
-         *
-         * @param string $table
-         * @param array $columns
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasColumns($table, $columns)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->hasColumns($table, $columns);
-        }
-                    /**
-         * Execute a table builder callback if the given table has a given column.
-         *
-         * @param string $table
-         * @param string $column
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function whenTableHasColumn($table, $column, $callback)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->whenTableHasColumn($table, $column, $callback);
-        }
-                    /**
-         * Execute a table builder callback if the given table doesn't have a given column.
-         *
-         * @param string $table
-         * @param string $column
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function whenTableDoesntHaveColumn($table, $column, $callback)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->whenTableDoesntHaveColumn($table, $column, $callback);
-        }
-                    /**
-         * Get the data type for the given column name.
-         *
-         * @param string $table
-         * @param string $column
-         * @return string 
-         * @static 
-         */ 
-        public static function getColumnType($table, $column)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->getColumnType($table, $column);
-        }
-                    /**
-         * Get the column listing for a given table.
-         *
-         * @param string $table
-         * @return array 
-         * @static 
-         */ 
-        public static function getColumnListing($table)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->getColumnListing($table);
-        }
-                    /**
-         * Modify a table on the schema.
-         *
-         * @param string $table
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function table($table, $callback)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->table($table, $callback);
-        }
-                    /**
-         * Create a new table on the schema.
-         *
-         * @param string $table
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function create($table, $callback)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->create($table, $callback);
-        }
-                    /**
-         * Drop a table from the schema.
-         *
-         * @param string $table
-         * @return void 
-         * @static 
-         */ 
-        public static function drop($table)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->drop($table);
-        }
-                    /**
-         * Drop a table from the schema if it exists.
-         *
-         * @param string $table
-         * @return void 
-         * @static 
-         */ 
-        public static function dropIfExists($table)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->dropIfExists($table);
-        }
-                    /**
-         * Drop columns from a table schema.
-         *
-         * @param string $table
-         * @param string|array $columns
-         * @return void 
-         * @static 
-         */ 
-        public static function dropColumns($table, $columns)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->dropColumns($table, $columns);
-        }
-                    /**
-         * Drop all types from the database.
-         *
-         * @return void 
-         * @throws \LogicException
-         * @static 
-         */ 
-        public static function dropAllTypes()
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->dropAllTypes();
-        }
-                    /**
-         * Rename a table on the schema.
-         *
-         * @param string $from
-         * @param string $to
-         * @return void 
-         * @static 
-         */ 
-        public static function rename($from, $to)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->rename($from, $to);
-        }
-                    /**
-         * Enable foreign key constraints.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function enableForeignKeyConstraints()
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->enableForeignKeyConstraints();
-        }
-                    /**
-         * Disable foreign key constraints.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function disableForeignKeyConstraints()
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->disableForeignKeyConstraints();
-        }
-                    /**
-         * Disable foreign key constraints during the execution of a callback.
-         *
-         * @param \Closure $callback
-         * @return mixed 
-         * @static 
-         */ 
-        public static function withoutForeignKeyConstraints($callback)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->withoutForeignKeyConstraints($callback);
-        }
-                    /**
-         * Get the database connection instance.
-         *
-         * @return \Illuminate\Database\Connection 
-         * @static 
-         */ 
-        public static function getConnection()
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->getConnection();
-        }
-                    /**
-         * Set the database connection instance.
-         *
-         * @param \Illuminate\Database\Connection $connection
-         * @return \Illuminate\Database\Schema\SQLiteBuilder 
-         * @static 
-         */ 
-        public static function setConnection($connection)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        return $instance->setConnection($connection);
-        }
-                    /**
-         * Set the Schema Blueprint resolver callback.
-         *
-         * @param \Closure $resolver
-         * @return void 
-         * @static 
-         */ 
-        public static function blueprintResolver($resolver)
-        {            //Method inherited from \Illuminate\Database\Schema\Builder         
-                        /** @var \Illuminate\Database\Schema\SQLiteBuilder $instance */
-                        $instance->blueprintResolver($resolver);
-        }
-         
-    }
-            /**
-     * 
-     *
      * @see \Illuminate\Session\SessionManager
      */ 
         class Session {
@@ -15532,6 +14253,57 @@
             /**
      * 
      *
+     * @method static bool exists(string $path)
+     * @method static string|null get(string $path)
+     * @method static resource|null readStream(string $path)
+     * @method static bool put(string $path, \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents, mixed $options = [])
+     * @method static bool writeStream(string $path, resource $resource, array $options = [])
+     * @method static string getVisibility(string $path)
+     * @method static bool setVisibility(string $path, string $visibility)
+     * @method static bool prepend(string $path, string $data)
+     * @method static bool append(string $path, string $data)
+     * @method static bool delete(string|array $paths)
+     * @method static bool copy(string $from, string $to)
+     * @method static bool move(string $from, string $to)
+     * @method static int size(string $path)
+     * @method static int lastModified(string $path)
+     * @method static array files(string|null $directory = null, bool $recursive = false)
+     * @method static array allFiles(string|null $directory = null)
+     * @method static array directories(string|null $directory = null, bool $recursive = false)
+     * @method static array allDirectories(string|null $directory = null)
+     * @method static bool makeDirectory(string $path)
+     * @method static bool deleteDirectory(string $directory)
+     * @method static \Illuminate\Filesystem\FilesystemAdapter assertExists(string|array $path, string|null $content = null)
+     * @method static \Illuminate\Filesystem\FilesystemAdapter assertMissing(string|array $path)
+     * @method static \Illuminate\Filesystem\FilesystemAdapter assertDirectoryEmpty(string $path)
+     * @method static bool missing(string $path)
+     * @method static bool fileExists(string $path)
+     * @method static bool fileMissing(string $path)
+     * @method static bool directoryExists(string $path)
+     * @method static bool directoryMissing(string $path)
+     * @method static string path(string $path)
+     * @method static array|null json(string $path, int $flags = 0)
+     * @method static \Symfony\Component\HttpFoundation\StreamedResponse response(string $path, string|null $name = null, array $headers = [], string|null $disposition = 'inline')
+     * @method static \Symfony\Component\HttpFoundation\StreamedResponse download(string $path, string|null $name = null, array $headers = [])
+     * @method static string|false putFile(\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path, \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file = null, mixed $options = [])
+     * @method static string|false putFileAs(\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path, \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file, string|array|null $name = null, mixed $options = [])
+     * @method static string|false checksum(string $path, array $options = [])
+     * @method static string|false mimeType(string $path)
+     * @method static string url(string $path)
+     * @method static bool providesTemporaryUrls()
+     * @method static string temporaryUrl(string $path, \DateTimeInterface $expiration, array $options = [])
+     * @method static array temporaryUploadUrl(string $path, \DateTimeInterface $expiration, array $options = [])
+     * @method static \League\Flysystem\FilesystemOperator getDriver()
+     * @method static \League\Flysystem\FilesystemAdapter getAdapter()
+     * @method static array getConfig()
+     * @method static void buildTemporaryUrlsUsing(\Closure $callback)
+     * @method static \Illuminate\Filesystem\FilesystemAdapter|mixed when(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+     * @method static \Illuminate\Filesystem\FilesystemAdapter|mixed unless(\Closure|mixed|null $value = null, callable|null $callback = null, callable|null $default = null)
+     * @method static void macro(string $name, object|callable $macro)
+     * @method static void mixin(object $mixin, bool $replace = true)
+     * @method static bool hasMacro(string $name)
+     * @method static void flushMacros()
+     * @method static mixed macroCall(string $method, array $parameters)
      * @method static bool has(string $location)
      * @method static string read(string $location)
      * @method static \League\Flysystem\DirectoryListing listContents(string $location, bool $deep = false)
@@ -15546,7 +14318,7 @@
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function drive($name = null)
@@ -15558,7 +14330,7 @@
          * Get a filesystem instance.
          *
          * @param string|null $name
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function disk($name = null)
@@ -15581,7 +14353,7 @@
          * Build an on-demand disk.
          *
          * @param string|array $config
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function build($config)
@@ -15593,7 +14365,7 @@
          * Create an instance of the local driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function createLocalDriver($config)
@@ -15605,7 +14377,7 @@
          * Create an instance of the ftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function createFtpDriver($config)
@@ -15617,7 +14389,7 @@
          * Create an instance of the sftp driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function createSftpDriver($config)
@@ -15641,7 +14413,7 @@
          * Create a scoped driver.
          *
          * @param array $config
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
+         * @return \Illuminate\Contracts\Filesystem\Filesystem 
          * @static 
          */ 
         public static function createScopedDriver($config)
@@ -15732,655 +14504,6 @@
         {
                         /** @var \Illuminate\Filesystem\FilesystemManager $instance */
                         return $instance->setApplication($app);
-        }
-                    /**
-         * Assert that the given file or directory exists.
-         *
-         * @param string|array $path
-         * @param string|null $content
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
-         * @static 
-         */ 
-        public static function assertExists($path, $content = null)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->assertExists($path, $content);
-        }
-                    /**
-         * Assert that the given file or directory does not exist.
-         *
-         * @param string|array $path
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
-         * @static 
-         */ 
-        public static function assertMissing($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->assertMissing($path);
-        }
-                    /**
-         * Assert that the given directory is empty.
-         *
-         * @param string $path
-         * @return \Illuminate\Filesystem\FilesystemAdapter 
-         * @static 
-         */ 
-        public static function assertDirectoryEmpty($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->assertDirectoryEmpty($path);
-        }
-                    /**
-         * Determine if a file or directory exists.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function exists($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->exists($path);
-        }
-                    /**
-         * Determine if a file or directory is missing.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function missing($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->missing($path);
-        }
-                    /**
-         * Determine if a file exists.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function fileExists($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->fileExists($path);
-        }
-                    /**
-         * Determine if a file is missing.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function fileMissing($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->fileMissing($path);
-        }
-                    /**
-         * Determine if a directory exists.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function directoryExists($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->directoryExists($path);
-        }
-                    /**
-         * Determine if a directory is missing.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function directoryMissing($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->directoryMissing($path);
-        }
-                    /**
-         * Get the full path for the file at the given "short" path.
-         *
-         * @param string $path
-         * @return string 
-         * @static 
-         */ 
-        public static function path($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->path($path);
-        }
-                    /**
-         * Get the contents of a file.
-         *
-         * @param string $path
-         * @return string|null 
-         * @static 
-         */ 
-        public static function get($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->get($path);
-        }
-                    /**
-         * Get the contents of a file as decoded JSON.
-         *
-         * @param string $path
-         * @param int $flags
-         * @return array|null 
-         * @static 
-         */ 
-        public static function json($path, $flags = 0)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->json($path, $flags);
-        }
-                    /**
-         * Create a streamed response for a given file.
-         *
-         * @param string $path
-         * @param string|null $name
-         * @param array $headers
-         * @param string|null $disposition
-         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
-         * @static 
-         */ 
-        public static function response($path, $name = null, $headers = [], $disposition = 'inline')
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->response($path, $name, $headers, $disposition);
-        }
-                    /**
-         * Create a streamed download response for a given file.
-         *
-         * @param string $path
-         * @param string|null $name
-         * @return \Symfony\Component\HttpFoundation\StreamedResponse 
-         * @static 
-         */ 
-        public static function download($path, $name = null, $headers = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->download($path, $name, $headers);
-        }
-                    /**
-         * Write the contents of a file.
-         *
-         * @param string $path
-         * @param \Psr\Http\Message\StreamInterface|\Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|resource $contents
-         * @param mixed $options
-         * @return string|bool 
-         * @static 
-         */ 
-        public static function put($path, $contents, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->put($path, $contents, $options);
-        }
-                    /**
-         * Store the uploaded file on the disk.
-         *
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file
-         * @param mixed $options
-         * @return string|false 
-         * @static 
-         */ 
-        public static function putFile($path, $file = null, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->putFile($path, $file, $options);
-        }
-                    /**
-         * Store the uploaded file on the disk with a given name.
-         *
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string|array|null $file
-         * @param string|array|null $name
-         * @param mixed $options
-         * @return string|false 
-         * @static 
-         */ 
-        public static function putFileAs($path, $file, $name = null, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->putFileAs($path, $file, $name, $options);
-        }
-                    /**
-         * Get the visibility for the given path.
-         *
-         * @param string $path
-         * @return string 
-         * @static 
-         */ 
-        public static function getVisibility($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->getVisibility($path);
-        }
-                    /**
-         * Set the visibility for the given path.
-         *
-         * @param string $path
-         * @param string $visibility
-         * @return bool 
-         * @static 
-         */ 
-        public static function setVisibility($path, $visibility)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->setVisibility($path, $visibility);
-        }
-                    /**
-         * Prepend to a file.
-         *
-         * @param string $path
-         * @param string $data
-         * @param string $separator
-         * @return bool 
-         * @static 
-         */ 
-        public static function prepend($path, $data, $separator = '
-')
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->prepend($path, $data, $separator);
-        }
-                    /**
-         * Append to a file.
-         *
-         * @param string $path
-         * @param string $data
-         * @param string $separator
-         * @return bool 
-         * @static 
-         */ 
-        public static function append($path, $data, $separator = '
-')
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->append($path, $data, $separator);
-        }
-                    /**
-         * Delete the file at a given path.
-         *
-         * @param string|array $paths
-         * @return bool 
-         * @static 
-         */ 
-        public static function delete($paths)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->delete($paths);
-        }
-                    /**
-         * Copy a file to a new location.
-         *
-         * @param string $from
-         * @param string $to
-         * @return bool 
-         * @static 
-         */ 
-        public static function copy($from, $to)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->copy($from, $to);
-        }
-                    /**
-         * Move a file to a new location.
-         *
-         * @param string $from
-         * @param string $to
-         * @return bool 
-         * @static 
-         */ 
-        public static function move($from, $to)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->move($from, $to);
-        }
-                    /**
-         * Get the file size of a given file.
-         *
-         * @param string $path
-         * @return int 
-         * @static 
-         */ 
-        public static function size($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->size($path);
-        }
-                    /**
-         * Get the checksum for a file.
-         *
-         * @return string|false 
-         * @throws UnableToProvideChecksum
-         * @static 
-         */ 
-        public static function checksum($path, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->checksum($path, $options);
-        }
-                    /**
-         * Get the mime-type of a given file.
-         *
-         * @param string $path
-         * @return string|false 
-         * @static 
-         */ 
-        public static function mimeType($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->mimeType($path);
-        }
-                    /**
-         * Get the file's last modification time.
-         *
-         * @param string $path
-         * @return int 
-         * @static 
-         */ 
-        public static function lastModified($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->lastModified($path);
-        }
-                    /**
-         * Get a resource to read the file.
-         *
-         * @param string $path
-         * @return resource|null The path resource or null on failure.
-         * @static 
-         */ 
-        public static function readStream($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->readStream($path);
-        }
-                    /**
-         * Write a new file using a stream.
-         *
-         * @param string $path
-         * @param resource $resource
-         * @param array $options
-         * @return bool 
-         * @static 
-         */ 
-        public static function writeStream($path, $resource, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->writeStream($path, $resource, $options);
-        }
-                    /**
-         * Get the URL for the file at the given path.
-         *
-         * @param string $path
-         * @return string 
-         * @throws \RuntimeException
-         * @static 
-         */ 
-        public static function url($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->url($path);
-        }
-                    /**
-         * Determine if temporary URLs can be generated.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function providesTemporaryUrls()
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->providesTemporaryUrls();
-        }
-                    /**
-         * Get a temporary URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return string 
-         * @throws \RuntimeException
-         * @static 
-         */ 
-        public static function temporaryUrl($path, $expiration, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->temporaryUrl($path, $expiration, $options);
-        }
-                    /**
-         * Get a temporary upload URL for the file at the given path.
-         *
-         * @param string $path
-         * @param \DateTimeInterface $expiration
-         * @param array $options
-         * @return array 
-         * @throws \RuntimeException
-         * @static 
-         */ 
-        public static function temporaryUploadUrl($path, $expiration, $options = [])
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->temporaryUploadUrl($path, $expiration, $options);
-        }
-                    /**
-         * Get an array of all files in a directory.
-         *
-         * @param string|null $directory
-         * @param bool $recursive
-         * @return array 
-         * @static 
-         */ 
-        public static function files($directory = null, $recursive = false)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->files($directory, $recursive);
-        }
-                    /**
-         * Get all of the files from the given directory (recursive).
-         *
-         * @param string|null $directory
-         * @return array 
-         * @static 
-         */ 
-        public static function allFiles($directory = null)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->allFiles($directory);
-        }
-                    /**
-         * Get all of the directories within a given directory.
-         *
-         * @param string|null $directory
-         * @param bool $recursive
-         * @return array 
-         * @static 
-         */ 
-        public static function directories($directory = null, $recursive = false)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->directories($directory, $recursive);
-        }
-                    /**
-         * Get all the directories within a given directory (recursive).
-         *
-         * @param string|null $directory
-         * @return array 
-         * @static 
-         */ 
-        public static function allDirectories($directory = null)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->allDirectories($directory);
-        }
-                    /**
-         * Create a directory.
-         *
-         * @param string $path
-         * @return bool 
-         * @static 
-         */ 
-        public static function makeDirectory($path)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->makeDirectory($path);
-        }
-                    /**
-         * Recursively delete a directory.
-         *
-         * @param string $directory
-         * @return bool 
-         * @static 
-         */ 
-        public static function deleteDirectory($directory)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->deleteDirectory($directory);
-        }
-                    /**
-         * Get the Flysystem driver.
-         *
-         * @return \League\Flysystem\FilesystemOperator 
-         * @static 
-         */ 
-        public static function getDriver()
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->getDriver();
-        }
-                    /**
-         * Get the Flysystem adapter.
-         *
-         * @return \League\Flysystem\FilesystemAdapter 
-         * @static 
-         */ 
-        public static function getAdapter()
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->getAdapter();
-        }
-                    /**
-         * Get the configuration values.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getConfig()
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->getConfig();
-        }
-                    /**
-         * Define a custom temporary URL builder callback.
-         *
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */ 
-        public static function buildTemporaryUrlsUsing($callback)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        $instance->buildTemporaryUrlsUsing($callback);
-        }
-                    /**
-         * Apply the callback if the given "value" is (or resolves to) truthy.
-         *
-         * @template TWhenParameter
-         * @template TWhenReturnType
-         * @param \Illuminate\Filesystem\(\Closure($this):  TWhenParameter)|TWhenParameter|null  $value
-         * @param \Illuminate\Filesystem\(callable($this,  TWhenParameter): TWhenReturnType)|null  $callback
-         * @param \Illuminate\Filesystem\(callable($this,  TWhenParameter): TWhenReturnType)|null  $default
-         * @return $this|\Illuminate\Filesystem\TWhenReturnType 
-         * @static 
-         */ 
-        public static function when($value = null, $callback = null, $default = null)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->when($value, $callback, $default);
-        }
-                    /**
-         * Apply the callback if the given "value" is (or resolves to) falsy.
-         *
-         * @template TUnlessParameter
-         * @template TUnlessReturnType
-         * @param \Illuminate\Filesystem\(\Closure($this):  TUnlessParameter)|TUnlessParameter|null  $value
-         * @param \Illuminate\Filesystem\(callable($this,  TUnlessParameter): TUnlessReturnType)|null  $callback
-         * @param \Illuminate\Filesystem\(callable($this,  TUnlessParameter): TUnlessReturnType)|null  $default
-         * @return $this|\Illuminate\Filesystem\TUnlessReturnType 
-         * @static 
-         */ 
-        public static function unless($value = null, $callback = null, $default = null)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->unless($value, $callback, $default);
-        }
-                    /**
-         * Register a custom macro.
-         *
-         * @param string $name
-         * @param object|callable $macro
-         * @return void 
-         * @static 
-         */ 
-        public static function macro($name, $macro)
-        {
-                        \Illuminate\Filesystem\FilesystemAdapter::macro($name, $macro);
-        }
-                    /**
-         * Mix another object into the class.
-         *
-         * @param object $mixin
-         * @param bool $replace
-         * @return void 
-         * @throws \ReflectionException
-         * @static 
-         */ 
-        public static function mixin($mixin, $replace = true)
-        {
-                        \Illuminate\Filesystem\FilesystemAdapter::mixin($mixin, $replace);
-        }
-                    /**
-         * Checks if macro is registered.
-         *
-         * @param string $name
-         * @return bool 
-         * @static 
-         */ 
-        public static function hasMacro($name)
-        {
-                        return \Illuminate\Filesystem\FilesystemAdapter::hasMacro($name);
-        }
-                    /**
-         * Flush the existing macros.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function flushMacros()
-        {
-                        \Illuminate\Filesystem\FilesystemAdapter::flushMacros();
-        }
-                    /**
-         * Dynamically handle calls to the class.
-         *
-         * @param string $method
-         * @param array $parameters
-         * @return mixed 
-         * @throws \BadMethodCallException
-         * @static 
-         */ 
-        public static function macroCall($method, $parameters)
-        {
-                        /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->macroCall($method, $parameters);
         }
          
     }
@@ -16846,6 +14969,18 @@
         {
                         /** @var \Illuminate\Routing\UrlGenerator $instance */
                         return $instance->withKeyResolver($keyResolver);
+        }
+                    /**
+         * Set the callback that should be used to attempt to resolve missing named routes.
+         *
+         * @param callable $missingNamedRouteResolver
+         * @return \Illuminate\Routing\UrlGenerator 
+         * @static 
+         */ 
+        public static function resolveMissingNamedRoutesUsing($missingNamedRouteResolver)
+        {
+                        /** @var \Illuminate\Routing\UrlGenerator $instance */
+                        return $instance->resolveMissingNamedRoutesUsing($missingNamedRouteResolver);
         }
                     /**
          * Get the root controller namespace.
@@ -18382,7 +16517,71 @@
      
 }
 
-        namespace Jenssegers\Agent\Facades { 
+        namespace Intervention\Image\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class Image {
+                    /**
+         * Overrides configuration settings
+         *
+         * @param array $config
+         * @return self 
+         * @static 
+         */ 
+        public static function configure($config = [])
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->configure($config);
+        }
+                    /**
+         * Initiates an Image instance from different input types
+         *
+         * @param mixed $data
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function make($data)
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->make($data);
+        }
+                    /**
+         * Creates an empty image canvas
+         *
+         * @param int $width
+         * @param int $height
+         * @param mixed $background
+         * @return \Intervention\Image\Image 
+         * @static 
+         */ 
+        public static function canvas($width, $height, $background = null)
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->canvas($width, $height, $background);
+        }
+                    /**
+         * Create new cached image and run callback
+         * (requires additional package intervention/imagecache)
+         *
+         * @param \Closure $callback
+         * @param int $lifetime
+         * @param boolean $returnObj
+         * @return \Image 
+         * @static 
+         */ 
+        public static function cache($callback, $lifetime = null, $returnObj = false)
+        {
+                        /** @var \Intervention\Image\ImageManager $instance */
+                        return $instance->cache($callback, $lifetime, $returnObj);
+        }
+         
+    }
+     
+}
+
+    namespace Jenssegers\Agent\Facades { 
             /**
      * 
      *
@@ -19442,7 +17641,7 @@ namespace  {
             }
              
                 /**
-             * Get the first record matching the attributes or create it.
+             * Get the first record matching the attributes. If the record is not found, create it.
              *
              * @param array $attributes
              * @param array $values
@@ -19453,6 +17652,20 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->firstOrCreate($attributes, $values);
+            }
+             
+                /**
+             * Attempt to create the record. If a unique constraint violation occurs, attempt to find the matching record.
+             *
+             * @param array $attributes
+             * @param array $values
+             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @static 
+             */ 
+            public static function createOrFirst($attributes = [], $values = [])
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->createOrFirst($attributes, $values);
             }
              
                 /**
@@ -19811,6 +18024,20 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->withCasts($casts);
+            }
+             
+                /**
+             * Execute the given Closure within a transaction savepoint if needed.
+             *
+             * @template TModelValue
+             * @param \Closure():  TModelValue  $scope
+             * @return \Illuminate\Database\Eloquent\TModelValue 
+             * @static 
+             */ 
+            public static function withSavepointIfNeeded($scope)
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->withSavepointIfNeeded($scope);
             }
              
                 /**
@@ -20868,7 +19095,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @param string $type
              * @param bool $where
              * @return \Illuminate\Database\Query\Builder 
@@ -20886,7 +19113,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string $first
              * @param string $operator
-             * @param string $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string $second
              * @param string $type
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -20904,7 +19131,7 @@ namespace  {
              * @param string $as
              * @param \Closure|string $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @param string $type
              * @param bool $where
              * @return \Illuminate\Database\Query\Builder 
@@ -20923,7 +19150,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -20939,7 +19166,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string $first
              * @param string $operator
-             * @param string $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -20956,7 +19183,7 @@ namespace  {
              * @param string $as
              * @param \Closure|string $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -20972,7 +19199,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -20988,7 +19215,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string $first
              * @param string $operator
-             * @param string $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -21005,7 +19232,7 @@ namespace  {
              * @param string $as
              * @param \Closure|string $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -21021,7 +19248,7 @@ namespace  {
              * @param \Illuminate\Contracts\Database\Query\Expression|string $table
              * @param \Closure|string|null $first
              * @param string|null $operator
-             * @param string|null $second
+             * @param \Illuminate\Contracts\Database\Query\Expression|string|null $second
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -23018,7 +21245,6 @@ namespace  {
             class Request extends \Illuminate\Support\Facades\Request {}
             class Response extends \Illuminate\Support\Facades\Response {}
             class Route extends \Illuminate\Support\Facades\Route {}
-            class Schema extends \Illuminate\Support\Facades\Schema {}
             class Session extends \Illuminate\Support\Facades\Session {}
             class Storage extends \Illuminate\Support\Facades\Storage {}
             class Str extends \Illuminate\Support\Str {}
@@ -23026,6 +21252,7 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
+            class Image extends \Intervention\Image\Facades\Image {}
             class Agent extends \Jenssegers\Agent\Facades\Agent {}
             class Dateformatter extends \Yormy\Dateformatter\DateformatterFacade {}
             class Repository extends \Yormy\Repository\RepositoryFacade {}

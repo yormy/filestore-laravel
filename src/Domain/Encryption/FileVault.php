@@ -164,7 +164,7 @@ class FileVault
 
     private function getFilesize($filePath)
     {
-        if (!$this->isLocalFilesystem($this->disk)) {
+        if (! $this->isLocalFilesystem($this->disk)) {
             $filesize = Storage::disk($this->disk)->size($filePath); // fails local needs s3
 
         } else {
@@ -188,11 +188,10 @@ class FileVault
 
     private function isLocalFilesystem($disk)
     {
-        $filesystem = config('filesystems.disks.' . $disk. '.driver');
+        $filesystem = config('filesystems.disks.'.$disk.'.driver');
 
         return $filesystem === 'local';
     }
-
 
     protected function getFilePath(string $file)
     {
