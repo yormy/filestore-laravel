@@ -13,14 +13,16 @@ export default defineConfig({
     ],
 
     sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-        { text: 'Contributing', items: [
+        {
+            text: 'Examples',
+            items: [
+                {text: 'Markdown Examples', link: '/markdown-examples'},
+                {text: 'Runtime API Examples', link: '/api-examples'}
+            ],
+        },
+        {
+        text: 'Contributing',
+          items: [
                 { text: 'Report Security Issues', link: '/general/report_security' },
                 { text: 'Roadmap', link: '/general/roadmap' },
                 { text: 'License', link: '/general/license' },
@@ -28,14 +30,15 @@ export default defineConfig({
                 { text: 'Contributing', link: '/general/contributing' },
                 { text: 'Code of Conduct', link: '/general/code_of_conduct' },
                 { text: 'Credits', link: '/general/credits' },
-            ]},
+            ]
+        },
 
         { text: 'Contact', items: [
                 { text: 'Contact', link: '/general/contact' },
                 { text: 'Support', link: '/general/support/support-me' },
                 { text: 'Donations', link: '/general/support/donations' },
-            ]},
-
+            ]
+        },
     ],
 
       footer: {
