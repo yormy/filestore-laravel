@@ -14,15 +14,20 @@ abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
 
+    private $useMinio=false;
+
     protected function setUp(): void
     {
         $this->updateEnv();
+
+        $this->copyMigrations();
 
         parent::setUp();
 
         $this->withoutExceptionHandling();
 
         $this->setUpConfig();
+
 
         $this->setupRoutes();
 
@@ -31,6 +36,18 @@ abstract class TestCase extends BaseTestCase
     protected function updateEnv()
     {
         copy('./tests/Setup/.env', './vendor/orchestra/testbench-core/laravel/.env');
+    }
+
+    protected function copyMigrations()
+    {
+        $migrations = [
+            '2020_09_12_000300_users.php'
+        ];
+
+        foreach ($migrations as $migration) {
+            copy("./tests/Setup/Database/Migrations/$migration",
+                "./vendor/orchestra/testbench-core/laravel/database/migrations/$migration");
+        }
     }
 
     protected function setupRoutes()
@@ -56,10 +73,25 @@ abstract class TestCase extends BaseTestCase
 
         config(['filestore.encryption.enabled' => true]);
 
-        $this->setUpDisk();
+        if ($this->useMinio) {
+            $this->setUpDiskMinio();
+        } else {
+            $this->setUpDiskCi();
+        }
     }
 
-    protected function setUpDisk(): void
+    protected function setUpDiskCi(): void
+    {
+        $s3LocalFaked = [
+            'driver' => 'local',
+            'root' => getcwd().'/tests/Setup/Storage/localfake',
+            'throw' => false,
+        ];
+
+        config(['filesystems.disks.digitalocean' => $s3LocalFaked]);
+    }
+
+    protected function setUpDiskMinio(): void
     {
         $s3Storage = [
             'driver' => 's3',
@@ -72,8 +104,8 @@ abstract class TestCase extends BaseTestCase
             'region' => env('DO_STORAGE_DEFAULT_REGION'),
             'bucket' => env('DO_STORAGE_BUCKET'),
         ];
-        config(['filesystems.disks.digitalocean' => $s3Storage]);
 
+        config(['filesystems.disks.digitalocean' => $s3Storage]);
     }
 
     protected function refreshTestDatabase()
