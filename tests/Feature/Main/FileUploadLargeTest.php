@@ -1,6 +1,6 @@
 <?php
 
-namespace Yormy\FilestoreLaravel\Tests\Feature;
+namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Tests\TestCase;

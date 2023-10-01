@@ -1,6 +1,6 @@
 <?php
 
-namespace Yormy\FilestoreLaravel\Tests\Feature;
+namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFileAccess;

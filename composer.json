@@ -59,6 +59,7 @@
         "test:all": "vendor/bin/paratest",
         "t": "vendor/bin/phpunit --testdox",
         "test:unit": "vendor/bin/phpunit --colors=always --testdox --testsuite Unit",
+        "test:feature": "vendor/bin/phpunit --colors=always --testdox --testsuite Feaure",
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],

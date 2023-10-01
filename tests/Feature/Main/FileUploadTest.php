@@ -1,6 +1,6 @@
 <?php
 
-namespace Yormy\FilestoreLaravel\Tests\Feature;
+namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
