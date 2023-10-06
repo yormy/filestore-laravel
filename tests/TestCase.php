@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
 
-    private $useMinio = false;
+    private $useMinio = true;
 
     protected function setUp(): void
     {

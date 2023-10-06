@@ -87,7 +87,7 @@ class FileServe
 
     private static function getFileRecord(Request $request, string $xid): MemberFile
     {
-        XidService::validateOrAbort($xid);
+        XidService::validateOrFail($xid);
 
         $fileRecord = MemberFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
@@ -121,7 +121,7 @@ class FileServe
 
     public static function download(Request $request, string $xid, string $variant = null, string $downloadAs = null)
     {
-        XidService::validateOrAbort($xid);
+        XidService::validateOrFail($xid);
 
         $fileRecord = MemberFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
