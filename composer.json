@@ -17,19 +17,25 @@
             "role": "Developer"
         }
     ],
+    "repositories" : [
+        {
+            "type": "vcs",
+            "url": "https://github.com/yormy/laravel-eloquent-query-cache.git"
+        }
+    ],
     "require": {
-        "php": "^8.1|^8.2",
+        "php": "^8.2",
         "ext-imagick": "*",
-        "intervention/image": "^2.7",
+        "intervention/image": "^3.5",
         "jenssegers/agent": "^2.6",
-        "laravel/framework": "^9|^10",
-        "league/flysystem-aws-s3-v3": "^3.16",
-        "pion/laravel-chunk-upload": "^1.5",
-        "spatie/pdf-to-image": "^2.2",
-        "yormy/core-tools-laravel": "^1.0"
+        "laravel/framework": "^11",
+        "league/flysystem-aws-s3-v3": "^3.27",
+        "pion/laravel-chunk-upload": "^v1.5",
+        "spatie/pdf-to-image": "^2.3",
+        "yormy/core-tools-laravel": "dev-master"
     },
     "require-dev": {
-        "yormy/dev-tools-laravel": "^1.0"
+        "yormy/dev-tools-laravel": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -42,29 +48,37 @@
         }
     },
     "scripts": {
+        "---------- STYLE ---------- ": "",
+        "pint": "vendor/bin/pint",
         "cs-fixer" : "phpcbf",
         "md": "vendor/bin/phpmd . html cleancode --reportfile report.html",
         "phpcs": "phpcs --standard=PSR2 -s --exclude=Generic.Files.LineLength --standard=./phpcs.xml --report-file=phpcs-report.txt",
-        "phpstan": "vendor/bin/phpstan analyze src --error-format=raw --level=4",
-        "psalm": "vendor/bin/psalm --no-diff --no-cache --report-show-info=false --report=psalm-report.txt",
-        "psalm-debug": "vendor/bin/psalm --no-cache --debug --debug-by-line",
-        "pint": "vendor/bin/pint",
-        "---------- IDE-HELPERS ---------- ": "",
-        "ide-helpers": "php vendor/bin/testbench clear-compiled && php vendor/bin/testbench ide-helper:generate && php vendor/bin/testbench --write ide-helper:models && php vendor/bin/testbench ide-helper:meta",
-
-        "---------- TEST_MAILS ---------- ": "",
-        "send-test": "vendor/bin/phpunit --group RealSend",
-
-        "---------- TESTS ---------- ": "",
-        "test:all": "vendor/bin/paratest",
-        "t": "vendor/bin/phpunit --testdox",
-        "test:unit": "vendor/bin/phpunit --colors=always --testdox --testsuite Unit",
-        "test:feature": "vendor/bin/phpunit --colors=always --testdox --testsuite Feaure",
+        "---------- FIX ---------- ": "",
+        "insights:fix": "./vendor/bin/testbench insights --fix",
+        "ide-helpers": "./vendor/bin/testbench clear-compiled && ./vendor/bin/testbench ide-helper:generate && ./vendor/bin/testbench ide-helper:models --write && ./vendor/bin/testbench ide-helper:meta",
+        "---------- ANALYSIS ---------- ": "",
+        "insights": "./vendor/bin/testbench insights",
+        "stan": "./vendor/bin/phpstan analyse -c phpstan.conf.neon --memory-limit=2G",
+        "stan:baseline": "./vendor/bin/phpstan  analyse -c phpstan.conf.neon --memory-limit=2G --generate-baseline",
+        "coverage:check" : "composer coverage:clover && php coverage-checker.php clover.xml 50",
+        "coverage:report" : "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude='~vendor~' ./vendor/bin/phpunit --coverage-html ./meta/coverage ",
+        "coverage:text" : "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude='~vendor~' ./vendor/bin/phpunit --coverage-text ",
+        "coverage:clover" : "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude='~vendor~' ./vendor/bin/phpunit --coverage-clover coverage/clover.xml",
+        "---------- TEST ---------- ": "",
+        "test": "vendor/bin/phpunit tests/Features tests/Unit --colors=always --testdox",
+        "test:unit": "vendor/bin/paratest --colors=always --testdox --testsuite Unit",
+        "test:feature": "vendor/bin/paratest --colors=always --testdox --testsuite Feature",
+        "test-browser": "vendor/bin/phpunit tests/Browser --colors=always --testdox",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "---------- POST ---------- ": "",
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
+        "post-install-cmd": [
+            "composer outdated"
+        ],
         "post-update-cmd": [
-            "local-php-security-checker-installer && local-php-security-checker"
+            "composer outdated"
         ]
     },
     "extra": {
@@ -75,7 +89,10 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
