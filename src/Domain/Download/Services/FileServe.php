@@ -92,8 +92,8 @@ class FileServe
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
-        $memberFileAccessRepository = new FilestoreFileAccessRepository();
-        $memberFileAccessRepository->createAsViewed($fileRecord, $data);
+        $filestoreFileAccessRepository = new FilestoreFileAccessRepository();
+        $filestoreFileAccessRepository->createAsViewed($fileRecord, $data);
 
         return $fileRecord;
     }
@@ -126,8 +126,8 @@ class FileServe
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
-        $memberFileAccessRepository = new FilestoreFileAccessRepository();
-        $memberFileAccessRepository->createAsDownloaded($fileRecord, $data);
+        $filestoreFileAccessRepository = new FilestoreFileAccessRepository();
+        $filestoreFileAccessRepository->createAsDownloaded($fileRecord, $data);
 
         $filename = self::getFilename($variant, $fileRecord);
 

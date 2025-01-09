@@ -16,27 +16,27 @@ class FilestoreFileAccessRepository
         }
     }
 
-    public function createAsDownloaded(FilestoreFile $memberFile, array $logData): ?FilestoreFileAccess
+    public function createAsDownloaded(FilestoreFile $filestoreFile, array $logData): ?FilestoreFileAccess
     {
-        if (! $memberFile->access_log) {
+        if (! $filestoreFile->access_log) {
             return null;
         }
 
         $data = $logData;
-        $data['filestore_file_id'] = $memberFile->id;
+        $data['filestore_file_id'] = $filestoreFile->id;
         $data['as_download'] = true;
 
         return $this->model->create($data);
     }
 
-    public function createAsViewed(FilestoreFile $memberFile, array $logData): ?FilestoreFileAccess
+    public function createAsViewed(FilestoreFile $filestoreFile, array $logData): ?FilestoreFileAccess
     {
-        if (! $memberFile->access_log) {
+        if (! $filestoreFile->access_log) {
             return null;
         }
 
         $data = $logData;
-        $data['filestore_file_id'] = $memberFile->id;
+        $data['filestore_file_id'] = $filestoreFile->id;
         $data['as_view'] = true;
 
         return $this->model->create($data);

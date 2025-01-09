@@ -227,12 +227,12 @@ class FileDownloadTest extends TestCase
             ->actingAs($member)
             ->get(route('file.img.download', ['xid' => $xid, 'variant' => $variant]));
 
-        $memberFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
+        $filestoreFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
 
-        $this->assertEquals($member->id, $memberFileAccess->user_id);
-        $this->assertTrue(strlen($memberFileAccess->ip) > 2);
-        $this->assertTrue($memberFileAccess->as_download);
-        $this->assertNull($memberFileAccess->as_view);
+        $this->assertEquals($member->id, $filestoreFileAccess->user_id);
+        $this->assertTrue(strlen($filestoreFileAccess->ip) > 2);
+        $this->assertTrue($filestoreFileAccess->as_download);
+        $this->assertNull($filestoreFileAccess->as_view);
     }
 
     /**
@@ -282,12 +282,12 @@ class FileDownloadTest extends TestCase
             ->actingAs($member)
             ->get(route('file.img.view', ['xid' => $xid, 'variant' => $variant]));
 
-        $memberFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
+        $filestoreFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
 
-        $this->assertEquals($member->id, $memberFileAccess->user_id);
-        $this->assertTrue(strlen($memberFileAccess->ip) > 2);
-        $this->assertNull($memberFileAccess->as_download);
-        $this->assertTrue($memberFileAccess->as_view);
+        $this->assertEquals($member->id, $filestoreFileAccess->user_id);
+        $this->assertTrue(strlen($filestoreFileAccess->ip) > 2);
+        $this->assertNull($filestoreFileAccess->as_download);
+        $this->assertTrue($filestoreFileAccess->as_view);
     }
 
     // --------- helpers ---------

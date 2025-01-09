@@ -128,8 +128,8 @@ class UploadFileService
 
     private function createRecord()
     {
-        $memberFileRepository = new FilestoreFileRepository();
-        $fileRecord = $memberFileRepository->create([
+        $filestoreFileRepository = new FilestoreFileRepository();
+        $fileRecord = $filestoreFileRepository->create([
             'allow_pdf_embedding' => $this->allowPdfEmbedding,
             'access_log' => $this->accessLog,
             'user_encryption' => $this->userEncryption,
@@ -138,15 +138,15 @@ class UploadFileService
         return $fileRecord;
     }
 
-    private function updateRecord(FilestoreFile $memberFile, string $filename)
+    private function updateRecord(FilestoreFile $filestoreFile, string $filename)
     {
-        $memberFileRepository = new FilestoreFileRepository();
+        $filestoreFileRepository = new FilestoreFileRepository();
 
         $data = $this->toArray($filename);
 
-        $memberFileRepository->update($memberFile, $data);
+        $filestoreFileRepository->update($filestoreFile, $data);
 
-        return $memberFile;
+        return $filestoreFile;
     }
 
     public function saveToLocal(string $path): string
