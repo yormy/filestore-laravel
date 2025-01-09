@@ -12,6 +12,7 @@ use Yormy\FilestoreLaravel\Domain\Shared\Repositories\MemberFileAccessRepository
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
+use Yormy\FilestoreLaravel\Exceptions\FileGetException;
 use Yormy\FilestoreLaravel\Exceptions\InvalidVariantException;
 use Yormy\Xid\Services\XidService;
 
@@ -207,8 +208,10 @@ class FileServe
 
     private static function displayPlain(string $disk, string $fullPath, string $mime)
     {
-        //return Storage::disk($disk)->response($fullPath);
         $imagedata = Storage::disk($disk)->get($fullPath);
+        if ($imagedata) {
+            throw new FileGetException("Cannot get $fullPath from $disk");
+        }
 
         return self::convertBase64($imagedata, $mime);
     }

@@ -8,6 +8,9 @@ use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\DecryptionFailedException;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\EncryptionFailedException;
+use Yormy\FilestoreLaravel\Exceptions\FileDeleteException;
+use Yormy\FilestoreLaravel\Exceptions\FileEmptyException;
+use Yormy\FilestoreLaravel\Exceptions\FileGetException;
 
 class FileVault
 {
@@ -50,12 +53,14 @@ class FileVault
 
     public function encrypt(
         string $sourceFile,
-        string $destFile = null,
+        ?string $destFile = null,
         bool $deleteSource = true,
-        string $key = null,
-        string $cipher = null
+        ?string $key = null,
+        ?string $cipher = null
     ): string {
-        if (! Storage::disk($this->disk)->exists($sourceFile)) {
+
+        $exists = Storage::disk($this->disk)->exists($sourceFile);
+        if (! $exists) {
             throw new EncryptionFailedException('Filename to encrypt does not exits: '.$sourceFile);
         }
 
@@ -72,13 +77,16 @@ class FileVault
 
         // If encryption is successful, delete the source file
         if ($encrypter->encrypt($sourcePath, $destPath) && $deleteSource) {
-            Storage::disk($this->disk)->delete($sourceFile);
+            $success = Storage::disk($this->disk)->delete($sourceFile);
+            if (!$success) {
+                throw new FileDeleteException("Cannot delete $sourceFile from $this->disk");
+            }
         }
 
         return $destFile;
     }
 
-    private function fileEncryptorFactory(string $key = null, string $cipher = null): FileEncrypter
+    private function fileEncryptorFactory(?string $key = null, ?string $cipher = null): FileEncrypter
     {
         // Create a new encrypter instance
         if (! $key) {
@@ -91,19 +99,20 @@ class FileVault
         return new FileEncrypter($key, $cipher);
     }
 
-    public function encryptCopy(string $sourceFile, string $destFile = null): string
+    public function encryptCopy(string $sourceFile, ?string $destFile = null): string
     {
         return self::encrypt($sourceFile, $destFile, false);
     }
 
     public function decrypt(
         string $sourceFile,
-        string $destFile = null,
+        ?string $destFile = null,
         bool $deleteSource = true,
-        string $key = null,
-        string $cipher = null
+        ?string $key = null,
+        ?string $cipher = null
     ): string {
-        if (! Storage::disk($this->disk)->exists($sourceFile)) {
+        $exists = Storage::disk($this->disk)->exists($sourceFile);
+        if (! $exists) {
             throw new DecryptionFailedException('Filename to decrypt does not exits: '.$sourceFile);
         }
 
@@ -125,7 +134,10 @@ class FileVault
         $sourcePath = $this->getSourcePath($filePath);
 
         if ($encrypter->decryptFile($sourcePath, $destPath, $filesize) && $deleteSource) {
-            Storage::disk($this->disk)->delete($sourceFile);
+            $success = Storage::disk($this->disk)->delete($sourceFile);
+            if (!$success) {
+                throw new FileDeleteException("Cannot delete $sourceFile from $this->disk");
+            }
         }
 
         return $destFile;
@@ -140,12 +152,12 @@ class FileVault
         return $this->encrypt($decryptedFile, null, $deleteSource, $destinationKey);
     }
 
-    public function decryptCopy(string $sourceFile, string $destFile = null): string
+    public function decryptCopy(string $sourceFile, ?string $destFile = null): string
     {
         return self::decrypt($sourceFile, $destFile, false);
     }
 
-    public function streamDecrypt(string $sourceFile, string $encryptionKey = null): string
+    public function streamDecrypt(string $sourceFile, ?string $encryptionKey = null): string
     {
         $this->registerServices();
 
@@ -171,6 +183,10 @@ class FileVault
             $filesize = filesize($filePath);
         }
 
+        if (!$filesize) {
+            throw new FileEmptyException("Empty file $filePath from $this->disk");
+        }
+
         return $filesize;
     }
 
@@ -178,6 +194,9 @@ class FileVault
     {
         if (! $this->isLocalFilesystem($this->disk)) {
             $sourcePath = Storage::disk($this->disk)->url($filePath);
+            if (!$sourcePath) {
+                throw new FileEmptyException("Url broken $filePath from $this->disk");
+            }
 
         } else {
             $sourcePath = $filePath;
@@ -199,7 +218,12 @@ class FileVault
             return "s3://{$this->adapter->getBucket()}/{$file}";
         }
 
-        return Storage::disk($this->disk)->path($file);
+        $path = Storage::disk($this->disk)->path($file);
+
+        if (!$path) {
+            throw new FileGetException("file $file missing on $this->disk");
+        }
+        return $path;
     }
 
     protected function isS3File(): bool
