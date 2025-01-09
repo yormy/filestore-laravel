@@ -2,7 +2,7 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Shared\Models;
 
-class MemberFileAccess extends BaseModel
+class FilestoreFileAccess extends BaseModel
 {
     protected $table;
 

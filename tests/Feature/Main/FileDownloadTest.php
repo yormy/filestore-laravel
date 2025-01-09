@@ -3,7 +3,7 @@
 namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFileAccess;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFileAccess;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Exceptions\InvalidValueException;
 use Yormy\FilestoreLaravel\Tests\TestCase;
@@ -227,7 +227,7 @@ class FileDownloadTest extends TestCase
             ->actingAs($member)
             ->get(route('file.img.download', ['xid' => $xid, 'variant' => $variant]));
 
-        $memberFileAccess = MemberFileAccess::query()->orderBy('id', 'desc')->get()->first();
+        $memberFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
 
         $this->assertEquals($member->id, $memberFileAccess->user_id);
         $this->assertTrue(strlen($memberFileAccess->ip) > 2);
@@ -242,7 +242,7 @@ class FileDownloadTest extends TestCase
      */
     public function FilePreventLog_Download_NotLogged(): void
     {
-        $startCount = MemberFileAccess::count();
+        $startCount = FilestoreFileAccess::count();
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
@@ -258,7 +258,7 @@ class FileDownloadTest extends TestCase
             ->actingAs($member)
             ->get(route('file.img.download', ['xid' => $xid, 'variant' => $variant]));
 
-        $this->assertEquals($startCount, MemberFileAccess::count());
+        $this->assertEquals($startCount, FilestoreFileAccess::count());
     }
 
     /**
@@ -282,7 +282,7 @@ class FileDownloadTest extends TestCase
             ->actingAs($member)
             ->get(route('file.img.view', ['xid' => $xid, 'variant' => $variant]));
 
-        $memberFileAccess = MemberFileAccess::query()->orderBy('id', 'desc')->get()->first();
+        $memberFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
 
         $this->assertEquals($member->id, $memberFileAccess->user_id);
         $this->assertTrue(strlen($memberFileAccess->ip) > 2);
