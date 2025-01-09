@@ -2,7 +2,7 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Download\Services;
 
-use Facades\Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -219,7 +219,7 @@ class FileServe
     private static function downloadEncrypted(string $disk, string $fullPath, string $downloadAs, string $encryptionKey = null)
     {
         return response()->streamDownload(function () use ($disk, $fullPath, $encryptionKey) {
-            FileVault::disk($disk)->streamDecrypt($fullPath, $encryptionKey);
+            (new FileVault())->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
         }, $downloadAs);
     }
 
@@ -227,11 +227,11 @@ class FileServe
     {
         // $mimeType = Storage::disk($disk)->mimeType($fullPath); // stream
         //        $x =  response()->stream(function () use ($disk, $fullPath, $mimeType) {
-        //            FileVault::disk($disk)->streamDecrypt($fullPath);
+        //            (new FileVault())->disk($disk)->streamDecrypt($fullPath);
         //        }, 200, ["Content-Type" => $mimeType]);
 
         ob_start();
-        FileVault::disk($disk)->streamDecrypt($fullPath, $encryptionKey);
+        (new FileVault())->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
         $imagedata = ob_get_contents();
         ob_end_clean();
 

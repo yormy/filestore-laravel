@@ -2,7 +2,7 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
-use Facades\Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -298,7 +298,7 @@ class UploadFileService
     {
         $encryptionKey = $this->getKey($encryptionKey);
 
-        return FileVault::key($encryptionKey)->encrypt($unencryptedFile);
+        return (new FileVault())->key($encryptionKey)->encrypt($unencryptedFile);
     }
 
     private function generateFileName(): string
