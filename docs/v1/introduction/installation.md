@@ -2,7 +2,7 @@
 
 Promocodes can be installed through composer
 ```bash
-composer require yormy/files-laravel
+composer require yormy/filestore-laravel
 ```
 
 # Preparing the database

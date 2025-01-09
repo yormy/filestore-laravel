@@ -22,7 +22,7 @@ export default defineConfig({
             {
                 text: 'Introduction',
                 items: [
-                    { text: 'What is Guidelines', link: '/v1/introduction/what-is-filestore' },
+                    { text: 'What is Filestore', link: '/v1/introduction/what-is-filestore' },
                 ]
             },
 
