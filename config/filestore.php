@@ -16,6 +16,11 @@ return [
         'useragent' => UserAgentResolver::class,
     ],
 
+    'tables' =>  [
+      'files' => 'filestore_files',
+      'access' => 'filestore_files_access',
+    ],
+
     'allowed_mimes' => [
         MimeTypeEnum::ImageJpeg,
         MimeTypeEnum::ImagePng,

@@ -4,7 +4,7 @@ namespace Yormy\FilestoreLaravel\Domain\Shared\Models;
 
 class MemberFileAccess extends BaseModel
 {
-    protected $table = 'filestore_files_access';
+    protected $table;
 
     protected $fillable = [
         'member_file_id',
@@ -22,4 +22,11 @@ class MemberFileAccess extends BaseModel
         'as_download' => 'boolean',
         'as_view' => 'boolean',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = config('filestore.tables.access');
+    }
 }
