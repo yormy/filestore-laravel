@@ -7,7 +7,7 @@ class MemberFileAccess extends BaseModel
     protected $table;
 
     protected $fillable = [
-        'member_file_id',
+        'filestore_file_id',
         'user_id',
         'user_type',
         'as_download',

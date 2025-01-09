@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\MemberFileAccessRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
@@ -86,11 +86,11 @@ class FileServe
         return $pages;
     }
 
-    private static function getFileRecord(Request $request, string $xid): MemberFile
+    private static function getFileRecord(Request $request, string $xid): FilestoreFile
     {
         XidService::validateOrFail($xid);
 
-        $fileRecord = MemberFile::where('xid', $xid)->firstOrFail();
+        $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
         $memberFileAccessRepository = new MemberFileAccessRepository();
         $memberFileAccessRepository->createAsViewed($fileRecord, $data);
@@ -124,7 +124,7 @@ class FileServe
     {
         XidService::validateOrFail($xid);
 
-        $fileRecord = MemberFile::where('xid', $xid)->firstOrFail();
+        $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
         $memberFileAccessRepository = new MemberFileAccessRepository();
         $memberFileAccessRepository->createAsDownloaded($fileRecord, $data);
@@ -151,7 +151,7 @@ class FileServe
 
     }
 
-    private static function getFilename(?string $variant, MemberFile $fileRecord): string
+    private static function getFilename(?string $variant, FilestoreFile $fileRecord): string
     {
         $filename = $fileRecord->getFullPath();
         $useVariant = null;
@@ -167,7 +167,7 @@ class FileServe
         return $filename;
     }
 
-    private static function findVariant(string $selectedVariant, MemberFile $file)
+    private static function findVariant(string $selectedVariant, FilestoreFile $file)
     {
         $existingVariants = json_decode($file->variants, true);
 

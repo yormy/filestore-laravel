@@ -7,7 +7,7 @@ namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 
 class ThumbnailService
 {
@@ -26,7 +26,7 @@ class ThumbnailService
         return $variantStoragePaths;
     }
 
-    private static function updateFileRecord(MemberFile $fileRecord, array $allVariants)
+    private static function updateFileRecord(FilestoreFile $fileRecord, array $allVariants)
     {
         $currentVariants = [];
         if ($fileRecord->variants) {

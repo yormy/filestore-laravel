@@ -5,7 +5,7 @@ namespace Yormy\FilestoreLaravel\Database\migrations;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 
 return new class extends Migration
 {
@@ -14,7 +14,7 @@ return new class extends Migration
         $table = config('filestore.tables.access');
         Schema::create($table, function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(MemberFile::class);
+            $table->foreignIdFor(FilestoreFile::class);
 
             $table->integer('user_id')->nullable();
             $table->string('user_type')->nullable();

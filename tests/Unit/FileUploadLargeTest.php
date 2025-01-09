@@ -4,7 +4,7 @@ namespace Yormy\FilestoreLaravel\Tests\Unit;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
@@ -144,7 +144,7 @@ class FileUploadLargeTest extends TestCase
 
     private function getUploadedContent(string $xid): string
     {
-        $fileRecord = MemberFile::where('xid', $xid)->firstOrFail();
+        $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $fullPath = $fileRecord->getFullPath();
 
         return Storage::disk('local')->get($fullPath);

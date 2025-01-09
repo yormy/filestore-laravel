@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\Xid\Models\Traits\Xid;
 
-class MemberFile extends BaseModel
+class FilestoreFile extends BaseModel
 {
     use SoftDeletes;
     use Xid;

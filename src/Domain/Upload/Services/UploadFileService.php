@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\MemberFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\UploadedFileData;
 use Yormy\FilestoreLaravel\Domain\Upload\Jobs\MoveFileToPersistentDiskJob;
@@ -138,7 +138,7 @@ class UploadFileService
         return $fileRecord;
     }
 
-    private function updateRecord(MemberFile $memberFile, string $filename)
+    private function updateRecord(FilestoreFile $memberFile, string $filename)
     {
         $memberFileRepository = new MemberFileRepository();
 
@@ -190,7 +190,7 @@ class UploadFileService
         return $fileRecord->xid;
     }
 
-    private function moveToPersistent(MemberFile $fileRecord, array $encryptedFilenames)
+    private function moveToPersistent(FilestoreFile $fileRecord, array $encryptedFilenames)
     {
         $filesToMove[] = $encryptedFilenames['mainfile'];
         if (isset($encryptedFilenames['variants'])) {
@@ -202,7 +202,7 @@ class UploadFileService
         }
     }
 
-    private function saveDimensions(string $storageFilename, MemberFile $fileRecord): void
+    private function saveDimensions(string $storageFilename, FilestoreFile $fileRecord): void
     {
         $fullPath = Storage::disk($this->localDisk)->path($storageFilename);
         $data = getimagesize($fullPath);
@@ -213,7 +213,7 @@ class UploadFileService
         }
     }
 
-    private function save(string $path, MemberFile $fileRecord): array
+    private function save(string $path, FilestoreFile $fileRecord): array
     {
         $storePath = $this->rootPath.DIRECTORY_SEPARATOR.$path;
 
@@ -261,7 +261,7 @@ class UploadFileService
         ];
     }
 
-    public function saveEncrypted(string $path, MemberFile $fileRecord, string $encryptionKey = null): array
+    public function saveEncrypted(string $path, FilestoreFile $fileRecord, string $encryptionKey = null): array
     {
         $this->isEncrypted = true;
 
