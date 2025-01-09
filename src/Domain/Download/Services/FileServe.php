@@ -209,7 +209,7 @@ class FileServe
     private static function displayPlain(string $disk, string $fullPath, string $mime)
     {
         $imagedata = Storage::disk($disk)->get($fullPath);
-        if ($imagedata) {
+        if (!$imagedata) {
             throw new FileGetException("Cannot get $fullPath from $disk");
         }
 
