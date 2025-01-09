@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('member_files', function (Blueprint $table) {
+        Schema::create('filestore_files', function (Blueprint $table) {
             $table->id();
             $table->string('xid')->unique();
             $table->string('member_id')->nullable();

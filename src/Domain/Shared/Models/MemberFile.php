@@ -11,7 +11,7 @@ class MemberFile extends BaseModel
     use SoftDeletes;
     use Xid;
 
-    protected $table = 'member_files';
+    protected $table = 'filestore_files';
 
     protected $fillable = [
         'xid',
