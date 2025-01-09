@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "filestore"
   text: ""
-  tagline: Store your files in a secure way locally and on s3
+  tagline: Store your files (and huge files) in a secure way locally and on s3
   image:
       src: /yormy.png
       alt: filestore
