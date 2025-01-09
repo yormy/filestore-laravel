@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
-use Yormy\FilestoreLaravel\Domain\Shared\Repositories\MemberFileAccessRepository;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
@@ -92,7 +92,7 @@ class FileServe
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
-        $memberFileAccessRepository = new MemberFileAccessRepository();
+        $memberFileAccessRepository = new FilestoreFileAccessRepository();
         $memberFileAccessRepository->createAsViewed($fileRecord, $data);
 
         return $fileRecord;
@@ -126,7 +126,7 @@ class FileServe
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
-        $memberFileAccessRepository = new MemberFileAccessRepository();
+        $memberFileAccessRepository = new FilestoreFileAccessRepository();
         $memberFileAccessRepository->createAsDownloaded($fileRecord, $data);
 
         $filename = self::getFilename($variant, $fileRecord);

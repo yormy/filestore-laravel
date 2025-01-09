@@ -7,7 +7,7 @@ namespace Yormy\FilestoreLaravel\Domain\Shared\Repositories;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFileAccess;
 
-class MemberFileAccessRepository
+class FilestoreFileAccessRepository
 {
     public function __construct(private ?FilestoreFileAccess $model = null)
     {

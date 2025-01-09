@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
-use Yormy\FilestoreLaravel\Domain\Shared\Repositories\MemberFileRepository;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\UploadedFileData;
 use Yormy\FilestoreLaravel\Domain\Upload\Jobs\MoveFileToPersistentDiskJob;
 
@@ -128,7 +128,7 @@ class UploadFileService
 
     private function createRecord()
     {
-        $memberFileRepository = new MemberFileRepository();
+        $memberFileRepository = new FilestoreFileRepository();
         $fileRecord = $memberFileRepository->create([
             'allow_pdf_embedding' => $this->allowPdfEmbedding,
             'access_log' => $this->accessLog,
@@ -140,7 +140,7 @@ class UploadFileService
 
     private function updateRecord(FilestoreFile $memberFile, string $filename)
     {
-        $memberFileRepository = new MemberFileRepository();
+        $memberFileRepository = new FilestoreFileRepository();
 
         $data = $this->toArray($filename);
 
