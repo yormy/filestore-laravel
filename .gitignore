@@ -12,3 +12,4 @@ psalm-report.txt
 node_modules
 .phpunit.cache
 vendor
+docs/.vitepress/cache
