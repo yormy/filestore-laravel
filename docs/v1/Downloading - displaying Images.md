@@ -3,14 +3,14 @@
 ## Downloading the image
 In your controller
 ```php
-    $file = MemberFile::where('xid', $xid)->firstOrFail();
+    $file = FilestoreFile::where('xid', $xid)->firstOrFail();
     return  FileServe::download($file->disk, $file->fullPath);
 ````
 
 ## Displaying image
 ### Retrieve the image
 ```php
-    $file = MemberFile::where('xid', $xid)->firstOrFail();
+    $file = FileStoreFile::where('xid', $xid)->firstOrFail();
     $imagedata = FileServe::view($file->disk, $file->fullPath, $file->mime); // ie data:image/png;base64,XXXX
 ```
 
