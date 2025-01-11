@@ -34,16 +34,17 @@ class FileMoveTest extends TestCase
         $moveFileService->userEncryption($user);
         $xid = $moveFileService->moveToPersistent('abcd');
 
-        // --------- assert --------
-        $localFilename = FileGet::getFile(xid: $xid, user: $user);
-        $unencryptedContent = Storage::disk('local')->get($localFilename);
 
+        // --------- assert --------
+        $localFilename = FileGet::getFile(xid: $xid, user: $user); // download file to local
+
+        // --------- assert --------
+        $unencryptedContent = Storage::disk('local')->get($localFilename);
         $this->assertEquals($localContent, $unencryptedContent);
         $this->assertFileDoesNotExist($localFile);
     }
 
     // -------- HELPERS --------
-
     private function getLocalFilename($filename): string
     {
         $localPath = $this->getOriginalFilepath($filename);
