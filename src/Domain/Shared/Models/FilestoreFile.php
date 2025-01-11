@@ -11,7 +11,7 @@ class FilestoreFile extends BaseModel
     use SoftDeletes;
     use Xid;
 
-    protected $table;
+    protected $table = 'filestore_files';
 
     protected $fillable = [
         'xid',
@@ -31,13 +31,6 @@ class FilestoreFile extends BaseModel
         'access_log',
         'user_encryption',
     ];
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->table = config('filestore.tables.files');
-    }
 
     public function getFullPathAttribute()
     {

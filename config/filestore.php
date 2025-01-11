@@ -1,5 +1,7 @@
 <?php
 
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFileAccess;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreKey;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers\IpResolver;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers\UserAgentResolver;
@@ -19,13 +21,10 @@ return [
         'user_key_resolver' => UserKeyResolver::class,
     ],
 
-    'tables' =>  [
-      'files' => 'filestore_files',
-      'access' => 'filestore_files_access',
-    ],
-
     'models' => [
-        'keys' => FilestoreKey::class
+        'keys' => FilestoreKey::class,
+        'files' => FilestoreFile::class,
+        'access' => FilestoreFileAccess::class,
     ],
 
     'allowed_mimes' => [

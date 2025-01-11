@@ -10,8 +10,8 @@ return new class extends Migration
 {
     public function up()
     {
-        $table = config('filestore.tables.files');
-        Schema::create($table, function (Blueprint $table) {
+        $tableClass = config('filestore.models.files');
+        Schema::create((new $tableClass)->getTable(), function (Blueprint $table) {
             $table->id();
             $table->string('xid')->unique();
             $table->string('user_id')->nullable();

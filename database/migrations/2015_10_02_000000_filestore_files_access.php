@@ -11,8 +11,8 @@ return new class extends Migration
 {
     public function up()
     {
-        $table = config('filestore.tables.access');
-        Schema::create($table, function (Blueprint $table) {
+        $tableClass = config('filestore.models.access');
+        Schema::create((new $tableClass())->getTable(), function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(FilestoreFile::class);
 
