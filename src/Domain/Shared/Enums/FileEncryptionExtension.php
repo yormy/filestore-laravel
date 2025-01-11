@@ -1,4 +1,5 @@
 <?php
+namespace Yormy\FilestoreLaravel\Domain\Shared\Enums;
 
 enum FileEncryptionExtension: string
 {
@@ -24,5 +25,17 @@ enum FileEncryptionExtension: string
             self::PASSPHRASE => 'Passphrase key',
             self::PGP => 'PGP key',
         };
+    }
+
+    public static function getAll()
+    {
+        return [
+            self::SYSTEM->value,
+            self::USER->value,
+            self::SYSTEMUSER->value,
+            self::USERSUPLIED->value,
+            self::PASSPHRASE->value,
+            self::PGP->value,
+        ];
     }
 }

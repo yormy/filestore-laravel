@@ -72,8 +72,6 @@ return [
          */
         'cipher' => 'AES-256-CBC',
 
-        'extension' => '.xfile',
-
         /*
          * The Storage disk used by default to locate your files.
          */

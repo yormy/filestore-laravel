@@ -30,7 +30,7 @@ class FileVault
         $this->disk = config('filestore.vault.disk');
         $this->key = config('filestore.vault.key');
         $this->cipher = config('filestore.vault.cipher');
-        $this->extension = config('filestore.vault.extension');
+        $this->extension = FileEncryptionExtension::SYSTEM->value;
     }
 
     public function disk(string $disk): self

@@ -2,11 +2,12 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Download\Services;
 
-use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
@@ -140,7 +141,7 @@ class FileServe
         }
 
         if (! $downloadAs) {
-            $extension = config('filestore.vault.extension');
+            $extension = FileEncryptionExtension::SYSTEM->value;
             $downloadAs = str_replace($extension, '', $filename);
             $downloadAs = basename($downloadAs);
         }
@@ -196,10 +197,9 @@ class FileServe
     protected static function isEncrypted(string $fullPath): bool
     {
         $pathinfo = pathinfo($fullPath);
-        $extension = config('filestore.vault.extension'); // to enum set
+        $encryptedExtensions = FileEncryptionExtension::getAll();
 
-        $extension = str_replace('.', '', $extension);
-        if (isset($pathinfo['extension']) && ($pathinfo['extension'] === $extension)) {
+        if (isset($pathinfo['extension']) && (in_array(".".$pathinfo['extension'], $encryptedExtensions))) {
             return true;
         }
 
