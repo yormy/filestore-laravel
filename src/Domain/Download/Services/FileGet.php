@@ -39,7 +39,7 @@ class FileGet extends FileBase
     {
         $localFilename = basename($fullPath);
         $content = Storage::disk($disk)->get($fullPath);
-        Storage::disk('local')->put($localFilename, $content);
+        Storage::disk('local')->put($localFilename, $content); // copy encrypted to local
 
         return (new FileVault)->disk('local')->decrypt(sourceFile: $localFilename, key: $encryptionKey);
     }

@@ -30,11 +30,9 @@ class FileMoveTest extends TestCase
 
         // --------- move --------
         $moveFileService = MoveFileService::make($localFile);
-        $moveFileService->encrypted(false);
-        //$moveFileService->userEncryption($user);
+        $moveFileService->encrypted(true);
+        $moveFileService->userEncryption($user);
 
-        // todo user encrypted
-        // user is not known here, need to bypass that, as this is all admin controlled moving of files
         $xid = $moveFileService->moveToPersistent('abcd'); /// always moves to under 1 in abcd ?
 
         // --------- assert --------

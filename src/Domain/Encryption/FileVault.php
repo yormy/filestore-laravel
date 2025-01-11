@@ -30,7 +30,6 @@ class FileVault
         $this->disk = config('filestore.vault.disk');
         $this->key = config('filestore.vault.key');
         $this->cipher = config('filestore.vault.cipher');
-        $this->extension = FileEncryptionExtension::SYSTEM->value;
     }
 
     public function disk(string $disk): self
@@ -121,9 +120,10 @@ class FileVault
 
         $this->registerServices();
 
+        $extensions = FileEncryptionExtension::getAll();
         if (is_null($destFile)) {
-            $destFile = Str::endsWith($sourceFile, $this->extension)
-                ? Str::replaceLast($this->extension, '', $sourceFile)
+            $destFile = Str::endsWith($sourceFile, $extensions)
+                ? str_replace($extensions, '', $sourceFile)
                 : $sourceFile;
         }
 
