@@ -35,7 +35,7 @@ class VerifySetup extends Command
         }
 
         if ($this->canListContents($disk)) {
-            $this->error('Content listing not needed, remove: s3:ListBucket from s3 policy');
+            $this->error('Content listing not needed, remove: s3:ListBucket from s3 policy (or root user was used, create a new user)');
         } else {
             $this->info('Content listing disabled - OKE');
         }
@@ -43,7 +43,7 @@ class VerifySetup extends Command
         if ($this->failsIncorrectCredentials($disk)) {
             $this->info('Correct credentials required - OKE');
         } else {
-            $this->error('Seems to be an open policy. Enhance restrictions by adding a user to S3 and login with that user only');
+            $this->error('Seems to be an open policy (or root user used, create a new user). Enhance restrictions by adding a user to S3 and login with that user only');
         }
     }
 
