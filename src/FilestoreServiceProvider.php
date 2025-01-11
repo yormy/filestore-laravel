@@ -4,6 +4,7 @@ namespace Yormy\FilestoreLaravel;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use Yormy\FilestoreLaravel\Console\Commands\VerifySetup;
 use Yormy\FilestoreLaravel\ServiceProviders\EventServiceProvider;
 use Yormy\FilestoreLaravel\ServiceProviders\RouteServiceProvider;
 
@@ -66,6 +67,7 @@ class FilestoreServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                VerifySetup::class,
             ]);
         }
     }
