@@ -302,34 +302,15 @@ class UploadFileService
         return $encryptionKey;
     }
 
-
-
-    //==============================
-    private function getKey00(?string $encryptionKey): string
-    {
-        if ($encryptionKey) {
-            return $encryptionKey;
-        }
-
-        $encryptionKey = config('filestore.vault.key');
-
-        return $encryptionKey;
-    }
-    // MX
     private function customEncrypt($encryptionKey, $unencryptedFile): string
     {
-        // key1 = system or custom
-        // key2 is user if user
-
-
-        //## STEP 1
+        // ENCRYPTION PASS 1 : either with system or supplied key
         if (!$encryptionKey) {
-            $encryptionKey = $this->getKey00($encryptionKey);
+            $encryptionKey = config('filestore.vault.key');
         }
         $encryptedFile = (new FileVault())->key($encryptionKey)->encrypt($unencryptedFile);
 
-
-        ## STEP 2
+        // ENCRYPTION PASS 2 : user encryption key
         if ($this->userEncryption) {
 
             $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
@@ -346,9 +327,6 @@ class UploadFileService
 
         return $encryptedFile;
     }
-    //==============================
-
-
 
     private function generateFileName(): string
     {

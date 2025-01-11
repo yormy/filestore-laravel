@@ -59,9 +59,6 @@ class FileUserUploadTest extends TestCase
                 'file' => $file,
             ]);
 
-        // this should double encrypt and double decrypt
-
-
         $content = $response->getContent();
         $xids = json_decode($content, true)['xids'];
         $xid = $xids[0];
