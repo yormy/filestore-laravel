@@ -32,8 +32,7 @@ class FileMoveTest extends TestCase
         $moveFileService = MoveFileService::make($localFile);
         $moveFileService->encrypted(true);
         $moveFileService->userEncryption($user);
-
-        $xid = $moveFileService->moveToPersistent('abcd'); /// always moves to under 1 in abcd ?
+        $xid = $moveFileService->moveToPersistent('abcd');
 
         // --------- assert --------
         $localFilename = FileGet::getFile(xid: $xid, user: $user);

@@ -190,6 +190,7 @@ class UploadFileService
     {
         $fileRecord = $this->createRecord();
         $savedFiles = $this->saveEncrypted($path, $fileRecord, $encryptionKey);
+
         $this->updateRecord($fileRecord, $savedFiles['mainfile']);
 
         $this->moveToPersistent($fileRecord, $savedFiles);
@@ -224,7 +225,7 @@ class UploadFileService
     {
         $storePath = $this->rootPath.DIRECTORY_SEPARATOR.$path;
 
-        $storePath .= DIRECTORY_SEPARATOR.$fileRecord->id;
+        $storePath .= DIRECTORY_SEPARATOR;
 
         $mainfile = Storage::disk($this->localDisk)->putFileAs($storePath, $this->newUploadedFileNew->getFile(), $this->generateFileName());
 
