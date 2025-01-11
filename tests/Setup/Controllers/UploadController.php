@@ -38,9 +38,9 @@ class UploadController
         $xid = UploadFileService::make($file)
             ->sanitize()
             ->forUser($user)
-            //->saveEncryptedToLocal('myid', 'key:sadasfar3451235r);
+            // ->saveEncryptedToLocal('myid', 'key:sadasfar3451235r);
             ->saveEncryptedToLocal('myid');
-        //->saveEncryptedToPersistent('myid');
+        // ->saveEncryptedToPersistent('myid');
 
         return [
             'xids' => [$xid],
@@ -58,7 +58,7 @@ class UploadController
         if ($fileReceived->isFinished()) { // file uploading is complete / all chunks are uploaded
             $file = $fileReceived->getFile(); // get file
             $extension = $file->getClientOriginalExtension();
-            $fileName = str_replace('.'.$extension, '', $file->getClientOriginalName()); //file name without extenstion
+            $fileName = str_replace('.'.$extension, '', $file->getClientOriginalName()); // file name without extenstion
             $fileName .= '_'.md5('oooo').'.'.$extension; // a unique file name
 
             $disk = Storage::disk(config('filesystems.default'));

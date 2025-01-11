@@ -22,7 +22,7 @@ class FileManipulateTest extends TestCase
      *
      * @group file-manipulate
      */
-    public function File_Destroy_FileMissing(): void
+    public function file_destroy_file_missing(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';

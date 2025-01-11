@@ -19,7 +19,7 @@ class FileUploadTest extends TestCase
      *
      * @group file-download
      */
-    public function Upload_FileTooLarge_Exception(): void
+    public function upload_file_too_large_exception(): void
     {
         $user = $this->createUser();
         Storage::fake('avatars');
@@ -37,7 +37,7 @@ class FileUploadTest extends TestCase
      *
      * @group file-download
      */
-    public function Upload_UnsupportedMime_Exception(): void
+    public function upload_unsupported_mime_exception(): void
     {
         $user = $this->createUser();
         Storage::fake('avatars');

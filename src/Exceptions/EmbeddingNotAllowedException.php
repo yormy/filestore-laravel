@@ -2,6 +2,4 @@
 
 namespace Yormy\FilestoreLaravel\Exceptions;
 
-class EmbeddingNotAllowedException extends \Exception
-{
-}
+class EmbeddingNotAllowedException extends \Exception {}

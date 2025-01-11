@@ -15,7 +15,7 @@ class FileUploadLargeTest extends TestCase
     use FileTrait;
     use UserTrait;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -29,7 +29,7 @@ class FileUploadLargeTest extends TestCase
      * @group file-download
      * @group file-large
      */
-    public function LargeFile_EncryptDecryptDownload_Success(): void
+    public function large_file_encrypt_decrypt_download_success(): void
     {
         $this->markTestSkipped('LargeFiletest Skipped');
         $filename = 'large_pdf_500m.pdf';   // 800 exhausts memory
@@ -49,7 +49,7 @@ class FileUploadLargeTest extends TestCase
      *
      * @group large-file
      */
-    public function LargeFile_EncryptDecryptStream_Success(): void
+    public function large_file_encrypt_decrypt_stream_success(): void
     {
         $this->markTestSkipped('LargeFiletest Skipped');
 

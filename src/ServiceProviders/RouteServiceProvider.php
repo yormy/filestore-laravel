@@ -21,11 +21,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
     }
 
-    protected function mapWebRoutes(): void
-    {
-    }
+    protected function mapWebRoutes(): void {}
 
-    protected function mapApiRoutes(): void
-    {
-    }
+    protected function mapApiRoutes(): void {}
 }

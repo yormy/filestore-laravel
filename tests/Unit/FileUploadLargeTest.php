@@ -39,7 +39,7 @@ class FileUploadLargeTest extends TestCase
     //        $originalContents = fread( $fh, 100 );
     //        fclose( $fh );
     //
-// $user = User::find(6);
+    // $user = User::find(6);
     //        $xid = UploadFileService::make($file)
     //            ->sanitize()
     //            ->forUser($user)
@@ -71,7 +71,7 @@ class FileUploadLargeTest extends TestCase
     //        $filename = 'generated_1gb.txt';
     //        $file = $this->buildFile($filename);
     //
-// $user = User::find(6);
+    // $user = User::find(6);
     //        $xid = UploadFileService::make($file)
     //            ->sanitize()
     //            ->forUser($user)
@@ -85,7 +85,7 @@ class FileUploadLargeTest extends TestCase
      *
      * @group file-large
      */
-    public function LargeFile_UploadEncrypted_DownloadReadable(): void
+    public function large_file_upload_encrypted_download_readable(): void
     {
         $this->markTestSkipped('LargeFiletest Skipped');
 

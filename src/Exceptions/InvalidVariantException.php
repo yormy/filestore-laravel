@@ -2,6 +2,4 @@
 
 namespace Yormy\FilestoreLaravel\Exceptions;
 
-class InvalidVariantException extends \Exception
-{
-}
+class InvalidVariantException extends \Exception {}

@@ -25,7 +25,7 @@ class FilePdfDownloadTest extends TestCase
      *
      * @group file-pdf-preview
      */
-    public function UploadedPdf_PreviewAsImage(): void
+    public function uploaded_pdf_preview_as_image(): void
     {
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
@@ -45,7 +45,7 @@ class FilePdfDownloadTest extends TestCase
      *
      * @group file-pdf-preview
      */
-    public function UploadedPdf_ViewAsPdf(): void
+    public function uploaded_pdf_view_as_pdf(): void
     {
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
@@ -65,7 +65,7 @@ class FilePdfDownloadTest extends TestCase
      *
      * @group file-pdf-preview
      */
-    public function UploadedPdfPreventEmbedding_View_Exception(): void
+    public function uploaded_pdf_prevent_embedding_view_exception(): void
     {
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
@@ -86,7 +86,7 @@ class FilePdfDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedPdf_ViewPage(): void
+    public function uploaded_pdf_view_page(): void
     {
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
@@ -106,7 +106,7 @@ class FilePdfDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedPdf_ViewPages(): void
+    public function uploaded_pdf_view_pages(): void
     {
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);

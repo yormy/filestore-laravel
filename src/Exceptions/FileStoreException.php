@@ -2,6 +2,4 @@
 
 namespace Yormy\FilestoreLaravel\Exceptions;
 
-class FileStoreException extends \Exception
-{
-}
+class FileStoreException extends \Exception {}

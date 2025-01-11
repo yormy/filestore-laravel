@@ -79,13 +79,13 @@ class VerifySetup extends Command
     {
         Storage::disk($disk)->put('test-upload.txt', 'This is a test file.');
 
-        return !!Storage::disk($disk)->get('test-upload.txt');
+        return (bool) Storage::disk($disk)->get('test-upload.txt');
     }
 
     private function canDelete(string $disk): bool
     {
         Storage::disk($disk)->put('test-upload.txt', 'This is a test file.');
 
-        return !!Storage::disk($disk)->delete('test-upload.txt');
+        return (bool) Storage::disk($disk)->delete('test-upload.txt');
     }
 }

@@ -7,7 +7,8 @@ namespace Yormy\FilestoreLaravel\Observers\Events;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class FileDestroyedEvent {
+class FileDestroyedEvent
+{
     use Dispatchable;
     use SerializesModels;
 

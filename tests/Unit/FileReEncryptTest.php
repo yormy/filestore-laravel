@@ -2,8 +2,8 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Unit;
 
-use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\DecryptionFailedException;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\CleanupTrait;
@@ -22,7 +22,7 @@ class FileReEncryptTest extends TestCase
      *
      * @group file-encrypt
      */
-    public function EncryptedFile_Reencrypt_DecryptWithSourceKey_Exception(): void
+    public function encrypted_file_reencrypt_decrypt_with_source_key_exception(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
@@ -31,14 +31,14 @@ class FileReEncryptTest extends TestCase
         $keySource = $this->generateRandomKey();
         $keyNew = $this->generateRandomKey();
 
-        $filenameEncrypted = (new FileVault())->key($keySource)->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->key($keySource)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
-        $filenameReencrypted = (new FileVault())->reEncrypt($keySource, $keyNew, $filenameEncrypted);
+        $filenameReencrypted = (new FileVault)->reEncrypt($keySource, $keyNew, $filenameEncrypted);
         $this->assertEncrypted($filenameReencrypted, $contents);
 
         $this->expectException(DecryptionFailedException::class);
-        (new FileVault())->key($keySource)->decrypt($filenameEncrypted);
+        (new FileVault)->key($keySource)->decrypt($filenameEncrypted);
     }
 
     /**
@@ -46,7 +46,7 @@ class FileReEncryptTest extends TestCase
      *
      * @group file-encrypt
      */
-    public function EncryptedFile_Reencrypt_DecryptWithDestinationKey_Success(): void
+    public function encrypted_file_reencrypt_decrypt_with_destination_key_success(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
@@ -55,13 +55,13 @@ class FileReEncryptTest extends TestCase
         $keySource = $this->generateRandomKey();
         $keyNew = $this->generateRandomKey();
 
-        $filenameEncrypted = (new FileVault())->key($keySource)->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->key($keySource)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
-        $filenameReencrypted = (new FileVault())->reEncrypt($keySource, $keyNew, $filenameEncrypted);
+        $filenameReencrypted = (new FileVault)->reEncrypt($keySource, $keyNew, $filenameEncrypted);
         $this->assertEncrypted($filenameReencrypted, $contents);
 
-        $filenameDecrypted = (new FileVault())->key($keyNew)->decrypt($filenameEncrypted);
+        $filenameDecrypted = (new FileVault)->key($keyNew)->decrypt($filenameEncrypted);
         $this->assertReadable($filenameDecrypted, $contents);
     }
 }

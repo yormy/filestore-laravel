@@ -33,7 +33,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedUnencryptedLocal_Stream_Correct(): void
+    public function uploaded_unencrypted_local_stream_correct(): void
     {
         $filename = 'sylvester.png';
         $base64 = 'data:image/png;base64,';
@@ -54,7 +54,7 @@ class FileDownloadTest extends TestCase
      * @group file-download
      * @group xxxz
      */
-    public function UploadedEncryptedPersistent_Stream_Correct(): void
+    public function uploaded_encrypted_persistent_stream_correct(): void
     {
         $this->markTestSkipped('assert fails - to implement');
         $filename = 'sylvester.png';
@@ -75,7 +75,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedUnencryptedLocal_Download_Correct(): void
+    public function uploaded_unencrypted_local_download_correct(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
@@ -94,7 +94,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedEncryptedLocal_Download_Correct(): void
+    public function uploaded_encrypted_local_download_correct(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
@@ -113,7 +113,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedUnencryptedPersistent_Download_Correct(): void
+    public function uploaded_unencrypted_persistent_download_correct(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
@@ -132,7 +132,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function UploadedEncryptedPersistent_Download_Correct(): void
+    public function uploaded_encrypted_persistent_download_correct(): void
     {
         $this->markTestSkipped('assert fails - to implement');
         $filename = 'sylvester.png';
@@ -152,7 +152,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function Stream_InvalidXid_Exception(): void
+    public function stream_invalid_xid_exception(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->get(route('file.img.view', ['xid' => '1234567']));
@@ -163,7 +163,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function Download_InvalidXid_Exception(): void
+    public function download_invalid_xid_exception(): void
     {
         $this->expectException(NotFoundHttpException::class);
         $this->get(route('file.img.download', ['xid' => '1234567']));
@@ -174,7 +174,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function Download_WrongVariant_Exception(): void
+    public function download_wrong_variant_exception(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
@@ -195,7 +195,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-download
      */
-    public function HasVariants_Download_Success(): void
+    public function has_variants_download_success(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
@@ -220,7 +220,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-register
      */
-    public function File_Download_RegisterDownloaded(): void
+    public function file_download_register_downloaded(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
@@ -250,7 +250,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-register
      */
-    public function FilePreventLog_Download_NotLogged(): void
+    public function file_prevent_log_download_not_logged(): void
     {
         $startCount = FilestoreFileAccess::count();
         $filename = 'sylvester.png';
@@ -277,7 +277,7 @@ class FileDownloadTest extends TestCase
      *
      * @group file-register
      */
-    public function File_Download_RegisterView(): void
+    public function file_download_register_view(): void
     {
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);

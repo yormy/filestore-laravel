@@ -2,9 +2,9 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Unit;
 
-use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\DecryptionFailedException;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\CleanupTrait;
@@ -23,7 +23,7 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function File_ReadFile_Ok(): void
+    public function file_read_file_ok(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
@@ -37,7 +37,7 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function FileDisabledEncryption_Encrypt_CanRead(): void
+    public function file_disabled_encryption_encrypt_can_read(): void
     {
         config(['filestore.encryption.enabled' => false]);
 
@@ -45,7 +45,7 @@ class FileEncryptionTest extends TestCase
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
 
         $this->assertReadable($filenameEncrypted, $contents);
     }
@@ -55,13 +55,13 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function File_EncryptCopy_EncryptedAndDecryptedFile(): void
+    public function file_encrypt_copy_encrypted_and_decrypted_file(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encryptCopy($filename);
+        $filenameEncrypted = (new FileVault)->encryptCopy($filename);
 
         $this->assertEncrypted($filenameEncrypted, $contents);
 
@@ -73,14 +73,14 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function File_EncryptAsName_Oke(): void
+    public function file_encrypt_as_name_oke(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
         $filenameEncrypted = $this->testDir.'/hello-encrypted-file.txt';
-        (new FileVault())->encrypt($filename, $filenameEncrypted);
+        (new FileVault)->encrypt($filename, $filenameEncrypted);
         $this->assertEncrypted($filenameEncrypted, $contents);
     }
 
@@ -89,13 +89,13 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function File_Encrypt_OriginalDeleted(): void
+    public function file_encrypt_original_deleted(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        (new FileVault())->encrypt($filename);
+        (new FileVault)->encrypt($filename);
         $this->assertFileDoesNotExist(Storage::path($filename));
     }
 
@@ -104,13 +104,13 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_ReadFile_Failed(): void
+    public function encrypted_file_read_file_failed(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
 
         $this->assertEncrypted($filenameEncrypted, $contents);
     }
@@ -120,16 +120,16 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_DecryptAndReadFile_Ok(): void
+    public function encrypted_file_decrypt_and_read_file_ok(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
-        (new FileVault())->decrypt($filenameEncrypted);
+        (new FileVault)->decrypt($filenameEncrypted);
         $this->assertReadable($filename, $contents);
     }
 
@@ -138,16 +138,16 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_DecryptAsName_Oke(): void
+    public function encrypted_file_decrypt_as_name_oke(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
         $filenameNewDecryptedName = $this->testDir.'/Hello-decrypted-file.txt';
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
 
-        (new FileVault())->decrypt($filenameEncrypted, $filenameNewDecryptedName);
+        (new FileVault)->decrypt($filenameEncrypted, $filenameNewDecryptedName);
 
         $this->assertReadable($filenameNewDecryptedName, $contents);
     }
@@ -157,14 +157,14 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_Decrypt_OriginalDeleted(): void
+    public function encrypted_file_decrypt_original_deleted(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
-        (new FileVault())->decrypt($filenameEncrypted);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
+        (new FileVault)->decrypt($filenameEncrypted);
 
         $this->assertFileDoesNotExist(Storage::path($filenameEncrypted));
     }
@@ -174,17 +174,17 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_DecryptCopy_EncryptedAndDecryptedFile(): void
+    public function encrypted_file_decrypt_copy_encrypted_and_decrypted_file(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
         $this->assertFileDoesNotExist(Storage::disk('local')->path($filename));
         $this->assertFileExists(Storage::disk('local')->path($filenameEncrypted));
 
-        (new FileVault())->decryptCopy($filenameEncrypted);
+        (new FileVault)->decryptCopy($filenameEncrypted);
         $this->assertFileExists(Storage::disk('local')->path($filename));
         $this->assertFileExists(Storage::disk('local')->path($filenameEncrypted));
     }
@@ -194,7 +194,7 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_DecryptWrongKey_Exception(): void
+    public function encrypted_file_decrypt_wrong_key_exception(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
@@ -202,13 +202,13 @@ class FileEncryptionTest extends TestCase
 
         $key = $this->generateRandomKey();
 
-        $filenameEncrypted = (new FileVault())->key($key)->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->key($key)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
         $key2 = $this->generateRandomKey();
 
         $this->expectException(DecryptionFailedException::class);
-        (new FileVault())->key($key2)->decryptCopy($filenameEncrypted); //????
+        (new FileVault)->key($key2)->decryptCopy($filenameEncrypted); // ????
     }
 
     /**
@@ -216,7 +216,7 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_CustomKeyEncryptDecrypt_Ok(): void
+    public function encrypted_file_custom_key_encrypt_decrypt_ok(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
@@ -224,10 +224,10 @@ class FileEncryptionTest extends TestCase
 
         $key = $this->generateRandomKey();
 
-        $filenameEncrypted = (new FileVault())->key($key)->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->key($key)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
-        (new FileVault())->key($key)->decrypt($filenameEncrypted);
+        (new FileVault)->key($key)->decrypt($filenameEncrypted);
         $this->assertReadable($filename, $contents);
     }
 
@@ -236,16 +236,16 @@ class FileEncryptionTest extends TestCase
      *
      * @group file-encryption
      */
-    public function EncryptedFile_DecryptStream_Ok(): void
+    public function encrypted_file_decrypt_stream_ok(): void
     {
         $filename = $this->testDir.'/hello.txt';
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        $filenameEncrypted = (new FileVault())->encrypt($filename);
+        $filenameEncrypted = (new FileVault)->encrypt($filename);
 
         ob_start();
-        (new FileVault())->streamDecrypt($filenameEncrypted);
+        (new FileVault)->streamDecrypt($filenameEncrypted);
         $phpOutput = ob_get_contents();
         ob_end_clean();
 
