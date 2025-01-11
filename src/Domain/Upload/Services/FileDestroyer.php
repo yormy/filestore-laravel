@@ -36,27 +36,44 @@ class FileDestroyer
         event(new FileDestroyedEvent($localFilename));
     }
 
-    public static function destroyPersistent(string $filename, string $disk)
+    public static function destroyPersistent(string $filename, string $disk): bool
     {
         $size = Storage::disk($disk)->fileSize($filename);
 
         // step 1: delete the file
-        Storage::disk($disk)->delete($filename);
+        $success = Storage::disk($disk)->delete($filename);
+        if (! $success) {
+            return false;
+        }
 
         // step 2: overwrite the file with new data
-        Storage::disk($disk)->put($filename, str_repeat('x', $size));
+        $success = Storage::disk($disk)->put($filename, str_repeat('x', $size));
+        if (! $success) {
+            return false;
+        }
 
         // step 3: create a smaller file and overwrite to break fat alignments
         $smallerSize = (int) round($size * 0.8);
-        Storage::disk($disk)->put($filename, str_repeat('x', $smallerSize));
+        $success = Storage::disk($disk)->put($filename, str_repeat('x', $smallerSize));
+        if (! $success) {
+            return false;
+        }
 
         // step 4: create a larger file and overwrite to break fat alignments
         $largerSize = (int) round($size * 1.2);
-        Storage::disk($disk)->put($filename, str_repeat('x', $largerSize));
+        $success = Storage::disk($disk)->put($filename, str_repeat('x', $largerSize));
+        if (! $success) {
+            return false;
+        }
 
         // step 5: delete the dummy file
-        Storage::disk($disk)->delete($filename);
+        $success = Storage::disk($disk)->delete($filename);
+        if (! $success) {
+            return false;
+        }
 
         event(new FileDestroyedEvent($filename, $disk));
+
+        return true;
     }
 }

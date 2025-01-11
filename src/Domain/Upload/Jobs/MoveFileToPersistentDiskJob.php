@@ -7,6 +7,7 @@ namespace Yormy\FilestoreLaravel\Domain\Upload\Jobs;
 use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Upload\Observers\Events\FileMovedToPersistentEvent;
+use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
 use Yormy\FilestoreLaravel\Exceptions\FileDeleteException;
 use Yormy\FilestoreLaravel\Exceptions\FileStoreException;
 
@@ -45,7 +46,7 @@ class MoveFileToPersistentDiskJob
             throw new FileStoreException("Cannot write $this->sourcefile to $this->destinationDisk ");
         }
 
-        $success = Storage::disk($this->sourceDisk)->delete($sourcefile);
+        $success = FileDestroyer::destroyPersistent($sourcefile, $this->sourceDisk);
         if (! $success) {
             throw new FileDeleteException("Cannot write $this->sourcefile to $this->destinationDisk ");
         }
