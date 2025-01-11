@@ -8,6 +8,7 @@ use RuntimeException;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\DecryptionFailedException;
 use Yormy\FilestoreLaravel\Domain\Encryption\Observers\Events\DecryptionFailedEvent;
 use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
+use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
 
 class FileEncrypter
 {
@@ -92,35 +93,35 @@ class FileEncrypter
         return true;
     }
 
-    //==============================
     public function decryptFile(string $sourcePath, string $destPath, int $filesize): bool
     {
-        $encryptionExtionsion = FileEncryptionExtension::SYSTEM;
+        $encryptionType = FileEncryptionExtension::SYSTEM;
         $pathinfo = pathinfo($sourcePath);
         if (isset($pathinfo['extension']) && (".".$pathinfo['extension'] === FileEncryptionExtension::SYSTEMUSER->value)) {
-            $encryptionExtionsion = FileEncryptionExtension::SYSTEMUSER;
+            $encryptionType = FileEncryptionExtension::SYSTEMUSER;
         }
 
-        $systemKey = $this->key;//config('filestore.vault.key'); // system key.. maar could be custom !!!!
-
-        if ($encryptionExtionsion === FileEncryptionExtension::SYSTEMUSER)
+        if ($encryptionType === FileEncryptionExtension::SYSTEMUSER)
         {
-            // decrypt user to intermediate
-            $destPathTemp = $sourcePath . 'xx';
+            # DECRYPTION PASS 1: key is set to user key
+            $destPathTemp = $sourcePath . 'temp';
             $success = $this->decryptFileCore($sourcePath, $destPathTemp, $filesize, $this->key);
 
+            # DECRYPTION PASS 2: key is set to user key
             $system = config('filestore.vault.key');
             $system = base64_decode(substr($system, 7));
             $success = $this->decryptFileCore($destPathTemp, $destPath, $filesize, $system);
 
+            FileDestroyer::destroy($destPathTemp);
+
             return $success;
 
         } else {
-            # DECRYPTION PASS 1
-            return $this->decryptFileCore($sourcePath, $destPath, $filesize, $systemKey);
+            # DECRYPTION PASS 1: key is set to system key or custom key
+            return $this->decryptFileCore($sourcePath, $destPath, $filesize, $this->key);
         }
     }
-//==============================
+
     public function decryptFileCore(string $sourcePath, string $destPath, int $filesize, string $encryptionKey): bool
     {
         if (! config('filestore.encryption.enabled')) {
