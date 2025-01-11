@@ -21,13 +21,13 @@ class FileUserUploadTest extends TestCase
      */
     public function UploadSystemEncryption_DecryptAsOtherUser_Success(): void
     {
-        $member = $this->createUser();
+        $user = $this->createUser();
 
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
         $response = $this
-            ->actingAs($member)
+            ->actingAs($user)
             ->json('POST', route('api.upload', []), [
                 'file' => $file,
             ]);
@@ -36,8 +36,8 @@ class FileUserUploadTest extends TestCase
         $xids = json_decode($content, true)['xids'];
         $xid = $xids[0];
 
-        $memberNew = $this->createUser();
-        $this->downloadAndAssertCorrectAsMember($xid, $filename, $memberNew);
+        $userNew = $this->createUser();
+        $this->downloadAndAssertCorrectAsMember($xid, $filename, $userNew);
     }
 
     /**
@@ -48,13 +48,13 @@ class FileUserUploadTest extends TestCase
      */
     public function UploadUser_DecryptSameUser_Success(): void
     {
-        $member = $this->createUser();
+        $user = $this->createUser();
 
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
         $response = $this
-            ->actingAs($member)
+            ->actingAs($user)
             ->json('POST', route('api.upload-user-encryption', []), [
                 'file' => $file,
             ]);
@@ -66,7 +66,7 @@ class FileUserUploadTest extends TestCase
         $xids = json_decode($content, true)['xids'];
         $xid = $xids[0];
 
-        $this->downloadAndAssertCorrectAsMember($xid, $filename, $member);
+        $this->downloadAndAssertCorrectAsMember($xid, $filename, $user);
     }
 
     /**
@@ -77,13 +77,13 @@ class FileUserUploadTest extends TestCase
      */
     public function UploadUser_DecryptOtherUser_Failed(): void
     {
-        $member = $this->createUser();
+        $user = $this->createUser();
 
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
         $response = $this
-            ->actingAs($member)
+            ->actingAs($user)
             ->json('POST', route('api.upload-user-encryption', []), [
                 'file' => $file,
             ]);
@@ -92,9 +92,9 @@ class FileUserUploadTest extends TestCase
         $xids = json_decode($content, true)['xids'];
         $xid = $xids[0];
 
-        $memberNew = $this->createUser();
+        $userNew = $this->createUser();
         $this->expectException(StreamedResponseException::class); // although caught, it is still a risky test, seems to be an issue in phpunit
-        $this->downloadAndAssertCorrectAsMember($xid, $filename, $memberNew);
+        $this->downloadAndAssertCorrectAsMember($xid, $filename, $userNew);
 
         $this->assertTrue(true);
     }

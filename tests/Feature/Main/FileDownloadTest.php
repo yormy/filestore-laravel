@@ -231,15 +231,15 @@ class FileDownloadTest extends TestCase
             ->forUser($user)
             ->saveToLocal('myid');
 
-        $member = $this->createUser();
+        $user = $this->createUser();
         $variant = 'small';
         $response = $this
-            ->actingAs($member)
+            ->actingAs($user)
             ->get(route('file.img.download', ['xid' => $xid, 'variant' => $variant]));
 
         $filestoreFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
 
-        $this->assertEquals($member->id, $filestoreFileAccess->user_id);
+        $this->assertEquals($user->id, $filestoreFileAccess->user_id);
         $this->assertTrue(strlen($filestoreFileAccess->ip) > 2);
         $this->assertTrue($filestoreFileAccess->as_download);
         $this->assertNull($filestoreFileAccess->as_view);
@@ -263,10 +263,10 @@ class FileDownloadTest extends TestCase
             ->withoutAccessLog()
             ->saveToLocal('myid');
 
-        $member = $this->createUser();
+        $user = $this->createUser();
         $variant = 'small';
         $response = $this
-            ->actingAs($member)
+            ->actingAs($user)
             ->get(route('file.img.download', ['xid' => $xid, 'variant' => $variant]));
 
         $this->assertEquals($startCount, FilestoreFileAccess::count());
@@ -288,15 +288,15 @@ class FileDownloadTest extends TestCase
             ->forUser($user)
             ->saveToLocal('myid');
 
-        $member = $this->createUser();
+        $user = $this->createUser();
         $variant = 'small';
         $response = $this
-            ->actingAs($member)
+            ->actingAs($user)
             ->get(route('file.img.view', ['xid' => $xid, 'variant' => $variant]));
 
         $filestoreFileAccess = FilestoreFileAccess::query()->orderBy('id', 'desc')->get()->first();
 
-        $this->assertEquals($member->id, $filestoreFileAccess->user_id);
+        $this->assertEquals($user->id, $filestoreFileAccess->user_id);
         $this->assertTrue(strlen($filestoreFileAccess->ip) > 2);
         $this->assertNull($filestoreFileAccess->as_download);
         $this->assertTrue($filestoreFileAccess->as_view);

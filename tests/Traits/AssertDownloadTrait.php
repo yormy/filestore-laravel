@@ -27,9 +27,9 @@ trait AssertDownloadTrait
         $this->assertCorrectStream($response, $filename);
     }
 
-    protected function downloadAndAssertCorrectAsMember(string $xid, string $filename, $member)
+    protected function downloadAndAssertCorrectAsMember(string $xid, string $filename, $user)
     {
-        $response = $this->actingAs($member)->get(route('file.img.download', ['xid' => $xid]));
+        $response = $this->actingAs($user)->get(route('file.img.download', ['xid' => $xid]));
         $this->assertCorrectStream($response, $filename);
     }
 
