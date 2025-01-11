@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
+use Yormy\FilestoreLaravel\Observers\Events\FileDestroyedEvent;
+
 class FileDestroyer
 {
     public static function destroy(string $localFilename)
@@ -29,5 +31,7 @@ class FileDestroyer
 
         // step 5: delete the dummy file
         unlink($localFilename);
+
+        event(new FileDestroyedEvent($localFilename));
     }
 }
