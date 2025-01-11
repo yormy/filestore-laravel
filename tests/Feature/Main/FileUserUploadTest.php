@@ -19,7 +19,7 @@ class FileUserUploadTest extends TestCase
      *
      * @group file-user-upload
      */
-    public function UploadSystemEncryption_DecryptAsOtherUser_Success(): void
+    public function upload_system_encryption_decrypt_as_other_user_success(): void
     {
         $user = $this->createUser();
 
@@ -46,7 +46,7 @@ class FileUserUploadTest extends TestCase
      * @group file-user-upload
      * @group xxx
      */
-    public function UploadUser_DecryptSameUser_Success(): void
+    public function upload_user_decrypt_same_user_success(): void
     {
         $user = $this->createUser();
 
@@ -72,7 +72,7 @@ class FileUserUploadTest extends TestCase
      * @group file-user-upload
      * @group xxxx
      */
-    public function UploadUser_DecryptOtherUser_Failed(): void
+    public function upload_user_decrypt_other_user_failed(): void
     {
         $user = $this->createUser();
 

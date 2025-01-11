@@ -44,7 +44,7 @@ class UploadFileService
     public static function make(
         UploadedFile $uploadedFile,
         array $allowedMimes = [],
-        int $maxFileSizeKb = null,
+        ?int $maxFileSizeKb = null,
     ): self {
         $object = new self;
 
@@ -132,7 +132,7 @@ class UploadFileService
 
     private function createRecord()
     {
-        $filestoreFileRepository = new FilestoreFileRepository();
+        $filestoreFileRepository = new FilestoreFileRepository;
         $fileRecord = $filestoreFileRepository->create([
             'allow_pdf_embedding' => $this->allowPdfEmbedding,
             'access_log' => $this->accessLog,
@@ -144,7 +144,7 @@ class UploadFileService
 
     private function updateRecord(FilestoreFile $filestoreFile, string $filename)
     {
-        $filestoreFileRepository = new FilestoreFileRepository();
+        $filestoreFileRepository = new FilestoreFileRepository;
 
         $data = $this->toArray($filename);
 
@@ -174,7 +174,7 @@ class UploadFileService
         return $fileRecord->xid;
     }
 
-    public function saveEncryptedToLocal(string $path, string $encryptionKey = null): string
+    public function saveEncryptedToLocal(string $path, ?string $encryptionKey = null): string
     {
         $fileRecord = $this->createRecord();
         $savedFiles = $this->saveEncrypted($path, $fileRecord, $encryptionKey);
@@ -183,7 +183,7 @@ class UploadFileService
         return $fileRecord->xid;
     }
 
-    public function saveEncryptedToPersistent(string $path, string $encryptionKey = null): string
+    public function saveEncryptedToPersistent(string $path, ?string $encryptionKey = null): string
     {
         $fileRecord = $this->createRecord();
         $savedFiles = $this->saveEncrypted($path, $fileRecord, $encryptionKey);
@@ -265,7 +265,7 @@ class UploadFileService
         ];
     }
 
-    public function saveEncrypted(string $path, FilestoreFile $fileRecord, string $encryptionKey = null): array
+    public function saveEncrypted(string $path, FilestoreFile $fileRecord, ?string $encryptionKey = null): array
     {
         $this->isEncrypted = true;
 
@@ -305,10 +305,10 @@ class UploadFileService
     private function customEncrypt($encryptionKey, $unencryptedFile): string
     {
         // ENCRYPTION PASS 1 : either with system or supplied key
-        if (!$encryptionKey) {
+        if (! $encryptionKey) {
             $encryptionKey = config('filestore.vault.key');
         }
-        $encryptedFile = (new FileVault())->key($encryptionKey)->encrypt($unencryptedFile);
+        $encryptedFile = (new FileVault)->key($encryptionKey)->encrypt($unencryptedFile);
 
         // ENCRYPTION PASS 2 : user encryption key
         if ($this->userEncryption) {
@@ -320,7 +320,7 @@ class UploadFileService
             $userKey = $userKeyResolver->get($user);
 
             $encryptionPass1 = $encryptedFile;
-            $encryptedFile = (new FileVault())->key($userKey)->encrypt(
+            $encryptedFile = (new FileVault)->key($userKey)->encrypt(
                 sourceFile: $encryptionPass1,
                 extension: FileEncryptionExtension::SYSTEMUSER
             );

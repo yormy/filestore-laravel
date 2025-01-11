@@ -77,8 +77,5 @@ class FilestoreServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'filestore');
     }
 
-    private function morphMaps(): void
-    {
-
-    }
+    private function morphMaps(): void {}
 }

@@ -97,17 +97,16 @@ class FileEncrypter
     {
         $encryptionType = FileEncryptionExtension::SYSTEM;
         $pathinfo = pathinfo($sourcePath);
-        if (isset($pathinfo['extension']) && (".".$pathinfo['extension'] === FileEncryptionExtension::SYSTEMUSER->value)) {
+        if (isset($pathinfo['extension']) && ('.'.$pathinfo['extension'] === FileEncryptionExtension::SYSTEMUSER->value)) {
             $encryptionType = FileEncryptionExtension::SYSTEMUSER;
         }
 
-        if ($encryptionType === FileEncryptionExtension::SYSTEMUSER)
-        {
-            # DECRYPTION PASS 1: key is set to user key
-            $destPathTemp = $sourcePath . 'temp';
+        if ($encryptionType === FileEncryptionExtension::SYSTEMUSER) {
+            // DECRYPTION PASS 1: key is set to user key
+            $destPathTemp = $sourcePath.'temp';
             $success = $this->decryptFileCore($sourcePath, $destPathTemp, $filesize, $this->key);
 
-            # DECRYPTION PASS 2: key is set to user key
+            // DECRYPTION PASS 2: key is set to user key
             $system = config('filestore.vault.key');
             $system = base64_decode(substr($system, 7));
             $success = $this->decryptFileCore($destPathTemp, $destPath, $filesize, $system);
@@ -117,7 +116,7 @@ class FileEncrypter
             return $success;
 
         } else {
-            # DECRYPTION PASS 1: key is set to system key or custom key
+            // DECRYPTION PASS 1: key is set to system key or custom key
             return $this->decryptFileCore($sourcePath, $destPath, $filesize, $this->key);
         }
     }

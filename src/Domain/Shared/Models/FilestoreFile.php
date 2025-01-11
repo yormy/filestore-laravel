@@ -37,7 +37,7 @@ class FilestoreFile extends BaseModel
         return $this->getFullPath();
     }
 
-    public function getFullPath(string $filename = null)
+    public function getFullPath(?string $filename = null)
     {
         if (! $filename) {
             $filename = $this->filename;

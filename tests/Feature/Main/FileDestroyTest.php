@@ -2,13 +2,9 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
 use Yormy\FilestoreLaravel\Tests\TestCase;
-use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
-use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 
 class FileDestroyTest extends TestCase
 {
@@ -18,7 +14,7 @@ class FileDestroyTest extends TestCase
      * @group file-download
      * @group xxx
      */
-    public function PersistentFile_Destroy_IsGone(): void
+    public function persistent_file_destroy_is_gone(): void
     {
         $filename = 'test-upload.txt';
         $file = Storage::disk('digitalocean')->put($filename, 'This is a test file.');
@@ -27,5 +23,4 @@ class FileDestroyTest extends TestCase
         $file = Storage::disk('digitalocean')->get($filename);
         $this->assertNull($file);
     }
-
 }

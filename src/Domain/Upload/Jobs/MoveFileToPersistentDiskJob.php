@@ -14,10 +14,10 @@ class MoveFileToPersistentDiskJob
 {
     public function __construct(
         private FilestoreFile $uploadedFileData,
-        private string        $sourcefile,
-        private ?string       $sourceDisk = null,
-        private ?string       $destination = null,
-        private ?string       $destinationDisk = null,
+        private string $sourcefile,
+        private ?string $sourceDisk = null,
+        private ?string $destination = null,
+        private ?string $destinationDisk = null,
     ) {
         if (! $this->sourceDisk) {
             $this->sourceDisk = config('filestore.storage.local.disk');

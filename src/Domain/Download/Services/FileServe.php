@@ -19,12 +19,12 @@ use Yormy\Xid\Services\XidService;
 
 class FileServe
 {
-    public static function view(Request $request, string $xid, string $variant = null): array
+    public static function view(Request $request, string $xid, ?string $variant = null): array
     {
         $fileRecord = self::getFileRecord($request, $xid);
 
         if ($fileRecord->isPdf() && ! $fileRecord->allow_pdf_embedding) {
-            throw new EmbeddingNotAllowedException();
+            throw new EmbeddingNotAllowedException;
         }
 
         $filename = self::getFilename($variant, $fileRecord);
@@ -39,7 +39,7 @@ class FileServe
         return $data;
     }
 
-    public static function viewCover(Request $request, string $xid, string $variant = null): string
+    public static function viewCover(Request $request, string $xid, ?string $variant = null): string
     {
         $fileRecord = self::getFileRecord($request, $xid);
 
@@ -93,7 +93,7 @@ class FileServe
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
-        $filestoreFileAccessRepository = new FilestoreFileAccessRepository();
+        $filestoreFileAccessRepository = new FilestoreFileAccessRepository;
         $filestoreFileAccessRepository->createAsViewed($fileRecord, $data);
 
         return $fileRecord;
@@ -125,13 +125,13 @@ class FileServe
         return $encryptionKey;
     }
 
-    public static function download(Request $request, string $xid, string $variant = null, string $downloadAs = null)
+    public static function download(Request $request, string $xid, ?string $variant = null, ?string $downloadAs = null)
     {
         XidService::validateOrFail($xid);
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
         $data = self::getLogData($request);
-        $filestoreFileAccessRepository = new FilestoreFileAccessRepository();
+        $filestoreFileAccessRepository = new FilestoreFileAccessRepository;
         $filestoreFileAccessRepository->createAsDownloaded($fileRecord, $data);
 
         $filename = self::getFilename($variant, $fileRecord);
@@ -177,7 +177,7 @@ class FileServe
         $existingVariants = json_decode($file->variants, true);
 
         if (! $existingVariants) {
-            throw new InvalidVariantException();
+            throw new InvalidVariantException;
         }
 
         $useVariant = null;
@@ -188,7 +188,7 @@ class FileServe
         }
 
         if (! $useVariant) {
-            throw new InvalidVariantException();
+            throw new InvalidVariantException;
         }
 
         return $useVariant;
@@ -199,7 +199,7 @@ class FileServe
         $pathinfo = pathinfo($fullPath);
         $encryptedExtensions = FileEncryptionExtension::getAll();
 
-        if (isset($pathinfo['extension']) && (in_array(".".$pathinfo['extension'], $encryptedExtensions))) {
+        if (isset($pathinfo['extension']) && (in_array('.'.$pathinfo['extension'], $encryptedExtensions))) {
             return true;
         }
 
@@ -214,21 +214,21 @@ class FileServe
     private static function displayPlain(string $disk, string $fullPath, string $mime)
     {
         $imagedata = Storage::disk($disk)->get($fullPath);
-        if (!$imagedata) {
+        if (! $imagedata) {
             throw new FileGetException("Cannot get $fullPath from $disk");
         }
 
         return self::convertBase64($imagedata, $mime);
     }
 
-    private static function downloadEncrypted(string $disk, string $fullPath, string $downloadAs, string $encryptionKey = null)
+    private static function downloadEncrypted(string $disk, string $fullPath, string $downloadAs, ?string $encryptionKey = null)
     {
         return response()->streamDownload(function () use ($disk, $fullPath, $encryptionKey) {
-            (new FileVault())->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
+            (new FileVault)->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
         }, $downloadAs);
     }
 
-    private static function displayEncrypted(string $disk, string $fullPath, string $mime, string $encryptionKey = null)
+    private static function displayEncrypted(string $disk, string $fullPath, string $mime, ?string $encryptionKey = null)
     {
         // $mimeType = Storage::disk($disk)->mimeType($fullPath); // stream
         //        $x =  response()->stream(function () use ($disk, $fullPath, $mimeType) {
@@ -236,7 +236,7 @@ class FileServe
         //        }, 200, ["Content-Type" => $mimeType]);
 
         ob_start();
-        (new FileVault())->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
+        (new FileVault)->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
         $imagedata = ob_get_contents();
         ob_end_clean();
 

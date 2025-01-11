@@ -10,6 +10,6 @@ trait EncryptionTrait
 {
     protected function generateRandomKey()
     {
-        return 'base64:'.base64_encode((new FileVault())->generateKey());
+        return 'base64:'.base64_encode((new FileVault)->generateKey());
     }
 }

@@ -11,7 +11,7 @@ class FilestoreFileRepository
     public function __construct(private ?FilestoreFile $model = null)
     {
         if (! $model) {
-            $this->model = new FilestoreFile();
+            $this->model = new FilestoreFile;
         }
     }
 

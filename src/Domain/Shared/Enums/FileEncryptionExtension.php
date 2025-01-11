@@ -1,4 +1,5 @@
 <?php
+
 namespace Yormy\FilestoreLaravel\Domain\Shared\Enums;
 
 enum FileEncryptionExtension: string

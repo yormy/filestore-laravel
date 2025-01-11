@@ -12,7 +12,7 @@ class FilestoreFileAccessRepository
     public function __construct(private ?FilestoreFileAccess $model = null)
     {
         if (! $model) {
-            $this->model = new FilestoreFileAccess();
+            $this->model = new FilestoreFileAccess;
         }
     }
 

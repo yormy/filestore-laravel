@@ -10,7 +10,7 @@ class UserAgentResolver
     {
         $userAgent = '';
 
-        $agent = new Agent();
+        $agent = new Agent;
         $platform = $agent->platform();
 
         $versionPlatform = $agent->version($platform);

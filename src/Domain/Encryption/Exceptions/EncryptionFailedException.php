@@ -6,6 +6,4 @@ namespace Yormy\FilestoreLaravel\Domain\Encryption\Exceptions;
 
 use Exception;
 
-class EncryptionFailedException extends Exception
-{
-}
+class EncryptionFailedException extends Exception {}

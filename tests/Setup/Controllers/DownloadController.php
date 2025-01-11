@@ -12,7 +12,7 @@ use Yormy\FilestoreLaravel\Exceptions\InvalidValueException;
 
 class DownloadController
 {
-    public function view(Request $request, string $xid, string $variant = null)
+    public function view(Request $request, string $xid, ?string $variant = null)
     {
         $this->validateVariantOrAbort($variant);
 
@@ -28,7 +28,7 @@ class DownloadController
         return ApiResponse::withData(['file' => $down])->successResponse();
     }
 
-    public function download(Request $request, $xid, string $variant = null)
+    public function download(Request $request, $xid, ?string $variant = null)
     {
         $this->validateVariantOrAbort($variant);
 
