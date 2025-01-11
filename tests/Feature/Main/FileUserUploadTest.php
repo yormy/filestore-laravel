@@ -44,6 +44,7 @@ class FileUserUploadTest extends TestCase
      * @test
      *
      * @group file-user-upload
+     * @group xxx
      */
     public function UploadUser_DecryptSameUser_Success(): void
     {
@@ -58,6 +59,9 @@ class FileUserUploadTest extends TestCase
                 'file' => $file,
             ]);
 
+        // this should double encrypt and double decrypt
+
+
         $content = $response->getContent();
         $xids = json_decode($content, true)['xids'];
         $xid = $xids[0];
@@ -69,6 +73,7 @@ class FileUserUploadTest extends TestCase
      * @test
      *
      * @group file-user-upload
+     * @group xxx
      */
     public function UploadUser_DecryptOtherUser_Failed(): void
     {

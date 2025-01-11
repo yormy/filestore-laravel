@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 
 class ThumbnailService
 {
@@ -25,7 +26,7 @@ class ThumbnailService
         return $variantStoragePaths;
     }
 
-    private static function updateFileRecord(MemberFile $fileRecord, array $allVariants)
+    private static function updateFileRecord(FilestoreFile $fileRecord, array $allVariants)
     {
         $currentVariants = [];
         if ($fileRecord->variants) {
@@ -40,7 +41,10 @@ class ThumbnailService
     public static function resizeImage(string $localdisk, string $storagePath, string $name, array $specs)
     {
         $fullPath = Storage::disk($localdisk)->path($storagePath);
-        $imageObject = Image::make($fullPath);
+
+        $manager = new ImageManager(new Driver);
+
+        $imageObject = $manager->read($fullPath);
         if (! $imageObject) {
             return;
         }

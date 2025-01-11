@@ -2,13 +2,13 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
-use Facades\Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Yormy\FilestoreLaravel\Domain\Shared\Models\MemberFile;
-use Yormy\FilestoreLaravel\Domain\Shared\Repositories\MemberFileRepository;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\UploadedFileData;
 use Yormy\FilestoreLaravel\Domain\Upload\Jobs\MoveFileToPersistentDiskJob;
 
@@ -38,7 +38,7 @@ class UploadFileService
 
     private UploadedFileData $newUploadedFileNew;
 
-    private $memberId;
+    private $user;
 
     public static function make(
         UploadedFile $uploadedFile,
@@ -99,9 +99,9 @@ class UploadFileService
         return $this;
     }
 
-    public function memberId($memberId): self
+    public function forUser($user): self
     {
-        $this->memberId = $memberId;
+        $this->user = $user;
 
         return $this;
     }
@@ -117,7 +117,10 @@ class UploadFileService
     {
         $data = $this->newUploadedFileNew->toArray();
 
-        $data['member_id'] = $this->memberId;
+        if ($this->user) {
+            $data['user_id'] = $this->user->id;
+            $data['user_type'] = get_class($this->user);
+        }
         $data['disk'] = $this->localDisk;
         $data['is_encrypted'] = $this->isEncrypted;
         $data['path'] = dirname($filepath);
@@ -128,8 +131,8 @@ class UploadFileService
 
     private function createRecord()
     {
-        $memberFileRepository = new MemberFileRepository();
-        $fileRecord = $memberFileRepository->create([
+        $filestoreFileRepository = new FilestoreFileRepository();
+        $fileRecord = $filestoreFileRepository->create([
             'allow_pdf_embedding' => $this->allowPdfEmbedding,
             'access_log' => $this->accessLog,
             'user_encryption' => $this->userEncryption,
@@ -138,15 +141,15 @@ class UploadFileService
         return $fileRecord;
     }
 
-    private function updateRecord(MemberFile $memberFile, string $filename)
+    private function updateRecord(FilestoreFile $filestoreFile, string $filename)
     {
-        $memberFileRepository = new MemberFileRepository();
+        $filestoreFileRepository = new FilestoreFileRepository();
 
         $data = $this->toArray($filename);
 
-        $memberFileRepository->update($memberFile, $data);
+        $filestoreFileRepository->update($filestoreFile, $data);
 
-        return $memberFile;
+        return $filestoreFile;
     }
 
     public function saveToLocal(string $path): string
@@ -190,7 +193,7 @@ class UploadFileService
         return $fileRecord->xid;
     }
 
-    private function moveToPersistent(MemberFile $fileRecord, array $encryptedFilenames)
+    private function moveToPersistent(FilestoreFile $fileRecord, array $encryptedFilenames)
     {
         $filesToMove[] = $encryptedFilenames['mainfile'];
         if (isset($encryptedFilenames['variants'])) {
@@ -202,7 +205,7 @@ class UploadFileService
         }
     }
 
-    private function saveDimensions(string $storageFilename, MemberFile $fileRecord): void
+    private function saveDimensions(string $storageFilename, FilestoreFile $fileRecord): void
     {
         $fullPath = Storage::disk($this->localDisk)->path($storageFilename);
         $data = getimagesize($fullPath);
@@ -213,7 +216,7 @@ class UploadFileService
         }
     }
 
-    private function save(string $path, MemberFile $fileRecord): array
+    private function save(string $path, FilestoreFile $fileRecord): array
     {
         $storePath = $this->rootPath.DIRECTORY_SEPARATOR.$path;
 
@@ -261,7 +264,7 @@ class UploadFileService
         ];
     }
 
-    public function saveEncrypted(string $path, MemberFile $fileRecord, string $encryptionKey = null): array
+    public function saveEncrypted(string $path, FilestoreFile $fileRecord, string $encryptionKey = null): array
     {
         $this->isEncrypted = true;
 
@@ -287,8 +290,12 @@ class UploadFileService
         $encryptionKey = config('filestore.vault.key');
 
         if ($this->userEncryption) {
+            $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
+            $userKeyResolver = new $userKeyResolverClass;
+
             $user = auth::user();
-            $encryptionKey = $user->encryption_key;
+            $userKey = $userKeyResolver->get($user);
+            $encryptionKey = $userKey;
         }
 
         return $encryptionKey;
@@ -298,7 +305,7 @@ class UploadFileService
     {
         $encryptionKey = $this->getKey($encryptionKey);
 
-        return FileVault::key($encryptionKey)->encrypt($unencryptedFile);
+        return (new FileVault())->key($encryptionKey)->encrypt($unencryptedFile);
     }
 
     private function generateFileName(): string

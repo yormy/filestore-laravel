@@ -2,7 +2,7 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Unit;
 
-use Facades\Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\DecryptionFailedException;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
@@ -31,14 +31,14 @@ class FileReEncryptTest extends TestCase
         $keySource = $this->generateRandomKey();
         $keyNew = $this->generateRandomKey();
 
-        $filenameEncrypted = FileVault::key($keySource)->encrypt($filename);
+        $filenameEncrypted = (new FileVault())->key($keySource)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
-        $filenameReencrypted = FileVault::reEncrypt($keySource, $keyNew, $filenameEncrypted);
+        $filenameReencrypted = (new FileVault())->reEncrypt($keySource, $keyNew, $filenameEncrypted);
         $this->assertEncrypted($filenameReencrypted, $contents);
 
         $this->expectException(DecryptionFailedException::class);
-        FileVault::key($keySource)->decrypt($filenameEncrypted);
+        (new FileVault())->key($keySource)->decrypt($filenameEncrypted);
     }
 
     /**
@@ -55,13 +55,13 @@ class FileReEncryptTest extends TestCase
         $keySource = $this->generateRandomKey();
         $keyNew = $this->generateRandomKey();
 
-        $filenameEncrypted = FileVault::key($keySource)->encrypt($filename);
+        $filenameEncrypted = (new FileVault())->key($keySource)->encrypt($filename);
         $this->assertEncrypted($filenameEncrypted, $contents);
 
-        $filenameReencrypted = FileVault::reEncrypt($keySource, $keyNew, $filenameEncrypted);
+        $filenameReencrypted = (new FileVault())->reEncrypt($keySource, $keyNew, $filenameEncrypted);
         $this->assertEncrypted($filenameReencrypted, $contents);
 
-        $filenameDecrypted = FileVault::key($keyNew)->decrypt($filenameEncrypted);
+        $filenameDecrypted = (new FileVault())->key($keyNew)->decrypt($filenameEncrypted);
         $this->assertReadable($filenameDecrypted, $contents);
     }
 }

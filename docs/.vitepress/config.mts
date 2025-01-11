@@ -22,12 +22,14 @@ export default defineConfig({
             {
                 text: 'Introduction',
                 items: [
-                    { text: 'What is Guidelines', link: '/v1/introduction/what-is-filestore' },
+                    { text: 'What is Filestore', link: '/v1/introduction/what-is-filestore' },
+                    { text: 'Installation', link: '/v1/introduction/installation' },
+                    { text: 'Setup', link: '/v1/introduction/setup' },
                 ]
             },
-
             {
                 text: 'Contributing', items: [
+                    { text: 'Frontend', link: '/v1/introduction/frontend' },
                     { text: 'Roadmap', link: '/general/roadmap' },
                     { text: 'License', link: '/general/license' },
                     { text: 'Change log', link: '/general/changelog' },

@@ -6,8 +6,10 @@ build
 coverage
 phpunit.xml
 psalm.xml
-vendor
+vendor0
 
 psalm-report.txt
 node_modules
 .phpunit.cache
+vendor
+docs/.vitepress/cache

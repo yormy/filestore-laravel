@@ -18,20 +18,17 @@
         }
     ],
     "repositories" : [
-        {
-            "type": "vcs",
-            "url": "https://github.com/yormy/laravel-eloquent-query-cache.git"
-        }
     ],
     "require": {
         "php": "^8.2",
         "ext-imagick": "*",
-        "intervention/image": "^3.5",
+        "aws/aws-sdk-php": "*",
+        "intervention/image": "^3.10",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "^11",
-        "league/flysystem-aws-s3-v3": "^3.27",
+        "league/flysystem-aws-s3-v3": "^3.29",
         "pion/laravel-chunk-upload": "^v1.5",
-        "spatie/pdf-to-image": "^2.3",
+        "spatie/pdf-to-image": "^3.1.0",
         "yormy/core-tools-laravel": "dev-master"
     },
     "require-dev": {
@@ -65,7 +62,8 @@
         "coverage:text" : "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude='~vendor~' ./vendor/bin/phpunit --coverage-text ",
         "coverage:clover" : "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude='~vendor~' ./vendor/bin/phpunit --coverage-clover coverage/clover.xml",
         "---------- TEST ---------- ": "",
-        "test": "vendor/bin/phpunit tests/Features tests/Unit --colors=always --testdox",
+        "test": "vendor/bin/phpunit --colors=always --testdox",
+        "test:x": "vendor/bin/phpunit --colors=always --testdox --group=xxx",
         "test:unit": "vendor/bin/paratest --colors=always --testdox --testsuite Unit",
         "test:feature": "vendor/bin/paratest --colors=always --testdox --testsuite Feature",
         "test-browser": "vendor/bin/phpunit tests/Browser --colors=always --testdox",

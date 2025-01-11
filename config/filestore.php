@@ -1,7 +1,9 @@
 <?php
 
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreKey;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers\IpResolver;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers\UserAgentResolver;
+use Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers\UserKeyResolver;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers\UserResolver;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 
@@ -14,6 +16,16 @@ return [
         'ip' => IpResolver::class,
         'user' => UserResolver::class,
         'useragent' => UserAgentResolver::class,
+        'user_key_resolver' => UserKeyResolver::class,
+    ],
+
+    'tables' =>  [
+      'files' => 'filestore_files',
+      'access' => 'filestore_files_access',
+    ],
+
+    'models' => [
+        'keys' => FilestoreKey::class
     ],
 
     'allowed_mimes' => [
