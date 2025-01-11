@@ -112,7 +112,7 @@ class FileEncrypter
             $system = base64_decode(substr($system, 7));
             $success = $this->decryptFileCore($destPathTemp, $destPath, $filesize, $system);
 
-            FileDestroyer::destroy($destPathTemp);
+            FileDestroyer::destroyLocal($destPathTemp);
 
             return $success;
 

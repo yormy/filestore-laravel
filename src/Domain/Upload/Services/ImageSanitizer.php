@@ -33,7 +33,7 @@ class ImageSanitizer
         $this->saveAs($newFilename);
 
         if (! $keepOriginal) {
-            FileDestroyer::destroy($this->localFilePath);
+            FileDestroyer::destroyLocal($this->localFilePath);
         }
 
         return $newFilename;

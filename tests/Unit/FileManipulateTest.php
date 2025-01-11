@@ -28,7 +28,7 @@ class FileManipulateTest extends TestCase
         $contents = 'hello World';
         $this->generateFile($filename, $contents);
 
-        FileDestroyer::destroy(Storage::disk('local')->path($filename));
+        FileDestroyer::destroyLocal(Storage::disk('local')->path($filename));
         $this->assertFileDoesNotExist(Storage::disk('local')->path($filename));
     }
 }

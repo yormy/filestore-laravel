@@ -8,7 +8,7 @@ use Yormy\FilestoreLaravel\Observers\Events\FileDestroyedEvent;
 
 class FileDestroyer
 {
-    public static function destroy(string $localFilename)
+    public static function destroyLocal(string $localFilename)
     {
         $size = filesize($localFilename);
 
