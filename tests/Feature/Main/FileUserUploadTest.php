@@ -73,7 +73,7 @@ class FileUserUploadTest extends TestCase
      * @test
      *
      * @group file-user-upload
-     * @group xxx
+     * @group xxxx
      */
     public function UploadUser_DecryptOtherUser_Failed(): void
     {

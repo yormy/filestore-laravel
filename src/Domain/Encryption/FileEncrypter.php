@@ -93,6 +93,23 @@ class FileEncrypter
 
     public function decryptFile(string $sourcePath, string $destPath, int $filesize): bool
     {
+        $systemKey = config('filestore.vault.key'); // system key
+        $userKey= 'base64:YTWeFEIUfJMeC762yeguUtGWGITsdRiU9T49HTWcuVs=';
+
+        $systemKey = base64_decode(substr($systemKey, 7));
+        $userKey = base64_decode(substr($userKey, 7));
+
+        $destPath1 = $sourcePath . 'xx';
+
+        $success = $this->decryptFileCore($sourcePath, $destPath1, $filesize, $userKey);
+        $success = $this->decryptFileCore($destPath1, $destPath, $filesize, $systemKey);
+
+        return $success;
+
+    }
+
+    public function decryptFileCore(string $sourcePath, string $destPath, int $filesize, string $encryptionKey): bool
+    {
         if (! config('filestore.encryption.enabled')) {
             copy($sourcePath, $destPath);
 
@@ -111,7 +128,7 @@ class FileEncrypter
         while (! feof($fpIn)) {
             // We have to read one block more for decrypting than for encrypting because of the initialization vector
             $ciphertext = fread($fpIn, 16 * (self::FILE_ENCRYPTION_BLOCKS + 1));
-            $plaintext = openssl_decrypt($ciphertext, $this->cipher, $this->key, OPENSSL_RAW_DATA, $iv);
+            $plaintext = openssl_decrypt($ciphertext, $this->cipher, $encryptionKey, OPENSSL_RAW_DATA, $iv);
 
             // Because Amazon S3 will randomly return smaller sized chunks:
             // Check if the size read from the stream is different than the requested chunk size

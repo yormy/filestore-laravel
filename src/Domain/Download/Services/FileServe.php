@@ -196,7 +196,8 @@ class FileServe
     protected static function isEncrypted(string $fullPath): bool
     {
         $pathinfo = pathinfo($fullPath);
-        $extension = config('filestore.vault.extension');
+        $extension = config('filestore.vault.extension'); // to enum set
+
         $extension = str_replace('.', '', $extension);
         if (isset($pathinfo['extension']) && ($pathinfo['extension'] === $extension)) {
             return true;
