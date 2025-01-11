@@ -319,8 +319,9 @@ class UploadFileService
             $user = auth::user();
             $userKey = $userKeyResolver->get($user);
 
+            $encryptionPass1 = $encryptedFile;
             $encryptedFile = (new FileVault())->key($userKey)->encrypt(
-                sourceFile: $encryptedFile,
+                sourceFile: $encryptionPass1,
                 extension: FileEncryptionExtension::SYSTEMUSER
             );
         }
