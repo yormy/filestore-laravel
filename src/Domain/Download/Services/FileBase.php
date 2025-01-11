@@ -59,14 +59,17 @@ abstract class FileBase
         return false;
     }
 
-    protected static function getKey($fileRecord)
+    protected static function getKey($fileRecord, $user = null)
     {
         $encryptionKey = null;
         if ($fileRecord->user_encryption) {
             $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
             $userKeyResolver = new $userKeyResolverClass;
 
-            $user = auth::user();
+            if(!$user) {
+                $user = auth::user();
+            }
+
             $userKey = $userKeyResolver->get($user);
             $encryptionKey = $userKey;
         }

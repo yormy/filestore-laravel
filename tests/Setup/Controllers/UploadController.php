@@ -22,7 +22,7 @@ class UploadController
         $xid = UploadFileService::make($file)
             ->sanitize()
             ->forUser($user)
-            ->userEncryption()
+            ->userEncryption($user)
             ->saveEncryptedToLocal('myid');
 
         return [

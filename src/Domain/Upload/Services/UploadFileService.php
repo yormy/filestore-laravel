@@ -37,6 +37,8 @@ class UploadFileService
 
     private bool $userEncryption = false;
 
+    private $userEncryptionUser;
+
     private UploadedFileData $newUploadedFileNew;
 
     private $user;
@@ -93,9 +95,10 @@ class UploadFileService
         return $this;
     }
 
-    public function userEncryption(): self
+    public function userEncryption($user): self
     {
         $this->userEncryption = true;
+        $this->userEncryptionUser = $user;
 
         return $this;
     }
@@ -294,8 +297,7 @@ class UploadFileService
             $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
             $userKeyResolver = new $userKeyResolverClass;
 
-            $user = auth::user();
-            $userKey = $userKeyResolver->get($user);
+            $userKey = $userKeyResolver->get($this->userEncryptionUser);
             $encryptionKey = $userKey;
         }
 
@@ -316,8 +318,7 @@ class UploadFileService
             $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
             $userKeyResolver = new $userKeyResolverClass;
 
-            $user = auth::user();
-            $userKey = $userKeyResolver->get($user);
+            $userKey = $userKeyResolver->get($this->userEncryptionUser);
 
             $encryptionPass1 = $encryptedFile;
             $encryptedFile = (new FileVault)->key($userKey)->encrypt(

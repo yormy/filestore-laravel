@@ -2,24 +2,15 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Download\Services;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
-use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
-use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
-use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
-use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
-use Yormy\FilestoreLaravel\Exceptions\FileGetException;
-use Yormy\FilestoreLaravel\Exceptions\InvalidVariantException;
 use Yormy\Xid\Services\XidService;
 
 class FileGet extends FileBase
 {
-    public static function getFile(string $xid, ?string $variant = null, ?string $downloadAs = null)
+    public static function getFile(string $xid, $user = null, ?string $variant = null, ?string $downloadAs = null)
     {
         XidService::validateOrFail($xid);
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
@@ -35,27 +26,30 @@ class FileGet extends FileBase
             $downloadAs = basename($downloadAs);
         }
 
-        $encryptionKey = self::getKey($fileRecord);
-
-
-
+        $encryptionKey = self::getKey($fileRecord, $user);
 
         if (self::isEncrypted($filename)) {
-
-            $content = Storage::disk($fileRecord->disk)->get($fileRecord->fullpath);
-            file_put_contents('local-copy.txt', $content);
-
-            $localfile = 'local-copy.txt.xfile';
-            Storage::disk('local')->put($localfile, $content);
-
-            $localPath = Storage::disk('local')->path($localfile);
-
-            return (new FileVault)->disk('local')->decrypt($localfile, $encryptionKey);
-
+            return self::downloadEncrypted($fileRecord->disk, $fileRecord->fullpath, $encryptionKey);
         }
 
         return self::downloadPlain($fileRecord->disk, $filename, $downloadAs);
     }
 
+    private static function downloadEncrypted(string $disk, string $fullPath, ?string $encryptionKey = null)
+    {
+        $localFilename = basename($fullPath);
+        $content = Storage::disk($disk)->get($fullPath);
+        Storage::disk('local')->put($localFilename, $content);
 
+        return (new FileVault)->disk('local')->decrypt(sourceFile: $localFilename, key: $encryptionKey);
+    }
+
+    private static function downloadPlain(string $disk, string $fullPath, ?string $encryptionKey = null)
+    {
+        $localfile = 'downloadas as.txt';
+        $content = Storage::disk($disk)->get($fullPath);
+        Storage::disk('local')->put($localfile, $content);
+
+        return $localfile;
+    }
 }

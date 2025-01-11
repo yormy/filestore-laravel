@@ -2,10 +2,9 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Download\Services\FileGet;
-use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
+use Yormy\FilestoreLaravel\Domain\Upload\Services\MoveFileService;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
@@ -21,23 +20,29 @@ class FileMoveTest extends TestCase
      * @group file-move
      * @group xxx
      */
-    public function local_file_move_encrypted(): void
+    public function localFile_MoveToPersistentEncrypted_Success(): void
     {
+        $user = $this->createUser();
+
+        // --------- create local file --------
         $localFile = $this->getLocalFilename('text.txt');
+        $localContent = file_get_contents($localFile);
 
-        $file = new UploadedFile(
-            $localFile,
-            basename($localFile),
-        );
+        // --------- move --------
+        $moveFileService = MoveFileService::make($localFile);
+        $moveFileService->encrypted(false);
+        //$moveFileService->userEncryption($user);
 
-        // todo : move
-        $xid = UploadFileService::make($file)
-            ->saveEncryptedToPersistent('x');
+        // todo user encrypted
+        // user is not known here, need to bypass that, as this is all admin controlled moving of files
+        $xid = $moveFileService->moveToPersistent('abcd'); /// always moves to under 1 in abcd ?
 
-        $localFilename = FileGet::getFile($xid);
+        // --------- assert --------
+        $localFilename = FileGet::getFile(xid: $xid, user: $user);
         $unencryptedContent = Storage::disk('local')->get($localFilename);
 
-        $this->assertEquals(file_get_contents($localFile), $unencryptedContent);
+        $this->assertEquals($localContent, $unencryptedContent);
+        $this->assertFileDoesNotExist($localFile);
     }
 
     // -------- HELPERS --------
