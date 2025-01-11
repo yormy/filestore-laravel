@@ -15,7 +15,8 @@ class FilestoreFile extends BaseModel
 
     protected $fillable = [
         'xid',
-        'member_id',
+        'user_id',
+        'user_type',
         'original_filename',
         'original_extension',
         'size_kb',

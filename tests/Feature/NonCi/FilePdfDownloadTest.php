@@ -4,6 +4,7 @@ namespace Yormy\FilestoreLaravel\Tests\Feature\NonCi;
 
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
+use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
@@ -29,9 +30,10 @@ class FilePdfDownloadTest extends TestCase
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $response = $this->get(route('file.pdf.cover', ['xid' => $xid]));
@@ -48,9 +50,10 @@ class FilePdfDownloadTest extends TestCase
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToLocal('myid');
 
         $response = $this->get(route('file.pdf.view', ['xid' => $xid]));
@@ -67,9 +70,10 @@ class FilePdfDownloadTest extends TestCase
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->preventPdfEmbedding()
             ->saveEncryptedToLocal('myid');
 
@@ -87,9 +91,10 @@ class FilePdfDownloadTest extends TestCase
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $response = $this->get(route('file.pdf.page', ['xid' => $xid, 'page' => 2]));
@@ -106,9 +111,10 @@ class FilePdfDownloadTest extends TestCase
         $filename = 'safety_toons.pdf';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $response = $this->get(route('file.pdf.pages', ['xid' => $xid]));

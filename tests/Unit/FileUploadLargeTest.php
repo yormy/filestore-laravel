@@ -6,6 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
+use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
@@ -38,9 +39,10 @@ class FileUploadLargeTest extends TestCase
     //        $originalContents = fread( $fh, 100 );
     //        fclose( $fh );
     //
+// $user = User::find(6);
     //        $xid = UploadFileService::make($file)
     //            ->sanitize()
-    //            ->memberId(6)
+    //            ->forUser($user)
     //            ->saveToLocal('myid');
     //
     //        $this->assertUploadedReadable($xid, $originalContents);
@@ -69,9 +71,10 @@ class FileUploadLargeTest extends TestCase
     //        $filename = 'generated_1gb.txt';
     //        $file = $this->buildFile($filename);
     //
+// $user = User::find(6);
     //        $xid = UploadFileService::make($file)
     //            ->sanitize()
-    //            ->memberId(6)
+    //            ->forUser($user)
     //            ->saveToLocal('myid');
     //
     //        $this->downloadAndAssertCorrect($xid, $filename);
@@ -96,9 +99,10 @@ class FileUploadLargeTest extends TestCase
         $originalContents = fread($fh, 100);
         fclose($fh);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToLocal('myid');
 
         $this->assertUploadedEncrypted($xid, $originalContents);

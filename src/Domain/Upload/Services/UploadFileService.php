@@ -38,7 +38,7 @@ class UploadFileService
 
     private UploadedFileData $newUploadedFileNew;
 
-    private $memberId;
+    private $user;
 
     public static function make(
         UploadedFile $uploadedFile,
@@ -99,9 +99,9 @@ class UploadFileService
         return $this;
     }
 
-    public function memberId($memberId): self
+    public function forUser($user): self
     {
-        $this->memberId = $memberId;
+        $this->user = $user;
 
         return $this;
     }
@@ -117,7 +117,10 @@ class UploadFileService
     {
         $data = $this->newUploadedFileNew->toArray();
 
-        $data['member_id'] = $this->memberId;
+        if ($this->user) {
+            $data['user_id'] = $this->user->id;
+            $data['user_type'] = get_class($this->user);
+        }
         $data['disk'] = $this->localDisk;
         $data['is_encrypted'] = $this->isEncrypted;
         $data['path'] = dirname($filepath);

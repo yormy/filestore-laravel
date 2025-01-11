@@ -14,7 +14,7 @@ withoutAccessLog
 userencryption,. use key from user not from system to encrypt
         $encryptedFilename = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->userEncryption()
 
 

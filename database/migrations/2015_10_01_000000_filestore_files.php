@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create($table, function (Blueprint $table) {
             $table->id();
             $table->string('xid')->unique();
-            $table->string('member_id')->nullable();
+            $table->string('user_id')->nullable();
+            $table->string('user_type')->nullable();
 
             $table->string('original_filename')->nullable();
             $table->string('original_extension')->nullable();

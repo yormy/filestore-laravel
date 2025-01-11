@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
+use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 
 class UploadController
 {
@@ -20,7 +21,7 @@ class UploadController
         $user = auth::user();
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->userEncryption()
             ->saveEncryptedToLocal('myid');
 
@@ -33,9 +34,10 @@ class UploadController
     {
         $file = $request->file('file');
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             //->saveEncryptedToLocal('myid', 'key:sadasfar3451235r);
             ->saveEncryptedToLocal('myid');
         //->saveEncryptedToPersistent('myid');

@@ -3,6 +3,7 @@
 namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
+use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
@@ -34,9 +35,10 @@ class FileUploadLargeTest extends TestCase
         $filename = 'large_pdf_500m.pdf';   // 800 exhausts memory
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToLocal('myid');
 
         $this->downloadAndAssertCorrect($xid, $filename);
@@ -55,9 +57,10 @@ class FileUploadLargeTest extends TestCase
         $base64 = 'data:application/pdf;base64,';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToLocal('myid');
 
         $this->streamAndAssertCorrect($xid, $base64, $filename);

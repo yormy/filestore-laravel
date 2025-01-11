@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFileAccess;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Exceptions\InvalidValueException;
+use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
@@ -38,9 +39,10 @@ class FileDownloadTest extends TestCase
         $base64 = 'data:image/png;base64,';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToPersistent('myid');
 
         $this->streamAndAssertCorrect($xid, $base64, $filename);
@@ -59,9 +61,10 @@ class FileDownloadTest extends TestCase
         $base64 = 'data:image/png;base64,';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToPersistent('myid');
 
         $this->streamAndAssertCorrect($xid, $base64, $filename);
@@ -77,9 +80,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $this->downloadAndAssertCorrect($xid, $filename);
@@ -95,9 +99,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToLocal('myid');
 
         $this->downloadAndAssertCorrect($xid, $filename);
@@ -113,9 +118,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToPersistent('myid');
 
         $this->downloadAndAssertCorrect($xid, $filename);
@@ -132,9 +138,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveEncryptedToPersistent('myid');
 
         $this->downloadAndAssertCorrect($xid, $filename);
@@ -172,9 +179,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $this->expectException(InvalidValueException::class);
@@ -192,9 +200,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $variant = 'small';
@@ -216,9 +225,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $member = $this->createUser();
@@ -246,9 +256,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->withoutAccessLog()
             ->saveToLocal('myid');
 
@@ -271,9 +282,10 @@ class FileDownloadTest extends TestCase
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
+        $user = User::find(6);
         $xid = UploadFileService::make($file)
             ->sanitize()
-            ->memberId(6)
+            ->forUser($user)
             ->saveToLocal('myid');
 
         $member = $this->createUser();
