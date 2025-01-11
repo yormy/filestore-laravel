@@ -6,13 +6,13 @@ namespace Yormy\FilestoreLaravel\Domain\Shared\Services\Resolvers;
 
 class UserKeyResolver
 {
-    public static function get($user): ?string
+    public static function get($user): string
     {
         $tableClass = config('filestore.models.keys');
         $key = $tableClass::query()
             ->where('user_id', $user->id)
             ->where('user_type', get_class($user))
-            ->get();
+            ->first();
 
         return $key?->key;
     }

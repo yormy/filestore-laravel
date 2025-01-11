@@ -18,7 +18,6 @@ class UploadController
         $file = $request->file('file');
 
         $user = auth::user();
-        //dd($user);
         $xid = UploadFileService::make($file)
             ->sanitize()
             ->memberId(6)

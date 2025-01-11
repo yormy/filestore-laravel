@@ -113,8 +113,12 @@ class FileServe
     {
         $encryptionKey = null;
         if ($fileRecord->user_encryption) {
-            $user = Auth::user();
-            $encryptionKey = $user->encryption_key;
+            $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
+            $userKeyResolver = new $userKeyResolverClass;
+
+            $user = auth::user();
+            $userKey = $userKeyResolver->get($user);
+            $encryptionKey = $userKey;
         }
 
         return $encryptionKey;

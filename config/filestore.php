@@ -16,6 +16,7 @@ return [
         'ip' => IpResolver::class,
         'user' => UserResolver::class,
         'useragent' => UserAgentResolver::class,
+        'user_key_resolver' => UserKeyResolver::class,
     ],
 
     'tables' =>  [
@@ -25,10 +26,6 @@ return [
 
     'models' => [
         'keys' => FilestoreKey::class
-    ],
-
-    'resolvers' => [
-        'userKeyResolver' => UserKeyResolver::class,
     ],
 
     'allowed_mimes' => [

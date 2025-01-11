@@ -2,7 +2,7 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Traits;
 
-use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreKey;
 use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 
 trait UserTrait
@@ -11,8 +11,9 @@ trait UserTrait
     {
         $user = User::create([
             'email' => 'test@exampel.com',
-            'encryption_key' => 'base64:'.base64_encode((new FileVault)->generateKey()),
         ]);
+
+        (new FilestoreKey)->createForUser($user);
 
         return $user;
     }

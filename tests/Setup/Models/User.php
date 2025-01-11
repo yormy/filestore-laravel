@@ -10,16 +10,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'email',
-        'encryption_key',
     ];
 
     public $timestamps = false;
-
-    protected $casts = [
-        'encryption_key' => 'encrypted',
-    ];
-
-    protected $hidden = [
-        'encryption_key',
-    ];
 }

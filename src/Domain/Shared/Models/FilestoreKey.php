@@ -2,12 +2,11 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Shared\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\Xid\Models\Traits\Xid;
 
 class FilestoreKey extends BaseModel
 {
-    use SoftDeletes;
     use Xid;
 
     protected $table = 'filestore_keys';
@@ -18,4 +17,17 @@ class FilestoreKey extends BaseModel
         'user_type',
         'key',
     ];
+
+    public function createForUser($user, $key = null)
+    {
+        if (! $key) {
+            $key = 'base64:'.base64_encode((new FileVault)->generateKey());
+        }
+
+        return FilestoreKey::create([
+            'user_id' => $user->id,
+            'user_type' => get_class($user),
+            'key' => $key,
+        ]);
+    }
 }

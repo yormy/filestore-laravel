@@ -287,8 +287,12 @@ class UploadFileService
         $encryptionKey = config('filestore.vault.key');
 
         if ($this->userEncryption) {
+            $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
+            $userKeyResolver = new $userKeyResolverClass;
+
             $user = auth::user();
-            $encryptionKey = $user->encryption_key;
+            $userKey = $userKeyResolver->get($user);
+            $encryptionKey = $userKey;
         }
 
         return $encryptionKey;

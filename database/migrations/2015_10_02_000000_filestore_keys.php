@@ -13,6 +13,7 @@ return new class extends Migration
         $tableClass = config('filestore.models.keys');
         Schema::create((new $tableClass())->getTable(), function (Blueprint $table) {
             $table->id();
+            $table->string('xid')->unique();
             $table->integer('user_id')->nullable();
             $table->string('user_type')->nullable();
 
