@@ -2,11 +2,12 @@
 
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
-use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
+use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\UploadedFileData;
@@ -301,19 +302,51 @@ class UploadFileService
         return $encryptionKey;
     }
 
+
+
+    //==============================
+    private function getKey00(?string $encryptionKey): string
+    {
+        if ($encryptionKey) {
+            return $encryptionKey;
+        }
+
+        $encryptionKey = config('filestore.vault.key');
+
+        return $encryptionKey;
+    }
+    // MX
     private function customEncrypt($encryptionKey, $unencryptedFile): string
     {
-        $encryptionKey = $this->getKey($encryptionKey);
-        $encryptionKey = config('filestore.vault.key'); // system key
+        // key1 = system or custom
+        // key2 is user if user
 
+
+        //## STEP 1
+        if (!$encryptionKey) {
+            $encryptionKey = $this->getKey00($encryptionKey);
+        }
         $encryptedFile = (new FileVault())->key($encryptionKey)->encrypt($unencryptedFile);
 
-        $key2= 'base64:YTWeFEIUfJMeC762yeguUtGWGITsdRiU9T49HTWcuVs=';
-        $encryptedFile = (new FileVault())->key($key2)->encrypt($encryptedFile);
+
+        ## STEP 2
+        if ($this->userEncryption) {
+
+            $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
+            $userKeyResolver = new $userKeyResolverClass;
+
+            $user = auth::user();
+            $userKey = $userKeyResolver->get($user);
+
+            $encryptedFile = (new FileVault())->key($userKey)->encrypt(
+                sourceFile: $encryptedFile,
+                extension: FileEncryptionExtension::SYSTEMUSER
+            );
+        }
 
         return $encryptedFile;
     }
-
+    //==============================
 
 
 
