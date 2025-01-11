@@ -8,6 +8,7 @@ use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\DecryptionFailedException;
 use Yormy\FilestoreLaravel\Domain\Encryption\Exceptions\EncryptionFailedException;
+use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Exceptions\FileDeleteException;
 use Yormy\FilestoreLaravel\Exceptions\FileEmptyException;
 use Yormy\FilestoreLaravel\Exceptions\FileGetException;
@@ -56,7 +57,8 @@ class FileVault
         ?string $destFile = null,
         bool $deleteSource = true,
         ?string $key = null,
-        ?string $cipher = null
+        ?string $cipher = null,
+        ?FileEncryptionExtension $extension = FileEncryptionExtension::SYSTEM
     ): string {
 
         $exists = Storage::disk($this->disk)->exists($sourceFile);
@@ -67,7 +69,8 @@ class FileVault
         $this->registerServices();
 
         if (is_null($destFile)) {
-            $destFile = $sourceFile.$this->extension;
+            $destFileBase = Str::replace(FileEncryptionExtension::SYSTEM->value, '', $sourceFile);
+            $destFile = $destFileBase.$extension->value;
         }
 
         $sourcePath = $this->getFilePath($sourceFile);
@@ -78,7 +81,7 @@ class FileVault
         // If encryption is successful, delete the source file
         if ($encrypter->encrypt($sourcePath, $destPath) && $deleteSource) {
             $success = Storage::disk($this->disk)->delete($sourceFile);
-            if (!$success) {
+            if (! $success) {
                 throw new FileDeleteException("Cannot delete $sourceFile from $this->disk");
             }
         }
@@ -135,7 +138,7 @@ class FileVault
 
         if ($encrypter->decryptFile($sourcePath, $destPath, $filesize) && $deleteSource) {
             $success = Storage::disk($this->disk)->delete($sourceFile);
-            if (!$success) {
+            if (! $success) {
                 throw new FileDeleteException("Cannot delete $sourceFile from $this->disk");
             }
         }
@@ -183,7 +186,7 @@ class FileVault
             $filesize = filesize($filePath);
         }
 
-        if (!$filesize) {
+        if (! $filesize) {
             throw new FileEmptyException("Empty file $filePath from $this->disk");
         }
 
@@ -194,7 +197,7 @@ class FileVault
     {
         if (! $this->isLocalFilesystem($this->disk)) {
             $sourcePath = Storage::disk($this->disk)->url($filePath);
-            if (!$sourcePath) {
+            if (! $sourcePath) {
                 throw new FileEmptyException("Url broken $filePath from $this->disk");
             }
 
@@ -220,9 +223,10 @@ class FileVault
 
         $path = Storage::disk($this->disk)->path($file);
 
-        if (!$path) {
+        if (! $path) {
             throw new FileGetException("file $file missing on $this->disk");
         }
+
         return $path;
     }
 
