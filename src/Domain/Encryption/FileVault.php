@@ -12,9 +12,12 @@ use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Exceptions\FileDeleteException;
 use Yormy\FilestoreLaravel\Exceptions\FileEmptyException;
 use Yormy\FilestoreLaravel\Exceptions\FileGetException;
+use Yormy\FilestoreLaravel\Traits\DiskHelperTrait;
 
 class FileVault
 {
+    use DiskHelperTrait;
+
     protected string $disk;
 
     protected string $key;
@@ -179,7 +182,7 @@ class FileVault
 
     private function getFilesize($filePath)
     {
-        if (! $this->isLocalFilesystem($this->disk)) {
+        if (! self::isLocalFilesystem($this->disk)) {
             $filesize = Storage::disk($this->disk)->size($filePath); // fails local needs s3
 
         } else {
@@ -195,7 +198,7 @@ class FileVault
 
     private function getSourcePath(string $filePath): string
     {
-        if (! $this->isLocalFilesystem($this->disk)) {
+        if (! self::isLocalFilesystem($this->disk)) {
             $sourcePath = Storage::disk($this->disk)->url($filePath);
             if (! $sourcePath) {
                 throw new FileEmptyException("Url broken $filePath from $this->disk");
@@ -206,13 +209,6 @@ class FileVault
         }
 
         return $sourcePath;
-    }
-
-    private function isLocalFilesystem($disk)
-    {
-        $filesystem = config('filesystems.disks.'.$disk.'.driver');
-
-        return $filesystem === 'local';
     }
 
     protected function getFilePath(string $file)

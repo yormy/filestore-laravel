@@ -9,14 +9,18 @@ use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
+use Yormy\FilestoreLaravel\Domain\Shared\Services\DownloadAsTempFileService;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
 use Yormy\FilestoreLaravel\Exceptions\FileGetException;
+use Yormy\FilestoreLaravel\Traits\DiskHelperTrait;
 use Yormy\Xid\Services\XidService;
 
 class FileServe extends FileBase
 {
+    use DiskHelperTrait;
+
     public static function view(Request $request, string $xid, ?string $variant = null): array
     {
         $fileRecord = self::getFileRecord($request, $xid);
@@ -156,8 +160,13 @@ class FileServe extends FileBase
 
     private static function downloadEncrypted(string $disk, string $fullPath, string $downloadAs, ?string $encryptionKey = null)
     {
-        return response()->streamDownload(function () use ($disk, $fullPath, $encryptionKey) {
-            (new FileVault)->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
+        $localFilname = $fullPath;
+        if (! self::isLocalFilesystem($disk)) {
+            $localFilname = DownloadAsTempFileService::get($disk, $fullPath); // Force download to local to decrypt
+        }
+
+        return response()->streamDownload(function () use ($localFilname, $encryptionKey) {
+            (new FileVault)->disk('local')->streamDecrypt($localFilname, $encryptionKey);
         }, $downloadAs);
     }
 

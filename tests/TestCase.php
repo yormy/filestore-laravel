@@ -41,6 +41,7 @@ abstract class TestCase extends BaseTestCase
     {
         $migrations = [
             '2020_09_12_000300_users.php',
+            '2020_09_12_000301_jobs.php',
         ];
 
         foreach ($migrations as $migration) {
