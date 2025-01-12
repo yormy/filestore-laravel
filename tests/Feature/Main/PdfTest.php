@@ -131,9 +131,8 @@ class PdfTest extends TestCase
      * @test
      *
      * @group file-move
-     * @group xxx
      */
-    public function pdf_move_to_persistent_success(): void
+    public function pdf__move_to_persistent__success(): void
     {
         $filename = 'jokes.pdf';
         $user = $this->createUser();

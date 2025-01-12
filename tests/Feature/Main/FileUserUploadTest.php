@@ -71,9 +71,8 @@ class FileUserUploadTest extends TestCase
      * @test
      *
      * @group file-user-upload
-     * @group xxxx
      */
-    public function upload_user_decrypt_other_user_failed(): void
+    public function upload_user__decrypt_other_user__failed(): void
     {
         $user = $this->createUser();
 
