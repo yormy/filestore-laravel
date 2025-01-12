@@ -9,6 +9,7 @@ use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
+use Yormy\FilestoreLaravel\Tests\Traits\AssertPdfTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 
@@ -17,6 +18,7 @@ class PdfUploadTest extends TestCase
     use AssertDownloadTrait;
     use FileTrait;
     use UserTrait;
+    use AssertPdfTrait;
 
     /**
      * @test
@@ -39,13 +41,6 @@ class PdfUploadTest extends TestCase
         // withPdfPAges converts all individual pages to img
 
         $this->downloadPdfAndAssertCorrect($xid, $filename);
-    }
-
-    protected function downloadPdfAndAssertCorrect(string $xid, string $filename)
-    {
-        $response = $this->get(route('file.pdf.download', ['xid' => $xid]));
-
-        $this->assertCorrectStream($response, $filename);
     }
 
     /*

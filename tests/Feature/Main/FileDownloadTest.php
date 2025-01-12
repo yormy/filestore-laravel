@@ -10,6 +10,7 @@ use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertEncryptionTrait;
+use Yormy\FilestoreLaravel\Tests\Traits\AssertImgTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\CleanupTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
@@ -17,6 +18,7 @@ use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 class FileDownloadTest extends TestCase
 {
     use AssertDownloadTrait;
+    use AssertImgTrait;
     use AssertEncryptionTrait;
     use CleanupTrait;
     use FileTrait;

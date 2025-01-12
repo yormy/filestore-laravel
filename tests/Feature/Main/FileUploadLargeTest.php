@@ -6,12 +6,14 @@ use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
+use Yormy\FilestoreLaravel\Tests\Traits\AssertImgTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 
 class FileUploadLargeTest extends TestCase
 {
     use AssertDownloadTrait;
+    use AssertImgTrait;
     use FileTrait;
     use UserTrait;
 

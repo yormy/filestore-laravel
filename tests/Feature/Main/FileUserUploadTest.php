@@ -5,12 +5,14 @@ namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 use Illuminate\Routing\Exceptions\StreamedResponseException;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
+use Yormy\FilestoreLaravel\Tests\Traits\AssertImgTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 
 class FileUserUploadTest extends TestCase
 {
     use AssertDownloadTrait;
+    use AssertImgTrait;
     use FileTrait;
     use UserTrait;
 

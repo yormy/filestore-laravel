@@ -6,33 +6,6 @@ namespace Yormy\FilestoreLaravel\Tests\Traits;
 
 trait AssertDownloadTrait
 {
-    protected function streamAndAssertCorrect($xid, $base64, $filename)
-    {
-        $response = $this->get(route('file.img.view', ['xid' => $xid]));
-        $imagedata = $response->getContent();
-
-        $imagedata = json_decode($imagedata)->data->file->data;
-
-        $imagedata = str_replace($base64, '', $imagedata);
-        $imagedata = base64_decode($imagedata);
-        $downloadedFilePath = $this->storeDownloadLocal($imagedata, $filename);
-
-        $this->assertFilesSame($this->getOriginalFilepath($filename), $downloadedFilePath);
-    }
-
-    protected function downloadAndAssertCorrect(string $xid, string $filename)
-    {
-        $response = $this->get(route('file.img.download', ['xid' => $xid]));
-
-        $this->assertCorrectStream($response, $filename);
-    }
-
-    protected function downloadAndAssertCorrectAsMember(string $xid, string $filename, $user)
-    {
-        $response = $this->actingAs($user)->get(route('file.img.download', ['xid' => $xid]));
-        $this->assertCorrectStream($response, $filename);
-    }
-
     protected function assertCorrectStream($response, $filename)
     {
         $downloadedContent = $response->streamedContent();
