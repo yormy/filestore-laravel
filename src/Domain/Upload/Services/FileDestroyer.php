@@ -5,10 +5,19 @@ declare(strict_types=1);
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
 use Illuminate\Support\Facades\Storage;
+use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Observers\Events\FileDestroyedEvent;
 
 class FileDestroyer
 {
+    public static function deleteAll(FileStoreFile $fileStoreFile): void
+    {
+        $filesToDelete = self::generateFilelistToDelete($fileStoreFile);
+        foreach ($filesToDelete as $filename) {
+            FileDestroyer::destroyPersistent($filename, $fileStoreFile->disk);
+        }
+    }
+
     public static function destroyLocal(string $localFilename)
     {
         $size = filesize($localFilename);
@@ -75,5 +84,22 @@ class FileDestroyer
         event(new FileDestroyedEvent($filename, $disk));
 
         return true;
+    }
+
+    private static function generateFilelistToDelete(FileStoreFile $filestoreFile): array
+    {
+        $filesToDelete = [];
+        $filesToDelete[] = $filestoreFile->fullPath;
+
+        if ($filestoreFile->preview_filename) {
+            $filesToDelete[] = $filestoreFile->preview_filename;
+        }
+
+        $variants = json_decode($filestoreFile->variants);
+        foreach ($variants as $variant) {
+            $filesToDelete[] = $filestoreFile->path. DIRECTORY_SEPARATOR. $variant->filename;
+        }
+
+        return $filesToDelete;
     }
 }

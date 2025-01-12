@@ -4,6 +4,7 @@ namespace Yormy\FilestoreLaravel\Domain\Shared\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
+use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
 use Yormy\Xid\Models\Traits\Xid;
 
 class FilestoreFile extends BaseModel
@@ -32,6 +33,15 @@ class FilestoreFile extends BaseModel
         'access_log',
         'user_encryption',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::deleted(function ($model) {
+            FileDestroyer::deleteAll($model);
+        });
+    }
 
     public function getFullPathAttribute()
     {

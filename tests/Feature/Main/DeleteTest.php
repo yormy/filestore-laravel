@@ -43,7 +43,7 @@ class DeleteTest extends TestCase
         $this->assertTrue($exists);
 
         // ---------- delete ----------
-        (new FilestoreFileRepository)->destroy($xid);
+        FilestoreFile::where('xid', $xid)->first()->delete();
 
         // ---------- assert ----------
         $filestore = FilestoreFile::where('xid', $xid)->first();
