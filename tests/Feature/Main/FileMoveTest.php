@@ -23,7 +23,7 @@ class FileMoveTest extends TestCase
      *
      * @group file-move
      */
-    public function local_file_move_to_persistent_encrypted_success(): void
+    public function txt__move_to_persistent_encrypted__success(): void
     {
         $user = $this->createUser();
 
@@ -50,7 +50,6 @@ class FileMoveTest extends TestCase
      * @test
      *
      * @group file-move
-     * @group xxx
      */
     public function png__move_persistent__success(): void
     {
