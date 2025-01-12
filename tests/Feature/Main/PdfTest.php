@@ -5,8 +5,8 @@ namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Yormy\FilestoreLaravel\Domain\Upload\Services\MoveFileService;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
-use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertPdfTrait;
@@ -16,16 +16,16 @@ use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 class PdfTest extends TestCase
 {
     use AssertDownloadTrait;
+    use AssertPdfTrait;
     use FileTrait;
     use UserTrait;
-    use AssertPdfTrait;
 
     /**
      * @test
      *
      * @group pdf
      */
-    public function Pdf_Upload_Success(): void
+    public function pdf_upload_success(): void
     {
         $filename = 'jokes.pdf';
         $file = $this->buildFile($filename);
@@ -36,13 +36,12 @@ class PdfTest extends TestCase
         $this->downloadPdfAndAssertCorrect($xid, $filename);
     }
 
-
     /**
      * @test
      *
      * @group pdf
      */
-    public function Pdf_UploadEncrypted_Success(): void
+    public function pdf_upload_encrypted_success(): void
     {
         $filename = 'jokes.pdf';
         $file = $this->buildFile($filename);
@@ -58,7 +57,7 @@ class PdfTest extends TestCase
      *
      * @group pdf
      */
-    public function Pdf_UploadEncryptedUserkey_Success(): void
+    public function pdf_upload_encrypted_userkey_success(): void
     {
         $filename = 'jokes.pdf';
         $file = $this->buildFile($filename);
@@ -76,7 +75,7 @@ class PdfTest extends TestCase
      *
      * @group pdf
      */
-    public function Pdf_PagesAsImg_Success(): void
+    public function pdf_pages_as_img_success(): void
     {
         $filename = 'jokes.pdf';
         $file = $this->buildFile($filename);
@@ -94,9 +93,8 @@ class PdfTest extends TestCase
      * @test
      *
      * @group pdf
-     * @group xxx
      */
-    public function Pdf_PagesAsImgPersistent_Success(): void
+    public function pdf_pages_as_img_persistent_success(): void
     {
         $filename = 'jokes.pdf';
         $file = $this->buildFile($filename);
@@ -127,5 +125,29 @@ class PdfTest extends TestCase
         $response = $this->json('POST', route('api.upload', []), [
             'file' => UploadedFile::fake()->image('avatar.jog')->size(300),
         ]);
+    }
+
+    /**
+     * @test
+     *
+     * @group file-move
+     * @group xxx
+     */
+    public function pdf_move_to_persistent_success(): void
+    {
+        $filename = 'jokes.pdf';
+        $user = $this->createUser();
+
+        // --------- create local file --------
+        $localFile = $this->getLocalFilename($filename);
+        $localContent = file_get_contents($localFile);
+
+        // --------- move --------
+        $moveFileService = MoveFileService::make($localFile);
+        $xid = $moveFileService->moveToPersistent('abcd');
+
+        // -------- assert --------
+        $this->assertFalse(file_exists($localFile));
+        $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
     }
 }

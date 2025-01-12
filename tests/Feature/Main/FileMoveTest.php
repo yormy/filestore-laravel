@@ -6,11 +6,15 @@ use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Download\Services\FileGet;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\MoveFileService;
 use Yormy\FilestoreLaravel\Tests\TestCase;
+use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
+use Yormy\FilestoreLaravel\Tests\Traits\AssertImgTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 
 class FileMoveTest extends TestCase
 {
+    use AssertDownloadTrait;
+    use AssertImgTrait;
     use FileTrait;
     use UserTrait;
 
@@ -18,9 +22,8 @@ class FileMoveTest extends TestCase
      * @test
      *
      * @group file-move
-     * @group xxxz
      */
-    public function localFile_MoveToPersistentEncrypted_Success(): void
+    public function local_file_move_to_persistent_encrypted_success(): void
     {
         $user = $this->createUser();
 
@@ -34,7 +37,6 @@ class FileMoveTest extends TestCase
         $moveFileService->userEncryption($user);
         $xid = $moveFileService->moveToPersistent('abcd');
 
-
         // --------- assert --------
         $localFilename = FileGet::getFile(xid: $xid, user: $user); // download file to local
 
@@ -44,15 +46,26 @@ class FileMoveTest extends TestCase
         $this->assertFileDoesNotExist($localFile);
     }
 
-    // -------- HELPERS --------
-    private function getLocalFilename($filename): string
+    /**
+     * @test
+     *
+     * @group file-move
+     */
+    public function png_move_persistent_success(): void
     {
-        $localPath = $this->getOriginalFilepath($filename);
+        // --------- create local file --------
+        $filename = 'sylvester.png';
+        $localFile = $this->getLocalFilename($filename);
+        $localContent = file_get_contents($localFile);
 
-        // make a copy to work with, and can test deletion
-        $filename = 'localcopy-'.$filename;
-        Storage::disk('local')->put($filename, file_get_contents($localPath));
+        // --------- move --------
+        $moveFileService = MoveFileService::make($localFile);
+        $xid = $moveFileService->moveToPersistent('abcd');
 
-        return Storage::disk('local')->path($filename);
+        // -------- assert --------
+        $this->assertFalse(file_exists($localFile));
+
+        $base64 = 'data:image/png;base64,';
+        $this->streamAndAssertCorrect($xid, $base64, $filename);
     }
 }

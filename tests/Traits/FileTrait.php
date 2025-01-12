@@ -112,4 +112,15 @@ trait FileTrait
 
         return new UploadedFile($filename, $filename);
     }
+
+    private function getLocalFilename($filename): string
+    {
+        $localPath = $this->getOriginalFilepath($filename);
+
+        // make a copy to work with, and can test deletion
+        $filename = 'localcopy-'.$filename;
+        Storage::disk('local')->put($filename, file_get_contents($localPath));
+
+        return Storage::disk('local')->path($filename);
+    }
 }
