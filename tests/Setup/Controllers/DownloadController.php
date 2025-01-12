@@ -42,7 +42,7 @@ class DownloadController
         return ApiResponse::withData(['files' => $down])->successResponse();
     }
 
-    public function page(Request $request, $xid, int $pageNr)
+    public function page(Request $request, string $xid, int $pageNr)
     {
         $down = FileServe::page($request, $xid, $pageNr);
 

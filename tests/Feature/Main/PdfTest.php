@@ -13,7 +13,7 @@ use Yormy\FilestoreLaravel\Tests\Traits\AssertPdfTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\FileTrait;
 use Yormy\FilestoreLaravel\Tests\Traits\UserTrait;
 
-class PdfUploadTest extends TestCase
+class PdfTest extends TestCase
 {
     use AssertDownloadTrait;
     use FileTrait;
@@ -87,7 +87,7 @@ class PdfUploadTest extends TestCase
             ->saveToLocal('myid');
 
         $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
-        // todo: how to assert page x is there ?
+        $this->downloadPdfPAgeAndAssertCorrect($xid, $filename, $user, 5);
     }
 
     /**
@@ -107,7 +107,6 @@ class PdfUploadTest extends TestCase
             ->saveToPersistent('myid');
 
         $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
-        // todo: how to assert page x is there ?
     }
 
     /*
