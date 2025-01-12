@@ -136,7 +136,6 @@ class FileDownloadTest extends TestCase
      */
     public function uploaded_encrypted_persistent_download_correct(): void
     {
-        $this->markTestSkipped('assert fails - to implement');
         $filename = 'sylvester.png';
         $file = $this->buildFile($filename);
 
