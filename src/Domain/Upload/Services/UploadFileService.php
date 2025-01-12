@@ -29,7 +29,7 @@ class UploadFileService
 
     private bool $makeVariants = true;
 
-    private bool $withPdfPages = true;
+    private bool $withPdfPages = false;
 
     private bool $allowPdfEmbedding = true;
 
@@ -74,9 +74,9 @@ class UploadFileService
         return $this;
     }
 
-    public function withoutPdfPages(): self
+    public function withPdfPages(): self
     {
-        $this->withPdfPages = false;
+        $this->withPdfPages = true;
 
         return $this;
     }
