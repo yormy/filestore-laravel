@@ -58,7 +58,7 @@ class FileDownloadTest extends TestCase
      */
     public function uploaded_encrypted_persistent_stream_correct(): void
     {
-        $this->markTestSkipped('assert fails - to implement');
+        $this->markTestSkipped('Encrypted stream assert fails - to implement');
         $filename = 'sylvester.png';
         $base64 = 'data:image/png;base64,';
         $file = $this->buildFile($filename);
