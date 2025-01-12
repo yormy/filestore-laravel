@@ -160,25 +160,25 @@ class FileServe extends FileBase
 
     private static function downloadEncrypted(string $disk, string $fullPath, string $downloadAs, ?string $encryptionKey = null)
     {
-        $localFilname = $fullPath;
+        $localFilename = $fullPath;
         if (! self::isLocalFilesystem($disk)) {
-            $localFilname = DownloadAsTempFileService::get($disk, $fullPath); // Force download to local to decrypt
+            $localFilename = DownloadAsTempFileService::get($disk, $fullPath); // Force download to local to decrypt
         }
 
-        return response()->streamDownload(function () use ($localFilname, $encryptionKey) {
-            (new FileVault)->disk('local')->streamDecrypt($localFilname, $encryptionKey);
+        return response()->streamDownload(function () use ($localFilename, $encryptionKey) {
+            (new FileVault)->disk('local')->streamDecrypt($localFilename, $encryptionKey);
         }, $downloadAs);
     }
 
     private static function displayEncrypted(string $disk, string $fullPath, string $mime, ?string $encryptionKey = null)
     {
-        // $mimeType = Storage::disk($disk)->mimeType($fullPath); // stream
-        //        $x =  response()->stream(function () use ($disk, $fullPath, $mimeType) {
-        //            (new FileVault())->disk($disk)->streamDecrypt($fullPath);
-        //        }, 200, ["Content-Type" => $mimeType]);
+        $localFilename = $fullPath;
+        if (! self::isLocalFilesystem($disk)) {
+            $localFilename = DownloadAsTempFileService::get($disk, $fullPath); // Force download to local to decrypt
+        }
 
         ob_start();
-        (new FileVault)->disk($disk)->streamDecrypt($fullPath, $encryptionKey);
+        (new FileVault)->disk('local')->streamDecrypt($localFilename, $encryptionKey);
         $imagedata = ob_get_contents();
         ob_end_clean();
 
