@@ -27,6 +27,7 @@ class FilestoreFile extends BaseModel
         'mime',
         'is_encrypted',
         'variants',
+        'preview_filename',
         'allow_pdf_embedding',
         'access_log',
         'user_encryption',

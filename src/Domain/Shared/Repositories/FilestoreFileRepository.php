@@ -26,4 +26,12 @@ class FilestoreFileRepository
 
         return $model;
     }
+
+    public function setPreviewFilename(FilestoreFile $model, string $filename): FilestoreFile
+    {
+        $model->preview_filename = $filename;
+        $model->save();
+
+        return $model;
+    }
 }

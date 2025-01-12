@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('mime')->nullable();
             $table->boolean('is_encrypted')->nullable();
             $table->json('variants')->nullable();
+            $table->string('preview_filename')->nullable();
             $table->boolean('allow_pdf_embedding')->default(false);
             $table->boolean('access_log')->default(false);
             $table->boolean('user_encryption')->default(false);

@@ -261,6 +261,9 @@ class UploadFileService
     {
         $fileRecord->total_pages = PdfImageService::pageCount($this->localDisk, $mainfile);
         $previewImage = PdfImageService::createPreview($this->localDisk, $mainfile);
+
+        (new FilestoreFileRepository)->setPreviewFilename($fileRecord, $previewImage);
+
         $this->saveDimensions($previewImage, $fileRecord);
 
         $pageImages = [];
