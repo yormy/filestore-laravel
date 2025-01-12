@@ -24,6 +24,7 @@ return new class extends Migration
 
             $table->boolean('as_download')->nullable();
             $table->boolean('as_view')->nullable();
+            $table->boolean('as_deleted')->nullable();
 
             $table->timestamps();
         });

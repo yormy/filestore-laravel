@@ -42,6 +42,19 @@ class FilestoreFileAccessRepository
         return $this->model->create($data);
     }
 
+    public function createAsDeleted(FilestoreFile $filestoreFile, array $logData): ?FilestoreFileAccess
+    {
+        if (! $filestoreFile->access_log) {
+            return null;
+        }
+
+        $data = $logData;
+        $data['filestore_file_id'] = $filestoreFile->id;
+        $data['as_deleted'] = true;
+
+        return $this->model->create($data);
+    }
+
     private function create(array $data): FilestoreFileAccess
     {
         return $this->model->create($data);

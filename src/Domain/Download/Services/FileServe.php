@@ -10,6 +10,7 @@ use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\DownloadAsTempFileService;
+use Yormy\FilestoreLaravel\Domain\Shared\Services\LoggingHelper;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
@@ -94,7 +95,7 @@ class FileServe extends FileBase
         XidService::validateOrFail($xid);
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
-        $data = self::getLogData($request);
+        $data = LoggingHelper::getLogData($request);
         $filestoreFileAccessRepository = new FilestoreFileAccessRepository;
         $filestoreFileAccessRepository->createAsViewed($fileRecord, $data);
 
@@ -117,7 +118,7 @@ class FileServe extends FileBase
         XidService::validateOrFail($xid);
 
         $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
-        $data = self::getLogData($request);
+        $data = LoggingHelper::getLogData($request);
         $filestoreFileAccessRepository = new FilestoreFileAccessRepository;
         $filestoreFileAccessRepository->createAsDownloaded($fileRecord, $data);
 
@@ -190,26 +191,5 @@ class FileServe extends FileBase
         $prefix = "data:$mime;base64,";
 
         return $prefix.base64_encode($imagedata);
-    }
-
-    private static function getLogData(Request $request): array
-    {
-        $ipResolverClass = config('filestore.resolvers.ip');
-        $ip = $ipResolverClass::get($request);
-
-        $useragentResolverClass = config('filestore.resolvers.useragent');
-        $useragent = $useragentResolverClass::get($request);
-
-        $userResolverClass = config('filestore.resolvers.user');
-        $user = $userResolverClass::get($request);
-
-        $data = [
-            'ip' => $ip,
-            'useragent' => $useragent,
-            'user_id' => $user?->id,
-            'user_type' => $user ? get_class($user) : null,
-        ];
-
-        return $data;
     }
 }

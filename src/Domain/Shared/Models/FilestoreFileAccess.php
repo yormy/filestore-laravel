@@ -16,6 +16,7 @@ class FilestoreFileAccess extends BaseModel
         'useragent',
         'as_download',
         'as_view',
+        'as_deleted',
     ];
 
     protected $casts = [

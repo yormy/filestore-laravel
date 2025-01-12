@@ -3,6 +3,9 @@
 namespace Yormy\FilestoreLaravel\Domain\Shared\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
+use Yormy\FilestoreLaravel\Domain\Shared\Services\LoggingHelper;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
 use Yormy\Xid\Models\Traits\Xid;
@@ -40,6 +43,9 @@ class FilestoreFile extends BaseModel
 
         static::deleted(function ($model) {
             FileDestroyer::deleteAll($model);
+
+            $data = LoggingHelper::getLogData(new Request);
+            (new FilestoreFileAccessRepository)->createAsDeleted($model, $data);
         });
     }
 
