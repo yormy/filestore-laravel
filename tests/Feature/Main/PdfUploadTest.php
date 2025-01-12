@@ -53,8 +53,31 @@ class PdfUploadTest extends TestCase
         $this->downloadPdfAndAssertCorrect($xid, $filename);
     }
 
+    /**
+     * @test
+     *
+     * @group pdf
+     * @group xxx
+     */
+    public function Pdf_UploadEncryptedUserkey_Success(): void
+    {
+        $filename = 'jokes.pdf';
+        $file = $this->buildFile($filename);
+        $user = $this->createUser();
+
+        $xid = UploadFileService::make($file)
+            ->userEncryption($user)
+            ->saveEncryptedToPersistent('myid');
+
+        $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
+    }
 
 
+/*
+ * TO DOC
+ * When uploading a pdf file it automatically creates a cover png of the first page of the pdf
+ *
+ */
 
     /*
      * default:

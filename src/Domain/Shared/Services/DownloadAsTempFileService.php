@@ -15,7 +15,9 @@ class DownloadAsTempFileService
     public static function get(string $disk, string $fullPath): string
     {
         $data = Storage::disk($disk)->get($fullPath);
-        $tempFilename = Str::random(50).'.bin';
+
+        $extension = pathinfo($fullPath)['extension'];
+        $tempFilename = Str::random(50).'.'.$extension;
         Storage::disk('local')->put($tempFilename, $data);
 
         CleanupTempJob::dispatch('local', $tempFilename)
