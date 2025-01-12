@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
 use Illuminate\Support\Facades\Storage;
+use Spatie\PdfToImage\Enums\OutputFormat;
 use Spatie\PdfToImage\Pdf as SpatiePdf;
 
 class PdfImageService
@@ -14,10 +15,9 @@ class PdfImageService
     public static function pageCount(string $localdisk, string $storagePath): int
     {
         $fullPath = Storage::disk($localdisk)->path($storagePath);
-
         $pdf = new SpatiePdf($fullPath);
 
-        return $pdf->getNumberOfPages();
+        return $pdf->pageCount();
     }
 
     public static function createPreview(string $localdisk, string $storagePath): string
@@ -26,7 +26,9 @@ class PdfImageService
 
         $pdf = new SpatiePdf($fullPath);
 
-        $pdf->saveImage($fullPath.'.png');
+        $pdf->format(OutputFormat::Png);
+
+        $pdf->save($fullPath.'.png');
 
         return $storagePath.'.png';
 
@@ -37,7 +39,7 @@ class PdfImageService
         $fullPath = Storage::disk($localdisk)->path($storagePath);
 
         $pdf = new SpatiePdf($fullPath);
-        $pageCount = $pdf->getNumberOfPages();
+        $pageCount = $pdf->pageCount();
 
         $pages = [];
         $extension = '.png';
@@ -46,7 +48,7 @@ class PdfImageService
 
             $fullPathPage = self::buildPageFilePath($fullPath, $i);
 
-            $pdf->setPage($i)->saveImage($fullPathPage.$extension);
+            $pdf->selectPage($i)->save($fullPathPage.$extension);
 
             $storagePathPage = self::buildPageStoragePath($storagePath, $i);
 

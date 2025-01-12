@@ -213,6 +213,7 @@ class UploadFileService
     private function saveDimensions(string $storageFilename, FilestoreFile $fileRecord): void
     {
         $fullPath = Storage::disk($this->localDisk)->path($storageFilename);
+
         $data = getimagesize($fullPath);
         if (isset($data[0]) && isset($data[1])) {
             $fileRecord->width = $data[0];
@@ -243,20 +244,7 @@ class UploadFileService
 
         $variantStoragePath = [];
         if ($this->newUploadedFileNew->isPdf()) {
-            $fileRecord->total_pages = PdfImageService::pageCount($this->localDisk, $mainfile);
-            $previewImage = PdfImageService::createPreview($this->localDisk, $mainfile);
-            $this->saveDimensions($previewImage, $fileRecord);
-
-            $pageImages = [];
-            if ($this->withPdfPages) {
-                $pageImages = PdfImageService::createImagePages($this->localDisk, $mainfile);
-            }
-
-            if ($this->makeVariants) {
-                $variantStoragePath = ThumbnailService::resize($this->localDisk, $previewImage, $fileRecord);
-                $variantStoragePath[] = $previewImage;
-                $variantStoragePath = array_merge($variantStoragePath, $pageImages);
-            }
+            $variantStoragePath = $this->processPdf($fileRecord, $mainfile);
         }
 
         if ($this->newUploadedFileNew->canCreateThumbnail() && $this->makeVariants) {
@@ -268,6 +256,27 @@ class UploadFileService
             'variants' => $variantStoragePath,
         ];
     }
+
+    private function processPdf($fileRecord, string $mainfile): array
+    {
+        $fileRecord->total_pages = PdfImageService::pageCount($this->localDisk, $mainfile);
+        $previewImage = PdfImageService::createPreview($this->localDisk, $mainfile);
+        $this->saveDimensions($previewImage, $fileRecord);
+
+        $pageImages = [];
+        if ($this->withPdfPages) {
+            $pageImages = PdfImageService::createImagePages($this->localDisk, $mainfile);
+        }
+
+        if ($this->makeVariants) {
+            $variantStoragePath = ThumbnailService::resize($this->localDisk, $previewImage, $fileRecord);
+            $variantStoragePath[] = $previewImage;
+            $variantStoragePath = array_merge($variantStoragePath, $pageImages);
+        }
+
+        return $variantStoragePath;
+    }
+
 
     public function saveEncrypted(string $path, FilestoreFile $fileRecord, ?string $encryptionKey = null): array
     {
