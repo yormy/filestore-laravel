@@ -7,7 +7,7 @@ use Yormy\FilestoreLaravel\Tests\Setup\Models\User;
 
 trait UserTrait
 {
-    private function createUser(string $key = null)
+    private function createUser(?string $key = null)
     {
         $user = User::create([
             'email' => 'test@exampel.com',

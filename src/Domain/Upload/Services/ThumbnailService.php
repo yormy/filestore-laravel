@@ -81,7 +81,7 @@ class ThumbnailService
             $variantsDirectoryName = Str::replaceLast($postfixSize, '', $variantsDirectoryName);
         }
 
-        return 'variants'.DIRECTORY_SEPARATOR. $variantsDirectoryName. DIRECTORY_SEPARATOR;
+        return 'variants'.DIRECTORY_SEPARATOR.$variantsDirectoryName.DIRECTORY_SEPARATOR;
     }
 
     private static function addFilenamePostfix(string $filename, string $postfix): string

@@ -3,7 +3,6 @@
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
@@ -279,7 +278,6 @@ class UploadFileService
 
         return $variantStoragePath;
     }
-
 
     public function saveEncrypted(string $path, FilestoreFile $fileRecord, ?string $encryptionKey = null): array
     {

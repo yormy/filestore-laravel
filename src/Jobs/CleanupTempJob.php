@@ -1,4 +1,5 @@
 <?php
+
 namespace Yormy\FilestoreLaravel\Jobs;
 
 use Illuminate\Bus\Queueable;

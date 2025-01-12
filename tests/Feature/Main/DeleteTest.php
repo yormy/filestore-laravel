@@ -4,7 +4,6 @@ namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
 use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
-use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;

@@ -9,7 +9,8 @@ use Illuminate\Http\Response;
 trait AssertPdfTrait
 {
     const PDF_ROUTE_DOWNLOAD = 'file.pdf.download';
-    const PDF_ROUTE_DOWNLOAD_PAGE  = 'file.pdf.page';
+
+    const PDF_ROUTE_DOWNLOAD_PAGE = 'file.pdf.page';
 
     protected function downloadPdfAndAssertCorrect(string $xid, string $filename, $user = null)
     {

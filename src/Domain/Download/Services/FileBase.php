@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Yormy\FilestoreLaravel\Domain\Download\Services;
 
@@ -66,7 +68,7 @@ abstract class FileBase
             $userKeyResolverClass = config('filestore.resolvers.user_key_resolver');
             $userKeyResolver = new $userKeyResolverClass;
 
-            if(!$user) {
+            if (! $user) {
                 $user = auth::user();
             }
 

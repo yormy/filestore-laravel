@@ -97,7 +97,7 @@ class FileDestroyer
 
         $variants = json_decode($filestoreFile->variants);
         foreach ($variants as $variant) {
-            $filesToDelete[] = $filestoreFile->path. DIRECTORY_SEPARATOR. $variant->filename;
+            $filesToDelete[] = $filestoreFile->path.DIRECTORY_SEPARATOR.$variant->filename;
         }
 
         return $filesToDelete;

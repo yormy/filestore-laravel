@@ -7,6 +7,7 @@ namespace Yormy\FilestoreLaravel\Tests\Traits;
 trait AssertImgTrait
 {
     const IMG_ROUTE_DOWNLOAD = 'file.img.download';
+
     const IMG_ROUTE_VIEW = 'file.img.view';
 
     protected function streamAndAssertCorrect($xid, $base64, $filename)
