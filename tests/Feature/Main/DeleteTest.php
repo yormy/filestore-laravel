@@ -2,9 +2,9 @@
 
 namespace Yormy\FilestoreLaravel\Tests\Feature\Main;
 
-use League\Flysystem\UnableToRetrieveMetadata;
+use Illuminate\Support\Facades\Storage;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
-use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\UploadFileService;
 use Yormy\FilestoreLaravel\Tests\TestCase;
 use Yormy\FilestoreLaravel\Tests\Traits\AssertDownloadTrait;
@@ -35,35 +35,21 @@ class DeleteTest extends TestCase
 
         $this->downloadPdfAndAssertCorrect($xid, $filename);
 
+        $filestore = FilestoreFile::where('xid', $xid)->first();
+        $orgDisk = $filestore->disk;
+        $orgFullPath = $filestore->full_path;
+
+        $exists = Storage::disk($orgDisk)->exists($orgFullPath);
+        $this->assertTrue($exists);
+
         // ---------- delete ----------
-        $filesToDelete = $this->generateFilelistToDelete($xid);
-        foreach ($filesToDelete as $filename) {
-            $forcedPersistentDisk = 'digitalocean';
-            FileDestroyer::destroyPersistent($filename, $forcedPersistentDisk); // this just deletes 1 file specified
-        }
+        (new FilestoreFileRepository)->destroy($xid);
 
         // ---------- assert ----------
-        $this->expectException(UnableToRetrieveMetadata::class);
-        $this->downloadPdfAndAssertCorrect($xid, $filename);
-    }
+        $filestore = FilestoreFile::where('xid', $xid)->first();
+        $this->assertNull($filestore);
 
-    private function generateFilelistToDelete(string $xid): array
-    {
-        $filestore = FilestoreFile::where('xid', $xid)->firstOrFail();
-
-        $filesToDelete = [];
-        $filesToDelete[] = $filestore->fullPath;
-
-        if ($filestore->preview_filename) {
-            $filesToDelete[] = $filestore->preview_filename;
-        }
-
-
-        $variants = json_decode($filestore->variants);
-        foreach ($variants as $variant) {
-            $filesToDelete[] = $filestore->path. DIRECTORY_SEPARATOR. $variant->filename;
-        }
-
-        return $filesToDelete;
+        $exists = Storage::disk($orgDisk)->exists($orgFullPath);
+        $this->assertFalse($exists);
     }
 }

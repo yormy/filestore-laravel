@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yormy\FilestoreLaravel\Domain\Shared\Repositories;
 
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
+use Yormy\FilestoreLaravel\Domain\Upload\Services\FileDestroyer;
 
 class FilestoreFileRepository
 {
@@ -33,5 +34,36 @@ class FilestoreFileRepository
         $model->save();
 
         return $model;
+    }
+
+    public function destroy(string $xid)
+    {
+        $filestoreFile = FilestoreFile::where('xid', $xid)->firstOrFail();
+
+        $filesToDelete = $this->generateFilelistToDelete($filestoreFile);
+        foreach ($filesToDelete as $filename) {
+            $forcedPersistentDisk = 'digitalocean';
+            FileDestroyer::destroyPersistent($filename, $forcedPersistentDisk);
+        }
+
+        $filestoreFile->delete();
+    }
+
+    private static function generateFilelistToDelete(FileStoreFile $filestoreFile): array
+    {
+        $filesToDelete = [];
+        $filesToDelete[] = $filestoreFile->fullPath;
+
+        if ($filestoreFile->preview_filename) {
+            $filesToDelete[] = $filestoreFile->preview_filename;
+        }
+
+
+        $variants = json_decode($filestoreFile->variants);
+        foreach ($variants as $variant) {
+            $filesToDelete[] = $filestoreFile->path. DIRECTORY_SEPARATOR. $variant->filename;
+        }
+
+        return $filesToDelete;
     }
 }

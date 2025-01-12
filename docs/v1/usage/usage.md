@@ -134,3 +134,10 @@ You can disable the access log for individual uploaded files
     $xid = UploadFileService::make($file)
         ->withoutAccessLog()
 ```
+
+
+# Deletion
+When you delete the record, all associated files will also be deleted
+```php
+     (new FilestoreFileRepository)->destroy($xid);
+```
