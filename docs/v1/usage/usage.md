@@ -138,6 +138,7 @@ You can disable the access log for individual uploaded files
 
 # Deletion
 When you delete the record, all associated files will also be deleted
+and a log is created in the access log that the files are deleted
 ```php
-     (new FilestoreFileRepository)->destroy($xid);
+     FilestoreFile::where('xid', $xid)->first()->delete(); // deletes the records and all associated files
 ```

@@ -23,7 +23,6 @@ class DeleteTest extends TestCase
      * @test
      *
      * @group delete
-     * @group xxx
      */
     public function pdf_delete_success(): void
     {
