@@ -53,6 +53,8 @@
         "---------- FIX ---------- ": "",
         "insights:fix": "./vendor/bin/testbench insights --fix",
         "ide-helpers": "./vendor/bin/testbench clear-compiled && ./vendor/bin/testbench ide-helper:generate && ./vendor/bin/testbench ide-helper:models --write && ./vendor/bin/testbench ide-helper:meta",
+        "---------- DEVELOP ---------- ": "",
+        "queue": "./vendor/bin/testbench queue:work",
         "---------- ANALYSIS ---------- ": "",
         "insights": "./vendor/bin/testbench insights",
         "stan": "./vendor/bin/phpstan analyse -c phpstan.conf.neon --memory-limit=2G",
