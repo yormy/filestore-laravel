@@ -8,9 +8,14 @@ trait AssertPdfTrait
 {
     const PDF_ROUTE_DOWNLOAD = 'file.pdf.download';
 
-    protected function downloadPdfAndAssertCorrect(string $xid, string $filename)
+    protected function downloadPdfAndAssertCorrect(string $xid, string $filename, $user = null)
     {
-        $response = $this->get(route(self::PDF_ROUTE_DOWNLOAD, ['xid' => $xid]));
+        $httpcall = $this;
+        if ($user) {
+            $httpcall = $this->actingAs($user);
+        }
+
+        $response = $httpcall->get(route(self::PDF_ROUTE_DOWNLOAD, ['xid' => $xid]));
 
         $this->assertCorrectStream($response, $filename);
     }
