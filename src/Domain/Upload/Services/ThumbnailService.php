@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yormy\FilestoreLaravel\Domain\Upload\Services;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
@@ -38,7 +39,7 @@ class ThumbnailService
         $fileRecord->save();
     }
 
-    public static function resizeImage(string $localdisk, string $storagePath, string $name, array $specs)
+    public static function resizeImage(string $localdisk, string $storagePath, string $sizeName, array $specs)
     {
         $fullPath = Storage::disk($localdisk)->path($storagePath);
 
@@ -55,26 +56,32 @@ class ThumbnailService
 
         $filename = basename($fullPath);
         $dirname = dirname($fullPath).DIRECTORY_SEPARATOR;
-        $dirname .= self::getVariantsDirectory();
+        $dirname .= self::getVariantsDirectory($filename, $sizeName);
 
-        @mkdir($dirname);
+        @mkdir($dirname, 0755, true);
 
-        $filename = self::addFilenamePostfix($filename, "-$name");
+        $filename = self::addFilenamePostfix($filename, "-$sizeName");
         $x = $imageObject->save($dirname.$filename);
 
         $variant = [
-            'name' => $name,
+            'name' => $sizeName,
             'height' => $specs['height'],
             'width' => $specs['width'],
-            'filename' => self::getVariantsDirectory().$filename,
+            'filename' => self::getVariantsDirectory($filename, $sizeName).$filename,
         ];
 
         return $variant;
     }
 
-    private static function getVariantsDirectory(): string
+    private static function getVariantsDirectory(string $filename, string $sizeName): string
     {
-        return 'variants'.DIRECTORY_SEPARATOR;
+        $variantsDirectoryName = pathinfo($filename, PATHINFO_FILENAME);
+        $postfixSize = '-'.$sizeName;
+        if (str_ends_with($variantsDirectoryName, $postfixSize)) {
+            $variantsDirectoryName = Str::replaceLast($postfixSize, '', $variantsDirectoryName);
+        }
+
+        return 'variants'.DIRECTORY_SEPARATOR. $variantsDirectoryName. DIRECTORY_SEPARATOR;
     }
 
     private static function addFilenamePostfix(string $filename, string $postfix): string
