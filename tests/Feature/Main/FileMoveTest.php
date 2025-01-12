@@ -50,8 +50,9 @@ class FileMoveTest extends TestCase
      * @test
      *
      * @group file-move
+     * @group xxx
      */
-    public function png_move_persistent_success(): void
+    public function png__move_persistent__success(): void
     {
         // --------- create local file --------
         $filename = 'sylvester.png';
