@@ -57,7 +57,6 @@ class PdfUploadTest extends TestCase
      * @test
      *
      * @group pdf
-     * @group xxx
      */
     public function Pdf_UploadEncryptedUserkey_Success(): void
     {
@@ -72,24 +71,48 @@ class PdfUploadTest extends TestCase
         $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
     }
 
+    /**
+     * @test
+     *
+     * @group pdf
+     */
+    public function Pdf_PagesAsImg_Success(): void
+    {
+        $filename = 'jokes.pdf';
+        $file = $this->buildFile($filename);
+        $user = $this->createUser();
 
-/*
- * TO DOC
- * When uploading a pdf file it automatically creates a cover png of the first page of the pdf
- *
- */
+        $xid = UploadFileService::make($file)
+            ->withPdfPages()
+            ->saveToLocal('myid');
+
+        $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
+        // todo: how to assert page x is there ?
+    }
+
+    /**
+     * @test
+     *
+     * @group pdf
+     * @group xxx
+     */
+    public function Pdf_PagesAsImgPersistent_Success(): void
+    {
+        $filename = 'jokes.pdf';
+        $file = $this->buildFile($filename);
+        $user = $this->createUser();
+
+        $xid = UploadFileService::make($file)
+            ->withPdfPages()
+            ->saveToPersistent('myid');
+
+        $this->downloadPdfAndAssertCorrect($xid, $filename, $user);
+        // todo: how to assert page x is there ?
+    }
 
     /*
-     * default:
-     * makes cover image and variants of cover images
-     * converts all pages to img and removes pdf itself
-     * // withPdfPAges converts all individual pages to img // must be default
-     * $this->markTestSkipped('Encrypted stream assert fails - to implement');
-     *
-     *
-     * ->withPdfPages() : generate a image for each pdf page
-     * save pdf also generates first-page-cover for previewing
-     */
+     *             ->sanitize()
+            ->forUser($user)
 
     /**
      * @test

@@ -48,6 +48,7 @@ class PdfImageService
 
             $fullPathPage = self::buildPageFilePath($fullPath, $i);
 
+            $pdf->format(OutputFormat::Png);
             $pdf->selectPage($i)->save($fullPathPage.$extension);
 
             $storagePathPage = self::buildPageStoragePath($storagePath, $i);

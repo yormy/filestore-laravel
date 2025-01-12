@@ -124,3 +124,13 @@ You can specify to use UserKey encryption for the encryption to use the non syst
 They key is retrieved through the UserKeyResolver which you can customize as you wish and set the config value to use your version.
 Otherwise it is store in the database.
 So you can even retrieve the UserKey from a remote source.
+
+
+# Access Logs
+Whenever a file is accessed for download or viewing an access record is created.
+You can disable the access log for individual uploaded files
+
+```php
+    $xid = UploadFileService::make($file)
+        ->withoutAccessLog()
+```
