@@ -310,8 +310,11 @@ class UploadFileService
         $encryptedFiles['mainfile'] = $this->customEncrypt($encryptionKey, $unencryptedFile);
 
         foreach ($unencryptedFiles['variants'] as $key => $unencryptedFile) {
-            $encryptedFiles['variants'][$key] = $this->customEncrypt($encryptionKey, $unencryptedFile);
+            $encryptedVariantName = $this->customEncrypt($encryptionKey, $unencryptedFile);
+            $encryptedFiles['variants'][$key] = $encryptedVariantName;
         }
+
+        (new FilestoreFileRepository)->syncVariantsEncryptionExtensions($fileRecord, $encryptedFiles['mainfile']);
 
         return $encryptedFiles;
     }

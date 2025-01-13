@@ -45,6 +45,17 @@ class FilestoreFileRepository
         return $model;
     }
 
+    public function syncVariantsEncryptionExtensions(FilestoreFile $fileRecord, string $mainFilename): void
+    {
+        $extension = '.'.pathinfo($mainFilename)['extension'];
+        $variants = $fileRecord->variants;
+        foreach ($variants as $key => $variant) {
+            $variants[$key]['filename'] = $variants[$key]['filename'].$extension;
+        }
+
+        $fileRecord->variants = $variants;
+        $fileRecord->save();
+    }
 
 
 
