@@ -16,6 +16,7 @@ use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
 use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
 use Yormy\FilestoreLaravel\Exceptions\FileGetException;
+use Yormy\FilestoreLaravel\Jobs\CleanupTempJob;
 use Yormy\FilestoreLaravel\Traits\DiskHelperTrait;
 use Yormy\Xid\Services\XidService;
 
@@ -185,6 +186,8 @@ class FileServe extends FileBase
         (new FileVault)->disk('local')->streamDecrypt($localFilename, $encryptionKey);
         $imagedata = ob_get_contents();
         ob_end_clean();
+
+        CleanupTempJob::dispatch('local', $localFilename);
 
         return self::convertBase64($imagedata, $mime);
     }

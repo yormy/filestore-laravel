@@ -44,6 +44,7 @@ return [
         ],
         'local' => [
             'disk' => 'local',
+            'tempfiles' => 'tempfiles',
         ],
     ],
 

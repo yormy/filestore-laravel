@@ -4,7 +4,6 @@ namespace Yormy\FilestoreLaravel\Domain\Shared\Services;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Yormy\FilestoreLaravel\Jobs\CleanupTempJob;
 
 class DownloadAsTempFileService
 {
@@ -17,11 +16,12 @@ class DownloadAsTempFileService
         $data = Storage::disk($disk)->get($fullPath);
 
         $extension = pathinfo($fullPath)['extension'];
-        $tempFilename = Str::random(50).'.'.$extension;
+
+        $tempfilesPath = config('filestore.storage.local.tempfiles', 'tempfiles');
+        $tempFilename = $tempfilesPath.DIRECTORY_SEPARATOR.Str::random(50).'.'.$extension;
         Storage::disk('local')->put($tempFilename, $data);
 
-        CleanupTempJob::dispatch('local', $tempFilename)
-            ->delay(now()->addMinutes(5));
+        // Make sure you delete the temp file once you are done
 
         return $tempFilename;
     }
