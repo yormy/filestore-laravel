@@ -42,6 +42,10 @@ class UploadFileService
 
     private $user;
 
+    private ?string $name = null;
+
+    private ?string $description = null;
+
     public static function make(
         UploadedFile $uploadedFile,
         array $allowedMimes = [],
@@ -69,6 +73,20 @@ class UploadFileService
     public function withoutVariants(): self
     {
         $this->makeVariants = false;
+
+        return $this;
+    }
+
+    public function name(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function description(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -136,6 +154,8 @@ class UploadFileService
     {
         $filestoreFileRepository = new FilestoreFileRepository;
         $fileRecord = $filestoreFileRepository->create([
+            'name' => $this->name,
+            'description' => $this->description,
             'allow_pdf_embedding' => $this->allowPdfEmbedding,
             'access_log' => $this->accessLog,
             'user_encryption' => $this->userEncryption,

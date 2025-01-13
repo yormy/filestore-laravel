@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create((new $tableClass)->getTable(), function (Blueprint $table) {
             $table->id();
             $table->string('xid')->unique();
+            $table->string('name')->nullable()->unique();
+            $table->string('description')->nullable();
             $table->string('user_id')->nullable();
             $table->string('user_type')->nullable();
 

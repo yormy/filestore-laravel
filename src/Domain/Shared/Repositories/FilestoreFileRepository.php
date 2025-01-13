@@ -15,6 +15,16 @@ class FilestoreFileRepository
         }
     }
 
+    public function getByXid(string $xid): FilestoreFile
+    {
+        return FilestoreFile::where('xid', $xid)->first();
+    }
+
+    public function getByName(string $name): FilestoreFile
+    {
+        return FilestoreFile::where('name', $name)->first();
+    }
+
     public function create(array $defaults): FilestoreFile
     {
         return $this->model->create($defaults);
@@ -34,4 +44,8 @@ class FilestoreFileRepository
 
         return $model;
     }
+
+
+
+
 }

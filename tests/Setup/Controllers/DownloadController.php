@@ -7,6 +7,7 @@ namespace Yormy\FilestoreLaravel\Tests\Setup\Controllers;
 use Illuminate\Http\Request;
 use Yormy\Apiresponse\Facades\ApiResponse;
 use Yormy\FilestoreLaravel\Domain\Download\Services\FileServe;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Upload\Observers\Events\FileDownloadWrongVariantEvent;
 use Yormy\FilestoreLaravel\Exceptions\InvalidValueException;
 
@@ -20,6 +21,17 @@ class DownloadController
 
         return ApiResponse::withData(['file' => $down])->successResponse();
     }
+
+    public function viewFriendly(Request $request, string $name, ?string $variant = null)
+    {
+        $this->validateVariantOrAbort($variant);
+
+        $xid = $this->getXidByName($name);
+        $down = FileServe::view($request, $xid);
+
+        return ApiResponse::withData(['file' => $down])->successResponse();
+    }
+
 
     public function cover(Request $request, string $xid)
     {
@@ -55,5 +67,10 @@ class DownloadController
             event(new FileDownloadWrongVariantEvent($variant));
             throw new InvalidValueException('Variant not allowed');
         }
+    }
+
+    private function getXidByName(string $name): string
+    {
+        return (new FilestoreFileRepository)->getByName($name)?->xid;
     }
 }
