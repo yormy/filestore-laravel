@@ -47,6 +47,21 @@ class DownloadController
         return FileServe::download($request, $xid, $variant);
     }
 
+    public function downloadByName(Request $request, string $name, ?string $variant = null)
+    {
+        $this->validateVariantOrAbort($variant);
+
+        $xid = $this->getXidByName($name);
+
+        return FileServe::download($request, $xid, $variant);
+    }
+
+    private function getXidByName(string $name): string
+    {
+        return (new FilestoreFileRepository)->getByName($name)?->xid;
+    }
+
+
     public function pages(Request $request, $xid)
     {
         $down = FileServe::pages($request, $xid);
@@ -67,10 +82,5 @@ class DownloadController
             event(new FileDownloadWrongVariantEvent($variant));
             throw new InvalidValueException('Variant not allowed');
         }
-    }
-
-    private function getXidByName(string $name): string
-    {
-        return (new FilestoreFileRepository)->getByName($name)?->xid;
     }
 }

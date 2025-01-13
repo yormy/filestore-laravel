@@ -9,6 +9,7 @@ use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
+use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\DownloadAsTempFileService;
 use Yormy\FilestoreLaravel\Domain\Shared\Services\LoggingHelper;
 use Yormy\FilestoreLaravel\Domain\Upload\DataObjects\Enums\MimeTypeEnum;
@@ -94,7 +95,8 @@ class FileServe extends FileBase
     {
         XidService::validateOrFail($xid);
 
-        $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
+        $fileRecord = (new FilestoreFileRepository)->getByXid($xid);
+
         $data = LoggingHelper::getLogData($request);
         $filestoreFileAccessRepository = new FilestoreFileAccessRepository;
         $filestoreFileAccessRepository->createAsViewed($fileRecord, $data);
@@ -117,7 +119,8 @@ class FileServe extends FileBase
     {
         XidService::validateOrFail($xid);
 
-        $fileRecord = FilestoreFile::where('xid', $xid)->firstOrFail();
+        $fileRecord = self::getFileRecord($request, $xid);
+
         $data = LoggingHelper::getLogData($request);
         $filestoreFileAccessRepository = new FilestoreFileAccessRepository;
         $filestoreFileAccessRepository->createAsDownloaded($fileRecord, $data);

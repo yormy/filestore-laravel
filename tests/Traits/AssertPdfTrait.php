@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 trait AssertPdfTrait
 {
     const PDF_ROUTE_DOWNLOAD = 'file.pdf.download';
+    const PDF_ROUTE_DOWNLOAD_NAME = 'file.pdf.download.name';
 
     const PDF_ROUTE_DOWNLOAD_PAGE = 'file.pdf.page';
 
@@ -20,6 +21,18 @@ trait AssertPdfTrait
         }
 
         $response = $httpcall->get(route(self::PDF_ROUTE_DOWNLOAD, ['xid' => $xid]));
+
+        $this->assertCorrectStream($response, $filename);
+    }
+
+    protected function downloadPdfNameAndAssertCorrect(string $name, string $filename, $user = null)
+    {
+        $httpcall = $this;
+        if ($user) {
+            $httpcall = $this->actingAs($user);
+        }
+
+        $response = $httpcall->get(route(self::PDF_ROUTE_DOWNLOAD_NAME, ['name' => $name]));
 
         $this->assertCorrectStream($response, $filename);
     }

@@ -32,6 +32,12 @@ class FilestoreLaravelUploadRoutes
                     Route::get('pages', [DownloadController::class, 'pages'])->name('pages');
                     Route::get('pages/{page}', [DownloadController::class, 'page'])->name('page');
                 });
+
+            Route::prefix('file/{name}/pdf/')
+                ->as('file.pdf.')
+                ->group(function () {
+                    Route::get('download_name', [DownloadController::class, 'downloadByName'])->name('download.name');
+                });
         });
     }
 }
