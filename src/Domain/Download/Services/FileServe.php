@@ -4,9 +4,11 @@ namespace Yormy\FilestoreLaravel\Domain\Download\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Yormy\FilestoreLaravel\Domain\Encryption\FileVault;
 use Yormy\FilestoreLaravel\Domain\Shared\Enums\FileEncryptionExtension;
+use Yormy\FilestoreLaravel\Domain\Shared\Enums\ServeType;
 use Yormy\FilestoreLaravel\Domain\Shared\Models\FilestoreFile;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileAccessRepository;
 use Yormy\FilestoreLaravel\Domain\Shared\Repositories\FilestoreFileRepository;
@@ -17,6 +19,7 @@ use Yormy\FilestoreLaravel\Domain\Upload\Services\PdfImageService;
 use Yormy\FilestoreLaravel\Exceptions\EmbeddingNotAllowedException;
 use Yormy\FilestoreLaravel\Exceptions\FileGetException;
 use Yormy\FilestoreLaravel\Jobs\CleanupTempJob;
+use Yormy\FilestoreLaravel\Rules\ValidVariant;
 use Yormy\FilestoreLaravel\Traits\DiskHelperTrait;
 use Yormy\Xid\Services\XidService;
 
@@ -24,8 +27,10 @@ class FileServe extends FileBase
 {
     use DiskHelperTrait;
 
-    public static function view(Request $request, string $xid, ?string $variant = null): array
+    public static function view(Request $request, string $xid, ServeType $serveType = ServeType::URL, ?string $variant = null): array
     {
+        ValidVariant::validate($variant);
+
         $fileRecord = self::getFileRecord($request, $xid);
 
         if ($fileRecord->isPdf() && ! $fileRecord->allow_pdf_embedding) {
@@ -35,17 +40,21 @@ class FileServe extends FileBase
         $filename = self::getFilename($variant, $fileRecord);
         $mime = $fileRecord->mime;
 
-        $data = [
-            'height' => $fileRecord->height,
-            'width' => $fileRecord->width,
-            'data' => self::display($filename, $fileRecord->disk, $mime, $fileRecord),
-        ];
+        $data = self::display($filename, $fileRecord->disk, $mime, $fileRecord);
 
-        return $data;
+        if ($serveType === ServeType::DATA) {
+            return self::serveAsData($fileRecord, $data);
+        }
+        if ($serveType === ServeType::URL) {
+            self::serveAsUrl($fileRecord, $data); // exits
+        }
+
     }
 
     public static function viewCover(Request $request, string $xid, ?string $variant = null): string
     {
+        ValidVariant::validate($variant);
+
         $fileRecord = self::getFileRecord($request, $xid);
 
         $filename = self::getFilename($variant, $fileRecord);
@@ -92,6 +101,35 @@ class FileServe extends FileBase
         return $pages;
     }
 
+    public static function serveAsData(FilestoreFile $fileRecord, string $data): array
+    {
+        $data = [
+            'height' => $fileRecord->height,
+            'width' => $fileRecord->width,
+            'data' => $data,
+        ];
+
+        return $data;
+    }
+
+    #[NoReturn]
+    public static function serveAsUrl(FilestoreFile $fileRecord, string $data): void
+    {
+        // serve as plain http link
+        $base64Image = preg_replace('/^data:image\/\w+;base64,/', '', $data); // Remove prefix
+        $imageData = base64_decode($base64Image, true);
+        if ($imageData === false) {
+            exit('Invalid Base64 data');
+        }
+
+        header('Content-Type: '.$fileRecord->mime);
+        header('Content-Length: '.strlen($imageData));
+        header('Content-Disposition: inline; filename="image.png"');
+
+        echo $imageData;
+        exit;
+    }
+
     private static function getFileRecord(Request $request, string $xid): FilestoreFile
     {
         XidService::validateOrFail($xid);
@@ -118,6 +156,8 @@ class FileServe extends FileBase
 
     public static function download(Request $request, string $xid, ?string $variant = null, ?string $downloadAs = null)
     {
+        ValidVariant::validate($variant);
+
         XidService::validateOrFail($xid);
 
         $fileRecord = self::getFileRecord($request, $xid);
